@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,30 +19,37 @@ public class UI_Section : MonoBehaviour
     {
         if (sectionButtons.Length <= 0) return;
 
+        List<Selectable> _currentButtons = new();
+
         for (int _i = 0; _i < sectionButtons.Length; _i++)
         {
-            Navigation _buttonNavigation = sectionButtons[_i].navigation;
-            int _topIndex = _i - 1 < 0 ? sectionButtons.Length - 1 : _i - 1;
-            int _botIndex = _i + 1 >= sectionButtons.Length ? 0 : _i + 1;
+            if (sectionButtons[_i].gameObject.activeInHierarchy) _currentButtons.Add(sectionButtons[_i]);
+        }
+
+        for (int _i = 0; _i < _currentButtons.Count; _i++)
+        {
+            Navigation _buttonNavigation = _currentButtons[_i].navigation;
+            int _topIndex = _i - 1 < 0 ? _currentButtons.Count - 1 : _i - 1;
+            int _botIndex = _i + 1 >= _currentButtons.Count ? 0 : _i + 1;
 
             switch (sectionDisposition)
             {
                 case Disposition.Horizontal:
 
-                    _buttonNavigation.selectOnLeft = sectionButtons[_topIndex];
-                    _buttonNavigation.selectOnRight = sectionButtons[_botIndex];
+                    _buttonNavigation.selectOnLeft = _currentButtons[_topIndex];
+                    _buttonNavigation.selectOnRight = _currentButtons[_botIndex];
 
                 break;
 
                 case Disposition.Vertical:
 
-                    _buttonNavigation.selectOnUp = sectionButtons[_topIndex];
-                    _buttonNavigation.selectOnDown = sectionButtons[_botIndex];
+                    _buttonNavigation.selectOnUp = _currentButtons[_topIndex];
+                    _buttonNavigation.selectOnDown = _currentButtons[_botIndex];
 
                 break;
             }
 
-            sectionButtons[_i].navigation = _buttonNavigation;
+            _currentButtons[_i].navigation = _buttonNavigation;
         }
     }
 }

@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Input_Manager : MonoBehaviour, InputSystem_Actions.IPlayerActions, InputSystem_Actions.IUIActions
 {
-    [SerializeField] private Animator _animator;
+    public static Input_Manager instance;
+
     [SerializeField] private GameObject playerGameObject;
 
     [SerializeField] private GameObject uiGameObject;
@@ -33,6 +34,15 @@ public class Input_Manager : MonoBehaviour, InputSystem_Actions.IPlayerActions, 
 
     private void Awake()
     {
+        if (!instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         playerGameObject.TryGetComponent(out _controllablePlayer);
         if (uiGameObject) uiGameObject.TryGetComponent(out _controllableUI);
 

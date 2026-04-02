@@ -26,6 +26,7 @@ public class PanelUI : MonoBehaviour
     
     public virtual void EnableCanvas()
     {
+        if (IsActive()) return;
         canvasGroup.interactable = isInteractable;
         canvasGroup.blocksRaycasts = isInteractable;
         if (canvasMovement) canvasMovement.Call_Effect();
@@ -35,6 +36,7 @@ public class PanelUI : MonoBehaviour
 
     public virtual void DisableCanvas()
     {
+        if (!IsActive()) return;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
         if (canvasMovement) canvasMovement.Call_Effect_Out();
