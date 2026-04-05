@@ -20,9 +20,21 @@ public class Game_Controller : MonoBehaviour
         }    
     }
 
+    private void Start() 
+    {
+        SetCursorState(false);
+    }
+
+    public void SetCursorState(bool _state)
+    {
+        Cursor.visible = _state;
+        Cursor.lockState = _state ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
     public void RequestPause()
     {
         gameIsPaused = !gameIsPaused;
+        SetCursorState(gameIsPaused);
         Time.timeScale = gameIsPaused ? 0f : 1f;
         Input_Manager.instance.SetPlayerInputs(!gameIsPaused);
         Input_Manager.instance.SetUIInputs(gameIsPaused);
@@ -31,6 +43,7 @@ public class Game_Controller : MonoBehaviour
     public void ExitGame()
     {
         Time.timeScale = 1f;
+        SetCursorState(true);
         Input_Manager.instance.RemoveAllInputs();
         SceneManager.LoadScene(menuScene);
     }

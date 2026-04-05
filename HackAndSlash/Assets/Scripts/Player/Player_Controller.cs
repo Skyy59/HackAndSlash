@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -6,7 +7,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 {
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private CapsuleCollider2D playerCollider;
-
+    [SerializeField] private Animator playerAnimator;
     private float _initialHeight;
 
     [Header("Movement")]
@@ -72,6 +73,9 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     private Vector2 _playerSize;
     private Vector2 _playerCenter;
 
+    public Action<Vector2> SendLookInput;
+    public static Action OnRequestPause;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -81,7 +85,11 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + _initialHeight / 2f + 0.15f), new Vector2(groundCheckSize.x,
             _initialHeight - 0.15f));
 
-        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube((Vector2)transform.position + new Vector2(detectionOffset.x *
+            _lastInputs.x, (_isCrouched || _isSliding) ? detectionOffset.y * 0.5f : detectionOffset.y),
+            (_isCrouched || _isSliding) ? new Vector2(detectionSize.x, detectionSize.y * 0.25f) :
+            detectionSize);
     }
 
 
@@ -106,6 +114,8 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         Slide();
 
         if (!CantStandUp() && _requestCrouch && !_isSliding) Crouch(false);
+
+        PlayerAnimatorParameters();
     }
 
 
@@ -120,8 +130,6 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     {
         float _move = (_isSliding ? slideInput.x : _acceleratedInputs.x) * _currentSpeed;
         _move = IsWalkingTowardsWall(_isSliding ? slideInput.x : _inputs.x) ? 0f : _move;
-
-
         SetVelocity(_move); 
 
     }
@@ -178,11 +186,13 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     private void Jump()
     {
-       if (IsGrounded() || (!IsGrounded() && _currentJumps < totalJumps))
+        if (_isSliding || _transitionToSlide) return;
+
+        if (IsGrounded() || (!IsGrounded() && _currentJumps < totalJumps))
         {
             _verticalVelocity = jumpForce;
             _currentJumps++;
-            
+            playerAnimator.Play("Jump", 0, 0f);
         }
     }
 
@@ -312,11 +322,17 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     {
         return Physics2D.OverlapBox((Vector2)transform.position + new Vector2(detectionOffset.x *
             _direction, (_isCrouched || _isSliding) ? detectionOffset.y * 0.5f : detectionOffset.y),
-            (_isCrouched || _isSliding) ? new Vector2(detectionSize.x, detectionSize.y + 0.25f) :
+            (_isCrouched || _isSliding) ? new Vector2(detectionSize.x, detectionSize.y * 0.25f) :
             detectionSize, 0, wallMask);
     }
     
-
+    private void PlayerAnimatorParameters()
+    {
+        playerAnimator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocityX));
+        playerAnimator.SetBool("Grounded", IsGrounded());
+        playerAnimator.SetBool("Sliding", _isSliding);
+        playerAnimator.SetBool("Crouch", _isCrouched);
+    }
 
     #region INPUTS
     public void OnAttack(bool _state)
@@ -337,23 +353,25 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     public void OnJump()
     {
         Jump();
-        
+        Crouch(false);
     }
 
     public void OnLook(Vector2 _look)
     {
-        
+        SendLookInput?.Invoke(_look);
     }
 
     public void OnMovement(Vector2 _movement)
     {
         _inputs = _movement;
         if (_inputs.x != 0) _lastInputs = _inputs;
+        if (_lastInputs.x != 0) playerAnimator.transform.localScale = new (_lastInputs.x, playerAnimator.transform.localScale.y, playerAnimator.transform.localScale.y);
     }
 
     public void OnPause()
     {
-        
+        Game_Controller.instance.RequestPause();
+        OnRequestPause?.Invoke();
     }
 
     public void OnScroll(float _value)

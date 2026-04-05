@@ -10,12 +10,12 @@ public class PauseMenu_Controller : MonoBehaviour, IControllableUI
 
     private void OnEnable() 
     {
-        // Player_Controller.OnRequestPause += OpenPauseMenu;
+        Player_Controller.OnRequestPause += OpenPauseMenu;
     }
 
     private void OnDisable() 
     {
-        // Player_Controller.OnRequestPause -= OpenPauseMenu;
+        Player_Controller.OnRequestPause -= OpenPauseMenu;
     }
 
     public void OpenPauseMenu()
