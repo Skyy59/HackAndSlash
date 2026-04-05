@@ -47,7 +47,12 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     private bool _isSliding = false;
     private bool _transitionToSlide = false;
 
+    [Header("WallCheck")]
+    [SerializeField] private Vector2 detectionOffset;
+    [SerializeField] private Vector2 detectionSize;
+    [SerializeField] private LayerMask wallMask;
 
+    
 
     [Header("GroundCheck")]
     [SerializeField] private Vector2 groundCheckSize = Vector2.zero;
@@ -75,7 +80,11 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y + _initialHeight / 2f + 0.15f), new Vector2(groundCheckSize.x,
             _initialHeight - 0.15f));
+
+        
     }
+
+
 
     private void Awake()
     {
@@ -90,6 +99,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         Acceleration();
         Movement();
         Gravity();
+        
 
         TransitionToCrouch();
         TransitionToSlide();
@@ -109,7 +119,10 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     public void Movement()
     {
         float _move = (_isSliding ? slideInput.x : _acceleratedInputs.x) * _currentSpeed;
-        SetVelocity(_move);
+        _move = IsWalkingTowardsWall(_isSliding ? slideInput.x : _inputs.x) ? 0f : _move;
+
+
+        SetVelocity(_move); 
 
     }
 
@@ -160,6 +173,8 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     {
         return Physics2D.OverlapBox((Vector2)transform.position + groundCheckOffset, groundCheckSize, 0f, groundLayer);
     }
+
+    
 
     private void Jump()
     {
@@ -291,7 +306,16 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             _isSliding = false;
         }
     }
- 
+
+
+    private bool IsWalkingTowardsWall(float _direction)
+    {
+        return Physics2D.OverlapBox((Vector2)transform.position + new Vector2(detectionOffset.x *
+            _direction, (_isCrouched || _isSliding) ? detectionOffset.y * 0.5f : detectionOffset.y),
+            (_isCrouched || _isSliding) ? new Vector2(detectionSize.x, detectionSize.y + 0.25f) :
+            detectionSize, 0, wallMask);
+    }
+    
 
 
     #region INPUTS
