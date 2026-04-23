@@ -14,6 +14,8 @@ public class HUD_Controller : MonoBehaviour
         // Player_Health.OnHealthChange += SetHealthMeter;
         // Player_Weapons.OnAmmoChange += SetAmmoMeter;
         // Player_Weapons.OnPowerChange += SetPowerMeter;    
+        Weapon_Ranged.OnRequestHUD += SetAmmoMeter;
+        Weapon_Melee.OnRequestHUD += SetPowerMeter;
     }
 
     private void OnDisable() 
@@ -22,6 +24,8 @@ public class HUD_Controller : MonoBehaviour
         // Player_Health.OnHealthChange -= SetHealthMeter;
         // Player_Weapons.OnAmmoChange -= SetAmmoMeter;
         // Player_Weapons.OnPowerChange -= SetPowerMeter;    
+        Weapon_Ranged.OnRequestHUD -= SetAmmoMeter;
+        Weapon_Melee.OnRequestHUD -= SetPowerMeter;
     }
 
     public void SetStyleMeter(float _currentStyle, float _totalStyle)

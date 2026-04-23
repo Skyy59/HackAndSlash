@@ -8,6 +8,11 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private CapsuleCollider2D playerCollider;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Transform playerSprite;
+    [SerializeField] private Transform crosshair;
+    [SerializeField] private Transform weaponsTransform;
+
+    private float _initialWeaponPosition;
     private float _initialHeight;
 
     [Header("Movement")]
@@ -75,6 +80,8 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     public Action<Vector2> SendLookInput;
     public static Action OnRequestPause;
+    public Action<bool> OnRequestAttack;
+    public Action<float> OnRequestScroll;
 
     private void OnDrawGizmos()
     {
@@ -99,7 +106,9 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         _playerSize = playerCollider.size;
         _playerCenter = playerCollider.offset;
         _initialHeight = playerCollider.size.y;
+        _initialWeaponPosition = weaponsTransform.localPosition.y;
         _currentSpeed = moveSpeed;
+        _lastInputs.x = 1;
     }
 
     private void Update()
@@ -115,6 +124,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
         if (!CantStandUp() && _requestCrouch && !_isSliding) Crouch(false);
 
+        playerSprite.localScale = new(crosshair.position.x > transform.position.x ? 1f : -1f, playerSprite.localScale.y, playerSprite.localScale.y);
         PlayerAnimatorParameters();
     }
 
@@ -251,9 +261,13 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         float _initialSpeed = _isCrouched ? moveSpeed : crouchSpeed;
         float _desiredSpeed = _isCrouched ? crouchSpeed : moveSpeed;
 
+        float _initialPosition = _isCrouched ? _initialWeaponPosition : _initialWeaponPosition / 2f;
+        float _desiredPosition = _isCrouched ? _initialWeaponPosition / 2f : _initialWeaponPosition;
+
         _playerSize.y = Mathf.Lerp(_initialSize, _desiredSize, _crouchTimer);
         _playerCenter.y = Mathf.Lerp(_initialCenter, _desiredCenter, _crouchTimer);
         _currentSpeed = Mathf.Lerp(_initialSpeed, _desiredSpeed, _crouchTimer);
+        weaponsTransform.localPosition = new Vector3(0, Mathf.Lerp(_initialPosition, _desiredPosition, _crouchTimer), 0);
 
         playerCollider.size = _playerSize;
         playerCollider.offset = _playerCenter;
@@ -265,6 +279,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             playerCollider.size = _playerSize;
             playerCollider.offset = _playerCenter;
             _currentSpeed = _desiredSpeed;
+            weaponsTransform.localPosition = new Vector3(0, _desiredPosition, 0);
         }
     }
 
@@ -283,9 +298,13 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         float _initialSpeed = _isSliding ? moveSpeed : slideSpeed;
         float _desiredSpeed = _isSliding ? slideSpeed : moveSpeed;
 
+        float _initialPosition = _isSliding ? _initialWeaponPosition : _initialWeaponPosition / 2f;
+        float _desiredPosition = _isSliding ? _initialWeaponPosition / 2f : _initialWeaponPosition;
+
         _playerSize.y = Mathf.Lerp(_initialSize, _desiredSize, _slideTimer);
         _playerCenter.y = Mathf.Lerp(_initialCenter, _desiredCenter, _slideTimer);
         _currentSpeed = Mathf.Lerp(_initialSpeed, _desiredSpeed, _slideTimer);
+        weaponsTransform.localPosition = new Vector3(0, Mathf.Lerp(_initialPosition, _desiredPosition, _slideTimer), 0);
 
         if (_slideTimer >= 1f)
         {
@@ -294,6 +313,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             playerCollider.size = _playerSize;
             playerCollider.offset = _playerCenter;
             _currentSpeed = _desiredSpeed;
+            weaponsTransform.localPosition = new Vector3(0, _desiredPosition, 0);
         }
 
     }
@@ -328,16 +348,24 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     
     private void PlayerAnimatorParameters()
     {
-        playerAnimator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocityX));
+        playerAnimator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocityX) * (crosshair.position.x > transform.position.x ? 1 : -1));
         playerAnimator.SetBool("Grounded", IsGrounded());
         playerAnimator.SetBool("Sliding", _isSliding);
-        playerAnimator.SetBool("Crouch", _isCrouched);
+        playerAnimator.SetBool("Crouched", _isCrouched);
     }
+
+    public void PlayAnimation(string _animation)
+    {
+        // playerAnimator.Play(_animation, 0, 0f);
+        // playerAnimator.SetInteger("Attack", (playerAnimator.GetInteger("Attack") + 1) % 3);
+    }
+
+    public float ReturnDirection() => _lastInputs.x;
 
     #region INPUTS
     public void OnAttack(bool _state)
     {
-        
+        OnRequestAttack?.Invoke(_state);
     }
 
     public void OnCrouch(bool _state)
@@ -365,7 +393,6 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     {
         _inputs = _movement;
         if (_inputs.x != 0) _lastInputs = _inputs;
-        if (_lastInputs.x != 0) playerAnimator.transform.localScale = new (_lastInputs.x, playerAnimator.transform.localScale.y, playerAnimator.transform.localScale.y);
     }
 
     public void OnPause()
@@ -376,7 +403,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     public void OnScroll(float _value)
     {
-        
+        OnRequestScroll?.Invoke(_value);
     }
     #endregion
 
