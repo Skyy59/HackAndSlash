@@ -70,6 +70,13 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float verticalSpeedClamp = 20f;
 
+    [Header("Slope System")]
+    [SerializeField] private float maxSlopeAngle = 45f;
+    [SerializeField] private float slopeCheckDistance = 0.5f;
+    [SerializeField] private LayerMask slopeLayer;
+
+    
+
     private float _verticalVelocity;
 
     private Vector2 _velocity;
@@ -167,14 +174,22 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     private void ApplySpeed()
     {
-        _rb.linearVelocity = _velocity;
+        Vector2 finalVelocity = _velocity;
+
+        if(IsGrounded() && _verticalVelocity <= 0)
+        {
+            finalVelocity = GetSlopeVelocity(_velocity);
+        }
+         
+        
+        _rb.linearVelocity = finalVelocity;
     }
 
     private void Gravity()
     {
         if (IsGrounded())
         {
-            if (_verticalVelocity < 0) _verticalVelocity = 0f;
+            if (_verticalVelocity < 0) _verticalVelocity = -0.1f;
             _currentJumps = 0;
         }
         else
@@ -192,7 +207,27 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
         return Physics2D.OverlapBox((Vector2)transform.position + groundCheckOffset, groundCheckSize, 0f, groundLayer);
     }
 
-    
+    private Vector2 GetSlopeVelocity(Vector2 horizontalVelocity)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, slopeCheckDistance, slopeLayer);
+
+        if(hit.collider != null)
+        {
+            float angle = Vector2.Angle(hit.normal, Vector2.up);
+
+            if (angle > maxSlopeAngle) return new Vector2(0, _verticalVelocity);
+
+            if(angle > 0.01f)
+            {
+                Vector2 slopeDir = Vector2.Perpendicular(hit.normal);
+                return slopeDir * -horizontalVelocity.x;
+            }
+
+            
+        }
+
+        return horizontalVelocity;
+    }
 
     private void Jump()
     {
