@@ -30,6 +30,8 @@ public class Weapon_Switch : MonoBehaviour
         _rangedWeapon.OnHitRefill += AddMeleeMeter;
 
         Weapon.ReturnDirection = player.ReturnDirection;
+
+        Upgrade_Drone.OnUpgrade += UpgradeWeapons;
     }
 
     private void OnDisable() 
@@ -41,6 +43,8 @@ public class Weapon_Switch : MonoBehaviour
 
         _meleeWeapon.OnHitRefill -= AddRangeMeter;
         _rangedWeapon.OnHitRefill -= AddMeleeMeter;
+
+        Upgrade_Drone.OnUpgrade -= UpgradeWeapons;
     }
 
     private void Start() 
@@ -91,4 +95,16 @@ public class Weapon_Switch : MonoBehaviour
     public void AddMeleeMeter(float _amount) => _meleeWeapon.AddToMeter(_amount);
 
     public void AddRangeMeter(float _amount) => _rangedWeapon.AddToMeter(_amount);
+
+    public void UpgradeWeapons(Upgrade_Drone.WeaponUpgrade _upgrade)
+    {
+        if (_upgrade == Upgrade_Drone.WeaponUpgrade.Melee)
+        {
+            _meleeWeapon.AddUpgrades();
+        }
+        else
+        {
+            _rangedWeapon.AddUpgrades();
+        }
+    }
 }

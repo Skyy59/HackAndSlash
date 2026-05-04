@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &219355818588224503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6095741133080710158}
+  - component: {fileID: 5271124801399248068}
+  m_Layer: 0
+  m_Name: Style Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6095741133080710158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219355818588224503}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5271124801399248068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219355818588224503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8444abd1c08567b4aa0bd8958983e6ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Style_Controller
+  styleParameters:
+  - styleKey: 0
+    basePoints: 2
+    maximumPermited: 5
+    minimumMult: 0.5
+    hasLimit: 1
+  - styleKey: 1
+    basePoints: 10
+    maximumPermited: 5
+    minimumMult: 0.5
+    hasLimit: 1
+  - styleKey: 2
+    basePoints: 15
+    maximumPermited: 5
+    minimumMult: 0.5
+    hasLimit: 1
+  - styleKey: 3
+    basePoints: 10
+    maximumPermited: 5
+    minimumMult: 0.5
+    hasLimit: 1
+  - styleKey: 4
+    basePoints: 5
+    maximumPermited: 5
+    minimumMult: 0.5
+    hasLimit: 1
+  - styleKey: 4
+    basePoints: 5
+    maximumPermited: 5
+    minimumMult: 0.5
+    hasLimit: 1
+  styleThresholds:
+  - amountDelta: 25
+    achieved: 0
+  - amountDelta: 50
+    achieved: 0
+  - amountDelta: 75
+    achieved: 0
+  - amountDelta: 100
+    achieved: 0
+  - amountDelta: 125
+    achieved: 0
+  - amountDelta: 150
+    achieved: 0
+  currentPoints: 0
+  totalPoints: 200
+  styleRemoveTimer: 0.5
+  styleRemoveAmount: 1

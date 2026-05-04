@@ -5,7 +5,6 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     [Header("References")]
     [SerializeField] protected Rigidbody2D rb;
-    [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Transform playerTr;
 
     [Header("BodyParts")]

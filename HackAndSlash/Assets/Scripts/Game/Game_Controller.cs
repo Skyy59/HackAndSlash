@@ -5,8 +5,12 @@ public class Game_Controller : MonoBehaviour
 {
     public static Game_Controller instance;
     [Header("Game Controller")]
+    [SerializeField] private PostGame postGame;
     [SerializeField] private string menuScene = "Main Menu";
     [SerializeField] private bool gameIsPaused = false;
+
+    private int _kills;
+    private float _time;
 
     private void Awake() 
     {
@@ -23,6 +27,18 @@ public class Game_Controller : MonoBehaviour
     private void Start() 
     {
         SetCursorState(false);
+    }
+
+    private void Update() 
+    {
+        _time += Time.deltaTime;    
+    }
+
+    public void AddKill() { _kills++; }
+
+    public void EndReached()
+    {
+        postGame.CallPostGame(_kills, _time);
     }
 
     public void SetCursorState(bool _state)

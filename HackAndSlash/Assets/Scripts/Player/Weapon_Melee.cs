@@ -28,6 +28,8 @@ public class Weapon_Melee : Weapon
 
     private bool _canFire = false;
 
+    private int _currentLevel;
+
     public static Action<float, float> OnRequestHUD;
     public Action<float> OnHitRefill;
 
@@ -106,7 +108,7 @@ public class Weapon_Melee : Weapon
     public override void Switch(bool _state)
     {
         _canFire = _state;
-        if (_state) Upgrades(3);
+        if (_state) Upgrades();
         base.Switch(_state);
     }
 
@@ -131,15 +133,21 @@ public class Weapon_Melee : Weapon
         OnRequestHUD?.Invoke(currentBoost, totalBoost);
     }
 
-    public override void Upgrades(int _amount)
+    public void AddUpgrades()
+    {
+        _currentLevel++;
+        Upgrades();
+    }
+
+    public override void Upgrades()
     {
         bool _previousState1 = upgrade1;
         bool _previousState2 = upgrade2;
         bool _previousState3 = upgrade3;
 
-        if (!_previousState1) upgrade1 = _amount > 0;
-        if (!_previousState2) upgrade2 = _amount > 1;
-        if (!_previousState3) upgrade3 = _amount > 2;
+        if (!_previousState1) upgrade1 = _currentLevel > 0;
+        if (!_previousState2) upgrade2 = _currentLevel > 1;
+        if (!_previousState3) upgrade3 = _currentLevel > 2;
 
         if (upgrade1 && !_previousState1)
         {
