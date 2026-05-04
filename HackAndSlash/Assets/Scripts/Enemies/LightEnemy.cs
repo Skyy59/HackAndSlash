@@ -14,7 +14,7 @@ public class LightEnemy : Enemy
 
 
     [Header("Attack")]
-    [SerializeField] private Transform projectilePrefab;
+    [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Transform firePoint;
     
 
@@ -79,5 +79,22 @@ public class LightEnemy : Enemy
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion targetRot = Quaternion.Euler(0, 0, angle);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+    }
+
+    protected override void Attack()
+    {
+        if(!_isWalking && Time.time >= lastAttackTime + attackCooldown)
+        {
+            Shoot();
+            lastAttackTime = Time.time;
+        }
+    }
+
+    private void Shoot()
+    {
+        if(projectilePrefab != null  && firePoint != null)
+        {
+            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        }
     }
 }

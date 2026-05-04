@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
         weaponSprite.color = _state ? Color.white : Color.clear;
     }
 
-    public virtual void Upgrades(int _amount)
+    public virtual void Upgrades()
     {
         
     }

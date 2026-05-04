@@ -90,6 +90,8 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     public Action<bool> OnRequestAttack;
     public Action<float> OnRequestScroll;
 
+    public Action OnInteractAction;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -146,7 +148,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     public void Movement()
     {
         float _move = (_isSliding ? slideInput.x : _acceleratedInputs.x) * _currentSpeed;
-        _move = IsWalkingTowardsWall(_isSliding ? slideInput.x : _inputs.x) ? 0f : _move;
+        _move = IsWalkingTowardsWall(_isSliding ? slideInput.x : _acceleratedInputs.x) ? 0f : _move;
         SetVelocity(_move); 
 
     }
@@ -238,6 +240,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             _verticalVelocity = jumpForce;
             _currentJumps++;
             playerAnimator.Play("Jump", 0, 0f);
+            if (_isCrouched) Crouch(false);
         }
     }
 
@@ -258,13 +261,14 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             else _crouchTimer = 0;
             _isCrouched = true;
         }
-        else if (IsGrounded() && Mathf.Abs(_inputs.x) > 0 && !_isSliding && _state)
+        else if (IsGrounded() && Mathf.Abs(_inputs.x) > 0 && !_isSliding  && !_transitionToSlide && _state)
         {
             _transitionToSlide = true;
             if (_slideTimer > 0) _slideTimer = 1f - _slideTimer;
             else _slideTimer = 0;
             _isSliding = true;
             slideInput = _inputs;
+            playerAnimator.SetBool("Sliding", true);
         }
         else if ((IsGrounded() && _isCrouched) || !IsGrounded())
         {
@@ -369,6 +373,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             _slideTimer = 0f;
             _transitionToSlide = true;
             _isSliding = false;
+            playerAnimator.SetBool("Sliding", false);
         }
     }
 
@@ -385,7 +390,6 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     {
         playerAnimator.SetFloat("Speed", Mathf.Abs(_rb.linearVelocityX) * (crosshair.position.x > transform.position.x ? 1 : -1));
         playerAnimator.SetBool("Grounded", IsGrounded());
-        playerAnimator.SetBool("Sliding", _isSliding);
         playerAnimator.SetBool("Crouched", _isCrouched);
     }
 
@@ -410,13 +414,12 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     public void OnInteract()
     {
-        
+        OnInteractAction?.Invoke();
     }
 
     public void OnJump()
     {
         Jump();
-        Crouch(false);
     }
 
     public void OnLook(Vector2 _look)
