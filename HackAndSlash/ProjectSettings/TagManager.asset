@@ -15,8 +15,8 @@ TagManager:
   - Player
   - Wall
   - Enemy
-  - 
-  - 
+  - MainBody
+  - Projectile
   - 
   - 
   - 

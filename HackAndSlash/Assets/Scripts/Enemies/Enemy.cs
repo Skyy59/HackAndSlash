@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.U2D.IK;
+using System;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
@@ -12,7 +14,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("Health")]
     [SerializeField] protected float maxHealth = 100f;
-    protected float currentHealth;
+    [SerializeField] protected float currentHealth;
     protected bool isDead = false;
 
     [Header("Stats")]
@@ -22,21 +24,36 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [Header("Movement")]
     [SerializeField] protected float moveSpeed = 3f;
+
     
+
+    public static Action<string[]> OnDamage;
+
 
     protected virtual void Awake() 
     {
         currentHealth = maxHealth;
     }
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, string key)
     {
+
+        List<string> keys = new List<string>();
+
+        keys.Add(key);
+        
+
         if(isDead) return;
         currentHealth -= damage;
+
         if(currentHealth <= 0)
         {
+            keys.Add("Dead");
             Die();
+
         } 
+
+        OnDamage?.Invoke(keys.ToArray());
     }
 
     protected virtual void Die()

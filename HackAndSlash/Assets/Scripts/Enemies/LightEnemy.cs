@@ -5,11 +5,11 @@ public class LightEnemy : Enemy
     [Header("References")]
 
     [Header("Movement")]
-    [SerializeField] private float rayDistance = 0.8f;
+
+    [Header("GroundCheck")]
+    [SerializeField] private Vector2 groundCheckSize;
+    [SerializeField] private Vector2 groundCheckOffset;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float walkDuration = 3f;
-    [SerializeField] private float stopDuration = 1.5f;
 
 
 
@@ -18,83 +18,49 @@ public class LightEnemy : Enemy
     [SerializeField] private Transform firePoint;
     
 
-    private Vector2 _moveDirection;
-    private float _timer;
-    private bool _isWalking = true;
-    private float randomX;
+    private float _moveDirection;
+    private bool _isGrounded;
+
+    protected override void Awake() 
+    {
+        base.Awake();
+
+
+        _moveDirection = Random.value > 0.5f ? 1f : -1f; 
+
+        if(rb != null) rb.gravityScale = 0;   
+    }
 
     protected override void Start()
     {
         base.Start();
+        FlipFacingDirection(_moveDirection);
+    }
 
-        randomX = Random.value > 0.5f ? 1f : -1f;
-        _moveDirection  = new Vector2(randomX, 0).normalized;
+    protected override void Update()
+    {
+        if(isDead) return;
+        Movement();
+    }
 
-        _timer = walkDuration;
+    private void CheckGround()
+    {
+        Vector2 rotatedOffset = transform.rotation * groundCheckOffset;
+        Vector2 checkPosition = (Vector2)transform.position * rotatedOffset;
+
+        
     }
 
     protected override void Movement()
     {
-        _timer -= Time.deltaTime;
-
-        if (_timer <= Mathf.Epsilon)
-        {
-            _isWalking = !_isWalking;
-
-            _timer = _isWalking ? walkDuration : stopDuration;
-
-            if (!_isWalking) rb.linearVelocity = Vector2.zero;
-        }
-
-        if(_isWalking)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * _moveDirection.x, rayDistance, groundLayer);
-            
-            if(hit.collider == null)
-            {
-                hit = Physics2D.Raycast(transform.position, -transform.up, rayDistance, groundLayer);
-            }
-
-            if(hit.collider  != null)
-            {
-                Quaternion targetRotation = Quaternion.FromToRotation(Vector2.up, hit.normal);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
-
-            rb.linearVelocity = transform.right * _moveDirection.x * moveSpeed;
-        }
-        else
-        {
-            rb.linearVelocity = Vector2.zero;
-            LookAtPlayer();
-        }
-        
+        rb.linearVelocity = new Vector2(_moveDirection * moveSpeed, rb.linearVelocity.y);
     }
 
-    private void LookAtPlayer()
+    private void FlipFacingDirection(float direction)
     {
-        if(playerTr == null) return;
+        if(direction == 0) return;
 
-        Vector2 dir = (playerTr.position - transform.position).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Quaternion targetRot = Quaternion.Euler(0, 0, angle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
-    }
-
-    protected override void Attack()
-    {
-        if(!_isWalking && Time.time >= lastAttackTime + attackCooldown)
-        {
-            Shoot();
-            lastAttackTime = Time.time;
-        }
-    }
-
-    private void Shoot()
-    {
-        if(projectilePrefab != null  && firePoint != null)
-        {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        }
+        float side = direction > 0 ? 1f : -1f;
+        transform.localScale = new Vector3(side * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 }

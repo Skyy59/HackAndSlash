@@ -8,9 +8,11 @@ public class HUD_Controller : MonoBehaviour
     [SerializeField] private Image ammoMeterImage;
     [SerializeField] private Image powerMeterImage;
 
+    [SerializeField] private Style_Controller styleController;
+
     private void OnEnable() 
     {
-        // Style_Controller.OnStyleChange += SetStyleMeter;
+        styleController.OnStyleValue += SetStyleMeter;
         // Player_Health.OnHealthChange += SetHealthMeter;
         // Player_Weapons.OnAmmoChange += SetAmmoMeter;
         // Player_Weapons.OnPowerChange += SetPowerMeter;    
@@ -20,7 +22,7 @@ public class HUD_Controller : MonoBehaviour
 
     private void OnDisable() 
     {
-        // Style_Controller.OnStyleChange -= SetStyleMeter;
+        styleController.OnStyleValue -= SetStyleMeter;
         // Player_Health.OnHealthChange -= SetHealthMeter;
         // Player_Weapons.OnAmmoChange -= SetAmmoMeter;
         // Player_Weapons.OnPowerChange -= SetPowerMeter;    
@@ -28,9 +30,11 @@ public class HUD_Controller : MonoBehaviour
         Weapon_Melee.OnRequestHUD -= SetPowerMeter;
     }
 
-    public void SetStyleMeter(float _currentStyle, float _totalStyle)
+    public void SetStyleMeter(int _currentStyle, int _totalStyle)
     {
-        float _value = _currentStyle / _totalStyle;
+
+        float _value = (float)_currentStyle / (float)_totalStyle;
+
         styleMeterImage.fillAmount = _value;
 
         styleMeterImage.color = Color.Lerp(Color.darkBlue, Color.yellow, _value);
