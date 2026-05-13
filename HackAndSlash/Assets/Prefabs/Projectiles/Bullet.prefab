@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   rb2D: {fileID: 8564160886429877095}
   projectileVelocity: 20
-  projectileDamage: 0
+  projectileDamage: 5
   impactLayer:
     serializedVersion: 2
     m_Bits: 832

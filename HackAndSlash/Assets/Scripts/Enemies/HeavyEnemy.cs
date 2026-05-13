@@ -19,6 +19,18 @@ public class HeavyEnemy : Enemy
     [SerializeField] private float chargeCooldown = 1.5f;
     [SerializeField] private float chargeDamage = 25f;
 
+    [Header("Seismic Stomp")]
+    [SerializeField] private float stompWindupDuration = 1.5f;
+    [SerializeField] private int stompCount = 3;
+    [SerializeField] private float stompDelay = 1.5f;
+    [SerializeField] private float stompWaveSpeed = 8f;
+    [SerializeField] private float stompWaveDistance = 10f;
+    [SerializeField] private float stompWaveDamage = 20f;
+    [SerializeField] private float stompConfusionDuration = 2.5f;
+    [SerializeField] private Vector2 stompOriginOffset = new Vector2(0f, -0.5f);
+    [SerializeField] private Vector2 stompWaveSize = new Vector2(1f, 0.45f);
+    [SerializeField] private Color stompWaveColor = new Color(1f, 0.65f, 0.15f, 0.85f);
+
     [Header("GroundCheck")]
     [SerializeField] private Vector2 groundCheckSize = Vector2.zero;
     [SerializeField] private Vector2 groundCheckOffset = Vector2.zero;
@@ -30,11 +42,17 @@ public class HeavyEnemy : Enemy
     [SerializeField] private LayerMask slopeLayer;
 
     private float _chargeDirection = 1f;
-    private float _nextChargeTime;
+    private float _nextAttackTime;
     private float _chargeWindupTimer;
     private Vector2 _chargeStartPosition;
+    private float _stompDirection = 1f;
+    private float _stompWindupTimer;
+    private float _nextStompTime;
+    private int _stompsRemaining;
     private bool _isPreparingCharge;
     private bool _isCharging;
+    private bool _isPreparingStomp;
+    private bool _isStomping;
     private bool _hasHitPlayerThisCharge;
     private bool _isGrounded;
 
@@ -84,11 +102,23 @@ public class HeavyEnemy : Enemy
             return;
         }
 
+        if (_isPreparingStomp)
+        {
+            PrepareSeismicStomp();
+            return;
+        }
+
+        if (_isStomping)
+        {
+            ContinueSeismicStomp();
+            return;
+        }
+
         rb.linearVelocity = new Vector2(0f, _verticalVelocity);
 
-        if (Time.time >= _nextChargeTime && PlayerDetected())
+        if (Time.time >= _nextAttackTime && PlayerDetected())
         {
-            StartChargeWindup();
+            StartRandomHeavyAttack();
         }
     }
 
@@ -119,6 +149,18 @@ public class HeavyEnemy : Enemy
         if (playerTr == null) return false;
 
         return Vector2.Distance(checkPosition, playerTr.position) <= attackRange;
+    }
+
+    private void StartRandomHeavyAttack()
+    {
+        if (Random.value < 0.5f)
+        {
+            StartChargeWindup();
+        }
+        else
+        {
+            StartSeismicStompWindup();
+        }
     }
 
     private void StartChargeWindup()
@@ -181,8 +223,97 @@ public class HeavyEnemy : Enemy
     {
         _isPreparingCharge = false;
         _isCharging = false;
-        _nextChargeTime = Time.time + chargeCooldown;
+        _nextAttackTime = Time.time + chargeCooldown;
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+    }
+
+    private void StartSeismicStompWindup()
+    {
+        _isPreparingStomp = true;
+        _stompWindupTimer = 0f;
+        UpdateStompDirection();
+    }
+
+    private void PrepareSeismicStomp()
+    {
+        rb.linearVelocity = new Vector2(0f, _verticalVelocity);
+        UpdateStompDirection();
+
+        _stompWindupTimer += Time.deltaTime;
+
+        if (_stompWindupTimer >= stompWindupDuration)
+        {
+            StartSeismicStomp();
+        }
+    }
+
+    private void StartSeismicStomp()
+    {
+        _isPreparingStomp = false;
+        _isStomping = true;
+        _stompsRemaining = Mathf.Max(1, stompCount);
+        _nextStompTime = Time.time;
+    }
+
+    private void ContinueSeismicStomp()
+    {
+        rb.linearVelocity = new Vector2(0f, _verticalVelocity);
+
+        if (_stompsRemaining <= 0)
+        {
+            StopSeismicStomp();
+            return;
+        }
+
+        if (Time.time < _nextStompTime) return;
+
+        DoSeismicStomp();
+        _stompsRemaining--;
+        _nextStompTime = Time.time + stompDelay;
+
+        if (_stompsRemaining <= 0)
+        {
+            StopSeismicStomp();
+        }
+    }
+
+    private void DoSeismicStomp()
+    {
+        UpdateStompDirection();
+
+        Vector2 spawnPosition = (Vector2)transform.position + stompOriginOffset;
+        GameObject waveObject = new GameObject("Seismic Wave");
+        waveObject.transform.position = spawnPosition;
+
+        SeismicWave seismicWave = waveObject.AddComponent<SeismicWave>();
+        seismicWave.Initialize(
+            _stompDirection,
+            stompWaveSpeed,
+            stompWaveDistance,
+            stompWaveDamage,
+            stompConfusionDuration,
+            stompWaveSize,
+            playerLayer,
+            groundLayer,
+            stompWaveColor);
+    }
+
+    private void StopSeismicStomp()
+    {
+        _isPreparingStomp = false;
+        _isStomping = false;
+        _nextAttackTime = Time.time + chargeCooldown;
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+    }
+
+    private void UpdateStompDirection()
+    {
+        if (playerTr != null)
+        {
+            _stompDirection = playerTr.position.x > transform.position.x ? 1f : -1f;
+        }
+
+        FlipFacingDirection(_stompDirection);
     }
 
     private Vector2 GetSlopeVelocity(Vector2 horizontalVelocity)
@@ -277,5 +408,13 @@ public class HeavyEnemy : Enemy
         chargeDistance = 8f;
         chargeCooldown = 1.5f;
         chargeDamage = 25f;
+        stompWindupDuration = 1.5f;
+        stompCount = 3;
+        stompDelay = 1.5f;
+        stompWaveSpeed = 8f;
+        stompWaveDistance = 10f;
+        stompWaveDamage = 20f;
+        stompConfusionDuration = 2.5f;
+        stompWaveSize = new Vector2(1f, 0.45f);
     }
 }
