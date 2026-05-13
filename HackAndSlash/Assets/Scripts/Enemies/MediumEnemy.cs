@@ -2,77 +2,152 @@ using UnityEngine;
 
 public class MediumEnemy : Enemy
 {
-    [Header("References")]
+    [Header("Gravity")]
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float verticalSpeedClamp = 20f;
+    private float _verticalVelocity;
 
 
 
-    [Header("AttackOverlap")]
-    [SerializeField] private Transform rangeCheck;
-    [SerializeField] private float rangeCheckRadius;
+    [Header("Chase RangeCheck")]
+    [SerializeField] private Vector2 chaseCheckSize = Vector2.zero;
+    [SerializeField] private Vector2 chaseCheckOffset = Vector2.zero;
+    
+    [Header("Attack RangeCheck")]
+    [SerializeField] private Vector2 attackCheckSize = Vector2.zero;
+    [SerializeField] private Vector2 attackCheckOffset = Vector2.zero;
     [SerializeField] private LayerMask playerLayer;
+
 
     [Header("AttackPoint")]
     [SerializeField] private Transform attackPoint;
-    [SerializeField] private float attackRadius = 0.8f;
+    [SerializeField] private Vector2 attackSize = Vector2.zero;
     [SerializeField] private float meleeDamage = 10f;
 
     [Header("Acceleration")]
     [SerializeField] private float acceleration = 5f;
     private float _currentHorizontalVelocity;
 
-    private bool _isInRange = false;
+    [Header("GroundCheck")]
+    [SerializeField] private Vector2 groundCheckSize = Vector2.zero;
+    [SerializeField] private Vector2 groundCheckOffset = Vector2.zero;
+    [SerializeField] private LayerMask groundLayer;
+
+    [Header("SlopeCheck")]
+    [SerializeField] private float maxSlopeAngle = 50f;
+    [SerializeField] private float slopeCheckDistance = 0.6f;
+    [SerializeField] private LayerMask slopeLayer;
+
+    
     private float _targetVelocity;
+    private bool _isGrounded;
+    private bool _playerInChaseRange = false;
+    private bool _playerInAttackRange = false;
 
 
 
     private void OnDrawGizmos() 
     {
-        if(rangeCheck != null)
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube((Vector2)transform.position + groundCheckOffset, groundCheckSize);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube((Vector2)transform.position + chaseCheckOffset, chaseCheckSize);
+
+        Gizmos.color = Color.violet;
+        Gizmos.DrawWireCube((Vector2)transform.position + attackCheckOffset, attackCheckSize);
+
+        Gizmos.color = Color.magenta; 
+        Vector3 start = transform.position;
+        Vector3 end = transform.position + (Vector3.down * slopeCheckDistance);
+
+        Gizmos.DrawLine(start, end);
+        Gizmos.DrawWireSphere(end, 0.05f);
+
+        if (attackPoint != null)
         {
-           Gizmos.color = Color.yellow;
-           Gizmos.DrawWireSphere(rangeCheck.position, rangeCheckRadius); 
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireCube(attackPoint.position, attackSize);
         }
 
-        if(attackPoint != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackPoint.position, rangeCheckRadius);
-        }
+        
     }
 
     protected override void Movement()
     {
-        _isInRange = Physics2D.OverlapCircle(rangeCheck.position, rangeCheckRadius, playerLayer);
-        
-        if (!_isInRange)
+       _isGrounded = Physics2D.OverlapBox((Vector2)transform.position + groundCheckOffset, groundCheckSize, 0f, groundLayer); 
+
+        _playerInChaseRange = Physics2D.OverlapBox((Vector2)transform.position + chaseCheckOffset, chaseCheckSize, 0f, playerLayer);
+
+        _playerInAttackRange = Physics2D.OverlapBox((Vector2)transform.position + attackCheckOffset, attackCheckSize, 0f, playerLayer);
+
+
+        if (_isGrounded)
+        {
+            if(_verticalVelocity < 0) _verticalVelocity = -0.1f;
+        }
+        else
+        {
+            _verticalVelocity += gravity * Time.deltaTime;
+            _verticalVelocity = Mathf.Clamp(_verticalVelocity, -verticalSpeedClamp, 0);
+        }
+
+        if(_playerInChaseRange && !_playerInAttackRange)
         {
             float direction = playerTr.position.x > transform.position.x ? 1f : -1f;
             _targetVelocity = direction * moveSpeed;
-
-            FlipFacingDirection(rb.linearVelocity.x);
+            FlipFacingDirection(_targetVelocity);
+        }
+        else
+        {
+            _targetVelocity = 0;
         }
 
         _currentHorizontalVelocity = Mathf.MoveTowards(rb.linearVelocity.x, _targetVelocity, acceleration * Time.deltaTime);
-        rb.linearVelocity = new Vector2(_currentHorizontalVelocity, rb.linearVelocity.y);      
+
+        
+
+        Vector2 finalVelocity = new Vector2(_currentHorizontalVelocity, _verticalVelocity);
+
+        if(_isGrounded && _verticalVelocity <= 0)
+        {
+            finalVelocity = GetSlopeVelocity(finalVelocity);
+        }
+
+        rb.linearVelocity = finalVelocity; 
+
     }
 
-    private void FlipFacingDirection(float horizontalVelocity)
+    private Vector2 GetSlopeVelocity(Vector2 horizontalVelocity)
     {
-        if(Mathf.Abs(horizontalVelocity) < 0.1f) return;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, slopeCheckDistance, slopeLayer);
 
-        if(horizontalVelocity > 0)
+        if(hit.collider != null)
         {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            float angle = Vector2.Angle(hit.normal, Vector2.up);
+            if(angle > maxSlopeAngle) return new Vector2(0, _verticalVelocity);
+
+            if(angle > 0.01f)
+            {
+                Vector2 slopeDir = Vector2.Perpendicular(hit.normal);
+                return slopeDir * -horizontalVelocity.x;
+            }
         }
-        else if(horizontalVelocity < 0)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
+
+        return horizontalVelocity;
+        
+    }
+
+    private void FlipFacingDirection(float targetDir)
+    {
+       if (targetDir == 0) return;
+       float side = targetDir > 0 ? 1f : -1f;
+       transform.localScale = new Vector3(side * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 
     protected override void Attack()
     {
-        if(_isInRange && Time.time >= lastAttackTime + attackCooldown)
+        if(_playerInAttackRange && Time.time >= lastAttackTime + attackCooldown)
         {
             PerformAttack();
             lastAttackTime = Time.time;
@@ -82,13 +157,16 @@ public class MediumEnemy : Enemy
 
     private void PerformAttack()
     {
-        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
+       if(attackPoint == null) return;
+
+       Collider2D hitPlayer = Physics2D.OverlapBox(attackPoint.position, attackCheckSize, 0f, playerLayer);
 
         if (hitPlayer != null)
         {
             if(hitPlayer.TryGetComponent<IDamageable>(out IDamageable target))
             {
-                target.TakeDamage(meleeDamage);
+                target.TakeDamage(meleeDamage, "Player");
+                Debug.Log("Attack");
             }
         }
     }

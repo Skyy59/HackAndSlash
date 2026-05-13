@@ -94,8 +94,8 @@ public class Weapon_Melee : Weapon
 
             for (int _i = 0; _i < _hits.Length; _i++)
             {
-                // TODO : Apply Damage
-                // _hits[_i].TryGetComponent(out IDamageable _damageable) _damageable.TakeDamage(currentBoost > 0 ? damage * 1.5f : damage);
+                
+                 if(_hits[_i].TryGetComponent(out IDamageable _damageable)) _damageable.TakeDamage(currentBoost > 0 ? damage * 1.5f : damage, "Melee");
             }
         }
     }

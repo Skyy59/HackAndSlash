@@ -2,99 +2,100 @@ using UnityEngine;
 
 public class LightEnemy : Enemy
 {
-    [Header("References")]
 
-    [Header("Movement")]
-    [SerializeField] private float rayDistance = 0.8f;
+    [Header("GroundCheck")]
+    [SerializeField] private Vector2 groundCheckSize;
+    [SerializeField] private Vector2 groundCheckOffset;
     [SerializeField] private LayerMask groundLayer;
+
+    [Header("WallCheck")]
+    [SerializeField] private float sensorDistance;
+
+    [Header("Settings")]
+    [SerializeField] private float attractionForce = 5f;
     [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float walkDuration = 3f;
-    [SerializeField] private float stopDuration = 1.5f;
-
-
 
     [Header("Attack")]
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Transform firePoint;
-    
 
-    private Vector2 _moveDirection;
-    private float _timer;
-    private bool _isWalking = true;
-    private float randomX;
+    private float _moveDirection;
+    private bool _isGrounded;
+    private Quaternion _targetRotation;
 
-    protected override void Start()
+    private void OnDrawGizmos()
     {
-        base.Start();
+        Gizmos.color = Color.green;
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+        Gizmos.matrix = rotationMatrix;
+        Gizmos.DrawWireCube(groundCheckOffset, groundCheckSize);
+        Gizmos.matrix = Matrix4x4.identity;
 
-        randomX = Random.value > 0.5f ? 1f : -1f;
-        _moveDirection  = new Vector2(randomX, 0).normalized;
+       Gizmos.color = Color.red;
+       Gizmos.DrawRay(transform.position, transform.right * _moveDirection * sensorDistance);
 
-        _timer = walkDuration;
+        
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _moveDirection = Random.value > 0.5f ? 1f : -1f;
+        _targetRotation = transform.rotation;
+        if (rb != null) rb.gravityScale = 0;
+    }
+
+    protected override void Update()
+    {
+        if (isDead) return;
+        CheckGround();
+        Rotation();
+        
+
+    }
+
+    private void FixedUpdate() 
+    {
+        if (isDead) return;
+        Movement();
+    }
+
+    private void CheckGround()
+    {
+        Vector2 checkPosition = (Vector2)transform.position + (Vector2)(transform.rotation * groundCheckOffset);
+        _isGrounded = Physics2D.OverlapBox(checkPosition, groundCheckSize, transform.eulerAngles.z, groundLayer);
+    }
+
+    private void Rotation()
+    {
+        RaycastHit2D wallHit = Physics2D.Raycast(transform.position, transform.right * _moveDirection, sensorDistance, groundLayer);
+
+        if(wallHit.collider != null)
+        {
+            _targetRotation = Quaternion.LookRotation(Vector3.forward, wallHit.normal);
+        }
+        else if (!_isGrounded)
+        {
+            transform.Rotate(0,0, -_moveDirection * 90f * Time.deltaTime * (rotationSpeed / 2f));
+            _targetRotation = transform.rotation;
+            return;
+        }
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * rotationSpeed);
     }
 
     protected override void Movement()
     {
-        _timer -= Time.deltaTime;
-
-        if (_timer <= Mathf.Epsilon)
-        {
-            _isWalking = !_isWalking;
-
-            _timer = _isWalking ? walkDuration : stopDuration;
-
-            if (!_isWalking) rb.linearVelocity = Vector2.zero;
-        }
-
-        if(_isWalking)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * _moveDirection.x, rayDistance, groundLayer);
-            
-            if(hit.collider == null)
-            {
-                hit = Physics2D.Raycast(transform.position, -transform.up, rayDistance, groundLayer);
-            }
-
-            if(hit.collider  != null)
-            {
-                Quaternion targetRotation = Quaternion.FromToRotation(Vector2.up, hit.normal);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
-
-            rb.linearVelocity = transform.right * _moveDirection.x * moveSpeed;
-        }
-        else
-        {
-            rb.linearVelocity = Vector2.zero;
-            LookAtPlayer();
-        }
         
+        rb.linearVelocity = (transform.right * (_moveDirection * moveSpeed)) + (-transform.up * attractionForce);
+
+        FlipFacingDirection(_moveDirection);
     }
 
-    private void LookAtPlayer()
+    private void FlipFacingDirection(float direction)
     {
-        if(playerTr == null) return;
-
-        Vector2 dir = (playerTr.position - transform.position).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Quaternion targetRot = Quaternion.Euler(0, 0, angle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
-    }
-
-    protected override void Attack()
-    {
-        if(!_isWalking && Time.time >= lastAttackTime + attackCooldown)
-        {
-            Shoot();
-            lastAttackTime = Time.time;
-        }
-    }
-
-    private void Shoot()
-    {
-        if(projectilePrefab != null  && firePoint != null)
-        {
-            Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        }
+        if (direction == 0) return;
+        float side = direction > 0 ? 1f : -1f;
+        transform.localScale = new Vector3(side * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 }

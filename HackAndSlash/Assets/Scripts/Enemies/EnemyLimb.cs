@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 public class EnemyLimb : MonoBehaviour, IDamageable
 {
@@ -15,7 +17,12 @@ public class EnemyLimb : MonoBehaviour, IDamageable
    [SerializeField] private Rigidbody2D limbRb;
    [SerializeField] private bool mainBodyLimb;
 
+   [SerializeField] private string key;
+
    private bool _isSevered = false;
+   public static Action<string[]> OnDamage;
+
+   
    
    
    private void Awake() 
@@ -24,7 +31,7 @@ public class EnemyLimb : MonoBehaviour, IDamageable
         {
             limbRb.bodyType = RigidbodyType2D.Kinematic;
             limbRb.gravityScale = 0;
-            limbRb.simulated = true;
+            
         }
         else
         {
@@ -35,19 +42,34 @@ public class EnemyLimb : MonoBehaviour, IDamageable
         }  
    }
 
-   public void TakeDamage(float damage)
+   public void TakeDamage(float damage, string _key)
     {
-        if(_isSevered) return;
+        Debug.Log($"Limb golpeado. Daño recibido: {damage}. Vida restante: {limbHealth}");
+
+        List<string> keys = new List<string>();
+
+        keys.Add(_key);
+        keys.Add(key);
+
+
+        if (_isSevered) return;
         
-        if(mainEnemy != null)
+        //if(mainEnemy != null && !canBeSevered)
         {
-            mainEnemy.TakeDamage(damage * damageMultiplier);
+            //mainEnemy.TakeDamage(damage * damageMultiplier, "");
+
+            
         }
 
-        if (canBeSevered)
+        if (mainEnemy != null)
         {
+            OnDamage?.Invoke(keys.ToArray());
+
             limbHealth -= damage;
-            if(limbHealth <= Mathf.Epsilon)
+            mainEnemy.TakeDamage(damage * damageMultiplier, "");
+
+
+            if(canBeSevered && limbHealth <= Mathf.Epsilon)
             {
                 Sever();
             }
@@ -84,7 +106,7 @@ public class EnemyLimb : MonoBehaviour, IDamageable
 
     private void RandomForce()
     {
-        Vector2 force  = new Vector2(Random.Range(-1, 1f), 1f).normalized;
+        Vector2 force  = new Vector2(UnityEngine.Random.Range(-1, 1f), 1f).normalized;
         limbRb.AddForce(force * 5f, ForceMode2D.Impulse);
     }
 

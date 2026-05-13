@@ -5,7 +5,7 @@ using UnityEngine;
 public class Style_Controller : MonoBehaviour
 {
 
-    public enum StyleKey { Limb , Body , Head , Melee , Range , Dead }
+    public enum StyleKey { Limb , Body , Head , Melee , Range , Dead, Player }
 
     [System.Serializable]
     public struct StyleParameter
@@ -39,7 +39,22 @@ public class Style_Controller : MonoBehaviour
     private List<StyleKey> _keysToCheck;
 
     public Action<int, int> OnStyleValue;
-    public Action<int> OnStyleThresholds;
+    public static Action<int> OnStyleThresholds;
+
+
+    private void OnEnable() 
+    {
+        EnemyLimb.OnDamage += AddKeys;
+        Enemy.OnDamage += AddKeys;
+        Player_Health.OnDamage += AddKeys;
+    }
+
+    private void OnDisable() 
+    {
+        EnemyLimb.OnDamage -= AddKeys;
+        Enemy.OnDamage -= AddKeys;
+        Player_Health.OnDamage -= AddKeys;
+    }
 
     private void Start() 
     {
@@ -58,7 +73,15 @@ public class Style_Controller : MonoBehaviour
     {
         for (int _i = 0; _i < _keysToAdd.Length; _i++)
         {
-            _keysToCheck.Add(_keysToCheck[_i]);
+            StyleKey _key = StyleKey.Limb;
+
+            for (int _j = 0; _j < styleParameters.Length; _j++)
+            {
+                if (styleParameters[_j].styleKey.ToString() == _keysToAdd[_i]) _key = styleParameters[_j].styleKey;
+                continue;
+            }
+
+            _keysToCheck.Add(_key);
         }
 
         CheckKeys();
@@ -90,6 +113,7 @@ public class Style_Controller : MonoBehaviour
             CheckThresholds();
             _currentKeys.Add(_keysToCheck[_i]);
             _keysToCheck.RemoveAt(_i);
+            OnStyleValue?.Invoke(currentPoints, totalPoints);
         }
     }
 

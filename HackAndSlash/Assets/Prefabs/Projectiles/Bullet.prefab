@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3801709609453448157}
   - component: {fileID: 1484493411368493353}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7485472906945923824}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 8564160886429877095}
   - component: {fileID: 7959197593190354411}
   - component: {fileID: 8335008744140786262}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,3 +236,6 @@ MonoBehaviour:
   rb2D: {fileID: 8564160886429877095}
   projectileVelocity: 20
   projectileDamage: 0
+  impactLayer:
+    serializedVersion: 2
+    m_Bits: 832

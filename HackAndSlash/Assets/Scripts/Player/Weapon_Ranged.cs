@@ -117,6 +117,8 @@ public class Weapon_Ranged : Weapon
         Upgrades();
     }
 
+
+    
     public override void Upgrades()
     {
         bool _previousState1 = upgrade1;

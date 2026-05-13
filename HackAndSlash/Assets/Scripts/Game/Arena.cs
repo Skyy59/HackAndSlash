@@ -18,6 +18,13 @@ public class Arena : MonoBehaviour
 
     private bool _arenaCompleted;
     private bool _arenaStarted;
+    
+
+    private void Start() 
+    {
+        entryDoor.OpenDoor();
+        exitDoor.OpenDoor();
+    }
 
     private void OnTriggerEnter2D(Collider2D _other) 
     {
