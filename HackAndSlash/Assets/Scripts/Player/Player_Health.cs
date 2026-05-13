@@ -8,9 +8,21 @@ public class Player_Health : MonoBehaviour, IDamageable
     [Header("Stats")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
+    [SerializeField] private float regenHealth = 5f;
 
     public static Action<string[]> OnDamage;
+    
 
+
+    private void OnEnable() 
+    {
+        Style_Controller.OnStyleThresholds += Heal;
+    }
+
+    private void OnDisable() 
+    {
+        Style_Controller.OnStyleThresholds -= Heal;
+    }
     
     private void Awake() 
     {
@@ -38,11 +50,20 @@ public class Player_Health : MonoBehaviour, IDamageable
         //death
     }
 
-    public void Heal(float amount)
+    public void Heal(int thresholdCount)
     {
-        currentHealth += amount;
-        currentHealth = Mathf.Max(currentHealth, maxHealth);
+
+        float multiplier = regenHealth + thresholdCount * 0.25f;
+        float healAmount = regenHealth * multiplier * Time.deltaTime;
+
+        currentHealth += healAmount;
+        currentHealth = Mathf.Min(currentHealth, maxHealth);
+        
+        
+
     }
+
+
 
 
 }

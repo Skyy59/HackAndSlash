@@ -151,6 +151,7 @@ MonoBehaviour:
   limbHealth: 50
   limbRb: {fileID: 1232608596242882205}
   mainBodyLimb: 0
+  key: 
 --- !u!1 &3237443311931849928
 GameObject:
   m_ObjectHideFlags: 0
