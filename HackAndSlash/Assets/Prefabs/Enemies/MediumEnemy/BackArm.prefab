@@ -359,5 +359,6 @@ MonoBehaviour:
   damageMultiplier: 1
   canBeSevered: 1
   limbHealth: 50
-  limbRb: {fileID: 0}
+  limbRb: {fileID: 4775295654618508072}
   mainBodyLimb: 0
+  key: 

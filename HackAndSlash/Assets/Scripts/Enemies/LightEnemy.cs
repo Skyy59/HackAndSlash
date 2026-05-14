@@ -9,11 +9,10 @@ public class LightEnemy : Enemy
     [SerializeField] private LayerMask groundLayer;
 
     [Header("WallCheck")]
-    [SerializeField] private float sensorDistance;
+    [SerializeField] private float attractionForce = 5f;
+    [SerializeField] private float detectionRange = 1f;
 
     [Header("Settings")]
-    [SerializeField] private float attractionForce = 5f;
-    [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Attack")]
     [SerializeField] private Projectile projectilePrefab;
@@ -21,7 +20,7 @@ public class LightEnemy : Enemy
 
     private float _moveDirection;
     private bool _isGrounded;
-    private Quaternion _targetRotation;
+    private bool _hasRotatedThisFrame;
 
     private void OnDrawGizmos()
     {
@@ -29,19 +28,18 @@ public class LightEnemy : Enemy
         Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
         Gizmos.matrix = rotationMatrix;
         Gizmos.DrawWireCube(groundCheckOffset, groundCheckSize);
+
+        Vector2 frontOffsetLocal = new Vector2((groundCheckSize.x / 2f + 0.1f) * _moveDirection, groundCheckOffset.y + 0.2f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(frontOffsetLocal, new Vector2(0.1f, 0.1f));
+
         Gizmos.matrix = Matrix4x4.identity;
-
-       Gizmos.color = Color.red;
-       Gizmos.DrawRay(transform.position, transform.right * _moveDirection * sensorDistance);
-
-        
     }
 
     protected override void Awake()
     {
         base.Awake();
         _moveDirection = Random.value > 0.5f ? 1f : -1f;
-        _targetRotation = transform.rotation;
         if (rb != null) rb.gravityScale = 0;
     }
 
@@ -49,45 +47,57 @@ public class LightEnemy : Enemy
     {
         if (isDead) return;
         CheckGround();
-        Rotation();
-        
-
-    }
-
-    private void FixedUpdate() 
-    {
-        if (isDead) return;
         Movement();
+        EnemyAnimationParameters();
+
+
+        _hasRotatedThisFrame = false;
     }
 
     private void CheckGround()
     {
-        Vector2 checkPosition = (Vector2)transform.position + (Vector2)(transform.rotation * groundCheckOffset);
+        Vector2 rotatedOffset = transform.rotation * groundCheckOffset;
+        Vector2 checkPosition = (Vector2)transform.position + rotatedOffset;
         _isGrounded = Physics2D.OverlapBox(checkPosition, groundCheckSize, transform.eulerAngles.z, groundLayer);
-    }
-
-    private void Rotation()
-    {
-        RaycastHit2D wallHit = Physics2D.Raycast(transform.position, transform.right * _moveDirection, sensorDistance, groundLayer);
-
-        if(wallHit.collider != null)
-        {
-            _targetRotation = Quaternion.LookRotation(Vector3.forward, wallHit.normal);
-        }
-        else if (!_isGrounded)
-        {
-            transform.Rotate(0,0, -_moveDirection * 90f * Time.deltaTime * (rotationSpeed / 2f));
-            _targetRotation = transform.rotation;
-            return;
-        }
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * rotationSpeed);
     }
 
     protected override void Movement()
     {
+
+        Vector2 frontOffsetLocal = new Vector2((groundCheckSize.x / 2f + 0.1f) * _moveDirection, groundCheckOffset.y + 0.2f);
+        Vector2 rotatedFrontOffset = transform.rotation * frontOffsetLocal;
+        Vector2 frontPos = (Vector2)transform.position + rotatedFrontOffset;
+
+        bool isWallInFront = Physics2D.OverlapBox(frontPos, new Vector2(0.1f, 0.1f), transform.eulerAngles.z, groundLayer);
+        RaycastHit2D nearSurface = Physics2D.Raycast(transform.position, -transform.up, detectionRange, groundLayer);
+
+
+        if (!_hasRotatedThisFrame)
+        {
+            if (isWallInFront)
+            {
+                transform.Rotate(0, 0, _moveDirection * 90f);
+                rb.position += (Vector2)transform.up * 0.15f;
+                _hasRotatedThisFrame = true;
+            }
+            else if (!_isGrounded && nearSurface.collider != null)
+            {
+                transform.Rotate(0, 0, _moveDirection * -90f);
+                rb.position += (Vector2)(-transform.up) * 0.2f;
+                _hasRotatedThisFrame = true;
+            }
+        }
+
         
-        rb.linearVelocity = (transform.right * (_moveDirection * moveSpeed)) + (-transform.up * attractionForce);
+        if (!_isGrounded && nearSurface.collider == null)
+        {
+            rb.linearVelocity = new Vector2(0, -attractionForce);
+            transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            rb.linearVelocity = (transform.right * (_moveDirection * moveSpeed)) + (-transform.up * attractionForce);
+        }
 
         FlipFacingDirection(_moveDirection);
     }
@@ -97,5 +107,13 @@ public class LightEnemy : Enemy
         if (direction == 0) return;
         float side = direction > 0 ? 1f : -1f;
         transform.localScale = new Vector3(side * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+    }
+
+
+    private void EnemyAnimationParameters()
+    {
+        enemyAnimator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+       
+
     }
 }

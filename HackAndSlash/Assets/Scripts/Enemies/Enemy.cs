@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("References")]
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected Transform playerTr;
+    [SerializeField] protected Animator enemyAnimator;
 
     [Header("BodyParts")]
     [SerializeField] private EnemyLimb[] bodyParts;
@@ -80,6 +81,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         this.enabled = false;
+        enemyAnimator.enabled = false;
     }
 
     protected virtual void Movement()

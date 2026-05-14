@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class MediumEnemy : Enemy
 {
+
+    
+
     [Header("Gravity")]
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float verticalSpeedClamp = 20f;
@@ -71,6 +74,13 @@ public class MediumEnemy : Enemy
         }
 
         
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        EnemyAnimationParameters();
     }
 
     protected override void Movement()
@@ -169,6 +179,15 @@ public class MediumEnemy : Enemy
                 Debug.Log("Attack");
             }
         }
+    }
+
+
+    private void EnemyAnimationParameters()
+    {
+        enemyAnimator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+        enemyAnimator.SetBool("Grounded", _isGrounded);
+        enemyAnimator.SetFloat("HP", currentHealth);
+
     }
 
 }

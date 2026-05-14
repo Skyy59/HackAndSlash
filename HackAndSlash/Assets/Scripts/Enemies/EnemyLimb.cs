@@ -7,6 +7,7 @@ public class EnemyLimb : MonoBehaviour, IDamageable
    [Header("References")]
    [SerializeField] private Enemy mainEnemy;
    [SerializeField] private Transform limbEnemy;
+   [SerializeField] private Collider2D limbCollider;
 
     [Header("Damage")]
    [SerializeField] private float damageMultiplier = 1f;
@@ -98,6 +99,7 @@ public class EnemyLimb : MonoBehaviour, IDamageable
         if(limbRb != null)
         {
             transform.localScale = Vector3.zero;
+            limbCollider.enabled = false;
 
             Instantiate(limbEnemy, transform.position, transform.rotation);
 
