@@ -1,15 +1,13 @@
 using UnityEngine;
+using System.Collections;
 
 public class MediumEnemy : Enemy
 {
-
-    
 
     [Header("Gravity")]
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float verticalSpeedClamp = 20f;
     private float _verticalVelocity;
-
 
 
     [Header("Chase RangeCheck")]
@@ -26,6 +24,7 @@ public class MediumEnemy : Enemy
     [SerializeField] private Transform attackPoint;
     [SerializeField] private Vector2 attackSize = Vector2.zero;
     [SerializeField] private float meleeDamage = 10f;
+    [SerializeField] private float damageDelay = 1.5f;
 
     [Header("Acceleration")]
     [SerializeField] private float acceleration = 5f;
@@ -46,6 +45,7 @@ public class MediumEnemy : Enemy
     private bool _isGrounded;
     private bool _playerInChaseRange = false;
     private bool _playerInAttackRange = false;
+    private bool _isAttacking;
 
 
 
@@ -85,7 +85,7 @@ public class MediumEnemy : Enemy
 
     protected override void Movement()
     {
-       _isGrounded = Physics2D.OverlapBox((Vector2)transform.position + groundCheckOffset, groundCheckSize, 0f, groundLayer); 
+        _isGrounded = Physics2D.OverlapBox((Vector2)transform.position + groundCheckOffset, groundCheckSize, 0f, groundLayer); 
 
         _playerInChaseRange = Physics2D.OverlapBox((Vector2)transform.position + chaseCheckOffset, chaseCheckSize, 0f, playerLayer);
 
@@ -102,7 +102,15 @@ public class MediumEnemy : Enemy
             _verticalVelocity = Mathf.Clamp(_verticalVelocity, -verticalSpeedClamp, 0);
         }
 
-        if(_playerInChaseRange && !_playerInAttackRange)
+        if (_isAttacking)
+        {
+            _targetVelocity = 0;
+        }
+        else if (_playerInAttackRange)
+        {
+            _targetVelocity = 0;
+        }
+        else if (_playerInChaseRange)
         {
             float direction = playerTr.position.x > transform.position.x ? 1f : -1f;
             _targetVelocity = direction * moveSpeed;
@@ -114,9 +122,6 @@ public class MediumEnemy : Enemy
         }
 
         _currentHorizontalVelocity = Mathf.MoveTowards(rb.linearVelocity.x, _targetVelocity, acceleration * Time.deltaTime);
-
-        
-
         Vector2 finalVelocity = new Vector2(_currentHorizontalVelocity, _verticalVelocity);
 
         if(_isGrounded && _verticalVelocity <= 0)
@@ -157,11 +162,31 @@ public class MediumEnemy : Enemy
 
     protected override void Attack()
     {
-        if(_playerInAttackRange && Time.time >= lastAttackTime + attackCooldown)
+        if (_playerInAttackRange && !_isAttacking && Time.time >= lastAttackTime + attackCooldown)
         {
-            PerformAttack();
             lastAttackTime = Time.time;
+
+            StartCoroutine(AttackSequence());
         }
+    }
+
+    private IEnumerator AttackSequence()
+    {
+        _isAttacking = true;
+
+        if(enemyAnimator != null)
+        {
+            enemyAnimator.SetTrigger("Attack");
+        }
+
+        yield return new WaitForSeconds(damageDelay);
+
+        if(isDead) yield break;
+
+        PerformAttack();
+
+        yield return new WaitForSeconds(0.2f);
+        _isAttacking = false;
     }
 
 

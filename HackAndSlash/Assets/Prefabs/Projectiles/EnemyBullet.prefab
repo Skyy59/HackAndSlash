@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 9d37ab9952a48794fa0427d7200e9530, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33a936c8bac40104291f7df00879208e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 7959197593190354411}
   - component: {fileID: 8335008744140786262}
   m_Layer: 11
-  m_Name: Bullet
+  m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,10 +234,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   rb2D: {fileID: 8564160886429877095}
-  projectileVelocity: 20
+  projectileVelocity: 1
   projectileDamage: 0
   impactLayer:
     serializedVersion: 2
-    m_Bits: 832
+    m_Bits: 448
   lifeTime: 20
-  isEnemyBullet: 0
+  isEnemyBullet: 1
