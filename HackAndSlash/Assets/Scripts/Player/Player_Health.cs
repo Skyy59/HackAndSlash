@@ -53,8 +53,8 @@ public class Player_Health : MonoBehaviour, IDamageable
     public void Heal(int thresholdCount)
     {
 
-        float multiplier = regenHealth + thresholdCount * 0.25f;
-        float healAmount = regenHealth * multiplier * Time.deltaTime;
+        
+        float healAmount = 1f * thresholdCount;
 
         currentHealth += healAmount;
         currentHealth = Mathf.Min(currentHealth, maxHealth);

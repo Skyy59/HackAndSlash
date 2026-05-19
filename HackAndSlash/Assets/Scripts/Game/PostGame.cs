@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PostGame : MonoBehaviour
 {
@@ -42,8 +43,19 @@ public class PostGame : MonoBehaviour
         killsText.text = _totalKills.ToString();
         timeText.text = _totalTime.ToString();
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5f);
         OnPostGameEnd?.Invoke();
+
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if(nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            
+        }
 
         yield return null;
     }

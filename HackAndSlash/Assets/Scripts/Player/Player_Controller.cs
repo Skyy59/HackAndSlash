@@ -11,6 +11,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     [SerializeField] private Transform playerSprite;
     [SerializeField] private Transform crosshair;
     [SerializeField] private Transform weaponsTransform;
+    [SerializeField] private Transform playerTransform;
 
     private float _initialWeaponPosition;
     private float _initialHeight;
@@ -108,7 +109,15 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
             detectionSize);
     }
 
+    private void OnEnable()    
+    {
+        Enemy.OnEnemySpawned += AssignPlayerToEnemy;
+    }
 
+    private void OnDisable() 
+    {
+        Enemy.OnEnemySpawned -= AssignPlayerToEnemy;
+    }
 
     private void Awake()
     {
@@ -141,6 +150,14 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     private void FixedUpdate()
     {
         ApplySpeed();
+    }
+
+    private void AssignPlayerToEnemy(Enemy enemy)
+    {
+        if(enemy != null)
+        {
+            enemy.SetPlayer(playerTransform);
+        }
     }
 
 

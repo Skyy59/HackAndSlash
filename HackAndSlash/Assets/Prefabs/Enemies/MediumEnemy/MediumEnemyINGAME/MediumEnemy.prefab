@@ -159,6 +159,8 @@ MonoBehaviour:
   - {fileID: 8126723596569950017}
   - {fileID: 8547053359451023658}
   - {fileID: 76461572381814284}
+  timeBeforeFade: 3
+  fadeDuration: 1.5
   maxHealth: 100
   currentHealth: 0
   attackRange: 2
@@ -174,8 +176,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 7467655739160497647}
-  attackSize: {x: 1, y: 1}
+  attackSize: {x: 0.5, y: 0.3}
   meleeDamage: 10
+  damageDelay: 1.5
   acceleration: 5
   groundCheckSize: {x: 0.75, y: 0.25}
   groundCheckOffset: {x: 0, y: 0.1}

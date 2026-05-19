@@ -141,8 +141,13 @@ MonoBehaviour:
     m_Bits: 64
   attractionForce: 5
   detectionRange: 2
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  walkTime: 5
+  minWalkTime: 5
+  maxWalkTime: 10
+  stopTime: 3
+  projectilePrefab: {fileID: 8335008744140786262, guid: d8e463aec9cc11c4d864cc0ae2eeba44, type: 3}
+  firePoint: {fileID: 3442430197857301782}
+  enemyDamage: 25
 --- !u!1 &8463367773546026992
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2904315237023043290, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000018626451
+      value: -0.000015854836
       objectReference: {fileID: 0}
     - target: {fileID: 3116514964883555005, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
       propertyPath: m_LocalPosition.x
@@ -267,13 +272,33 @@ PrefabInstance:
       propertyPath: mainEnemy
       value: 
       objectReference: {fileID: 64157136482319944}
+    - target: {fileID: 4604819193666049820, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99221593
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604819193666049820, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.12452922
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639315039520378316, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0000036656857
+      objectReference: {fileID: 0}
     - target: {fileID: 5203306447082822518, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.60934895
+      value: 0.6093468
       objectReference: {fileID: 0}
     - target: {fileID: 5203306447082822518, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.79290223
+      value: -0.7929039
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412072785006061044, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5609241
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412072785006061044, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.82786727
       objectReference: {fileID: 0}
     - target: {fileID: 5617257480816574266, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
       propertyPath: mainEnemy
@@ -311,6 +336,10 @@ PrefabInstance:
       propertyPath: mainEnemy
       value: 
       objectReference: {fileID: 64157136482319944}
+    - target: {fileID: 8892002784323380689, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0000020265577
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -398,6 +427,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24ce74ecb9da6b4c880e4283789f5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLimb
+--- !u!4 &3442430197857301782 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7566817224733442206, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
+  m_PrefabInstance: {fileID: 5100120052009006472}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4528308540248485314 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8651569410612861002, guid: 02b05b41c3766bc408695a4c4ee58569, type: 3}
