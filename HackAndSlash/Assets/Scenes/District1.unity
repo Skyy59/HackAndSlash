@@ -156,6 +156,7 @@ MonoBehaviour:
   playerSprite: {fileID: 1725566464}
   crosshair: {fileID: 1804118081}
   weaponsTransform: {fileID: 387719904}
+  playerTransform: {fileID: 0}
   moveSpeed: 5
   acceleration: 5
   decceleration: 5
