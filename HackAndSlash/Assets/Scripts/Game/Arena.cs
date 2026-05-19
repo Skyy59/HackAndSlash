@@ -46,9 +46,17 @@ public class Arena : MonoBehaviour
         if (_enemiesToSpawn <= 0) _enemiesToSpawn = _allEnemies.Count;
         else _enemiesToSpawn = enemiesPerWave;
 
+        _enemiesAlive = _enemiesToSpawn;
+
         for (int _i = 0; _i < _enemiesToSpawn; _i++)
         {
-            Instantiate(_allEnemies[0], _usableSpawnPoints[0].position, Quaternion.identity);
+            GameObject enemyClone = Instantiate(_allEnemies[0], _usableSpawnPoints[0].position, Quaternion.identity);
+
+            if(enemyClone.TryGetComponent(out Enemy enemyScript))
+            {
+                enemyScript.AssignToArena(this);
+            }
+            
             _allEnemies.RemoveAt(0);
             if (_usableSpawnPoints.Count > 0) _usableSpawnPoints.RemoveAt(0);
 
@@ -58,9 +66,9 @@ public class Arena : MonoBehaviour
 
     public void KillEnemy()
     {
-        _enemiesAlive++;
+        _enemiesAlive--;
 
-        if (_enemiesAlive >= enemiesPerWave)
+        if (_enemiesAlive <= 0)
         {
             if (_allEnemies.Count > 0) SpawnEnemies();
             else OnArenaFinished();

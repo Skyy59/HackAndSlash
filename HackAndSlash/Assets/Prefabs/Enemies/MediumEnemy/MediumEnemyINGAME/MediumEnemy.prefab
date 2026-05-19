@@ -166,6 +166,7 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1.5
   moveSpeed: 3
+  bloodPrefab: {fileID: 8580660558723044121, guid: 9af1600ebe271c242b8144d24738ec7e, type: 3}
   gravity: -9.81
   verticalSpeedClamp: 20
   chaseCheckSize: {x: 12, y: 4}

@@ -76,6 +76,16 @@ public class MediumEnemy : Enemy
         
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        if (rb != null)
+        {
+            rb.gravityScale = 0f;
+        }
+
+        _verticalVelocity = 0f;
+    }
     protected override void Update()
     {
         base.Update();
@@ -94,7 +104,8 @@ public class MediumEnemy : Enemy
 
         if (_isGrounded)
         {
-            if(_verticalVelocity < 0) _verticalVelocity = -0.1f;
+            
+            _verticalVelocity = 0f;
         }
         else
         {
