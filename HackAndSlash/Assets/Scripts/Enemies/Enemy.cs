@@ -2,15 +2,21 @@ using UnityEngine;
 using UnityEngine.U2D.IK;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
     [Header("References")]
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected Transform playerTr;
+    [SerializeField] protected Animator enemyAnimator;
 
     [Header("BodyParts")]
     [SerializeField] private EnemyLimb[] bodyParts;
+
+    [Header("DisappearLimbs")]
+    [SerializeField] private float timeBeforeFade = 3f;
+    [SerializeField] private float fadeDuration = 1.5f;
 
     [Header("Health")]
     [SerializeField] protected float maxHealth = 100f;
@@ -25,9 +31,14 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("Movement")]
     [SerializeField] protected float moveSpeed = 3f;
 
-    
+    [Header("Effects")]
+    [SerializeField] protected GameObject bloodPrefab;
+    [SerializeField] protected Transform bloodSpawnPoint;
+
+    private Arena _assignedArena;
 
     public static Action<string[]> OnDamage;
+    public static Action<Enemy> OnEnemySpawned;
 
 
     protected virtual void Awake() 
@@ -56,12 +67,27 @@ public class Enemy : MonoBehaviour, IDamageable
         OnDamage?.Invoke(keys.ToArray());
     }
 
+    public void AssignToArena(Arena arena)
+    {
+        _assignedArena = arena;
+    }
+
     protected virtual void Die()
     {
         if(isDead) return;
         isDead = true;
 
-        if(bodyParts != null)
+        if (_assignedArena != null)
+        {
+            _assignedArena.KillEnemy();
+        }
+
+        if (bloodPrefab != null)
+        {
+            Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (bodyParts != null)
         {
             for(int i = 0; i < bodyParts.Length; i++)
             {
@@ -79,7 +105,43 @@ public class Enemy : MonoBehaviour, IDamageable
             rb.constraints = RigidbodyConstraints2D.None;
         }
 
-        this.enabled = false;
+        if (enemyAnimator != null) enemyAnimator.enabled = false;
+
+        SpriteRenderer[] allSprites = GetComponentsInChildren<SpriteRenderer>();
+
+        StartCoroutine(FadeDestroyBodyParts(allSprites));
+
+  
+    }
+
+    private IEnumerator FadeDestroyBodyParts(SpriteRenderer[] sprites)
+    {
+        yield return new WaitForSeconds(timeBeforeFade);
+
+        float elapsedTime = 0f;
+        while(elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                if(sprites[i] != null)
+                {
+                    Color c = sprites[i].color;
+                    c.a = alpha;
+                    sprites[i].color = c;
+                }
+            }
+            yield return null;
+        }
+
+        Destroy(gameObject);    
+    }
+
+    public void SetPlayer(Transform player)
+    {
+        playerTr = player;
     }
 
     protected virtual void Movement()
@@ -99,7 +161,7 @@ public class Enemy : MonoBehaviour, IDamageable
     
     protected virtual void Start() 
     {
-        
+        OnEnemySpawned.Invoke(this);
     }
 
     protected virtual void Update()

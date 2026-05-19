@@ -160,7 +160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2673396426540644872
 Transform:
   m_ObjectHideFlags: 0
@@ -222,7 +222,6 @@ GameObject:
   - component: {fileID: 4492435398952549192}
   - component: {fileID: 8403016838134345771}
   - component: {fileID: 8253556704067784117}
-  - component: {fileID: 5737106356678407397}
   m_Layer: 0
   m_Name: LowerLeg_R
   m_TagString: Untagged
@@ -309,22 +308,3 @@ CapsuleCollider2D:
   m_Offset: {x: 0.22, y: 0}
   m_Size: {x: 0.5, y: 0.03}
   m_Direction: 1
---- !u!114 &5737106356678407397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7179485108155839926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24ce74ecb9da6b4c880e4283789f5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyLimb
-  mainEnemy: {fileID: 0}
-  limbEnemy: {fileID: 0}
-  damageMultiplier: 1
-  canBeSevered: 1
-  limbHealth: 50
-  limbRb: {fileID: 0}
-  mainBodyLimb: 0

@@ -103,7 +103,7 @@ public class Input_Manager : MonoBehaviour, InputSystem_Actions.IPlayerActions, 
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.performed) _controllablePlayer.OnInteract();
+        if (context.started) _controllablePlayer.OnInteract();
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -121,7 +121,7 @@ public class Input_Manager : MonoBehaviour, InputSystem_Actions.IPlayerActions, 
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed) _controllablePlayer.OnJump();
+        if (context.started) _controllablePlayer.OnJump();
     }
 
     public void OnScroll(InputAction.CallbackContext context)

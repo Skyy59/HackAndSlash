@@ -11,6 +11,7 @@ public class Game_Controller : MonoBehaviour
 
     private int _kills;
     private float _time;
+    private bool _levelEnded = false;
 
     private void Awake() 
     {
@@ -31,14 +32,32 @@ public class Game_Controller : MonoBehaviour
 
     private void Update() 
     {
-        _time += Time.deltaTime;    
+        if (!_levelEnded && !gameIsPaused)
+        {
+            _time += Time.deltaTime;
+        }
+          
     }
 
     public void AddKill() { _kills++; }
 
     public void EndReached()
     {
-        postGame.CallPostGame(_kills, _time);
+        if (_levelEnded) return;
+        _levelEnded = true;
+        
+        //int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        //Save_Manager.CheckAndSaveRecord(currentSceneIndex, _time);
+
+        //Save_Manager.SaveProgress();
+
+        if(postGame != null)
+        {
+            postGame.CallPostGame(_kills, _time);
+        }
+        
+        
     }
 
     public void SetCursorState(bool _state)

@@ -39,7 +39,7 @@ public class Style_Controller : MonoBehaviour
     private List<StyleKey> _keysToCheck;
 
     public Action<int, int> OnStyleValue;
-    public Action<int> OnStyleThresholds;
+    public static Action<int> OnStyleThresholds;
 
 
     private void OnEnable() 

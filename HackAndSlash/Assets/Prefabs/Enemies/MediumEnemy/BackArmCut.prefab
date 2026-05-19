@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5183609121774919899}
   - component: {fileID: 7341458394547640185}
   - component: {fileID: 7245476352896497320}
-  - component: {fileID: 2826082944171323767}
   m_Layer: 0
   m_Name: LowerArm_L
   m_TagString: Untagged
@@ -77,7 +76,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -98,25 +97,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.16, y: 0}
   m_Size: {x: 0.35, y: 0.03}
   m_Direction: 1
---- !u!114 &2826082944171323767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321054157787214621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24ce74ecb9da6b4c880e4283789f5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyLimb
-  mainEnemy: {fileID: 0}
-  limbEnemy: {fileID: 0}
-  damageMultiplier: 1
-  canBeSevered: 1
-  limbHealth: 50
-  limbRb: {fileID: 0}
-  mainBodyLimb: 0
 --- !u!1 &2503506200858998879
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7945380939547744916
 Transform:
   m_ObjectHideFlags: 0

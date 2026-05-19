@@ -239,12 +239,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLimb
   mainEnemy: {fileID: 0}
-  limbEnemy: {fileID: 0}
+  limbEnemy: {fileID: 6454525093163679427, guid: 0f68fac35f28e45448b23434a96794ee, type: 3}
   damageMultiplier: 1
   canBeSevered: 1
   limbHealth: 50
   limbRb: {fileID: 5558532054466293255}
   mainBodyLimb: 0
+  key: 
 --- !u!1 &7932824922042511848
 GameObject:
   m_ObjectHideFlags: 0

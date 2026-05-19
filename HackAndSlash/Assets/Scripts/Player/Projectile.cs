@@ -6,6 +6,9 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float projectileVelocity;
     [SerializeField] private float projectileDamage;
     [SerializeField] private LayerMask impactLayer;
+    [SerializeField] private float lifeTime = 20f;
+    [SerializeField] private bool isEnemyBullet;
+
 
     private void FixedUpdate() 
     {
@@ -25,7 +28,12 @@ public class Projectile : MonoBehaviour
             Debug.Log("Impacto " + collision.name);
             if (collision.TryGetComponent<IDamageable>(out IDamageable target))
             {
-                target.TakeDamage(projectileDamage, "Range");
+
+              
+                    target.TakeDamage(projectileDamage, "Range");
+                
+                
+                
 
             }
 
