@@ -13,14 +13,22 @@ public class LightEnemy : Enemy
     [SerializeField] private float detectionRange = 1f;
 
     [Header("Settings")]
+    [SerializeField] private float walkTime;
+    [SerializeField] private float minWalkTime= 5f;
+    [SerializeField] private float maxWalkTime = 10f;
+    [SerializeField] private float stopTime;
+
 
     [Header("Attack")]
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private float enemyDamage;
 
     private float _moveDirection;
     private bool _isGrounded;
     private bool _hasRotatedThisFrame;
+    private bool _canMove = true;
+    private float _timer;
 
     private void OnDrawGizmos()
     {
@@ -41,16 +49,48 @@ public class LightEnemy : Enemy
         base.Awake();
         _moveDirection = Random.value > 0.5f ? 1f : -1f;
         if (rb != null) rb.gravityScale = 0;
+
+        walkTime = Random.Range(minWalkTime, maxWalkTime);
     }
 
     protected override void Update()
     {
-        if (isDead) return;
+        
         CheckGround();
-        Movement();
         EnemyAnimationParameters();
+        
+        if(!isDead && playerTr != null)
+        {
+            _timer += Time.deltaTime;
 
+            if(_canMove && _timer >= walkTime)
+            {
+                _canMove = false;
+                _timer = 0f;
+                ExecuteShot();
+            }
+            else if(!_canMove && _timer >= stopTime)
+            {
+                _canMove = true;
+                _timer = 0f;
 
+                walkTime = Random.Range(3f, 6f);
+
+                if (rb != null)
+                {
+                    rb.linearVelocity = (transform.right * (_moveDirection* moveSpeed)) + (-transform.up * attractionForce);
+                }
+            } 
+        }
+
+        _hasRotatedThisFrame = false;
+    }
+
+    private void FixedUpdate() 
+    {
+        if (isDead) return;
+        Movement();
+        CheckGround();
         _hasRotatedThisFrame = false;
     }
 
@@ -63,6 +103,12 @@ public class LightEnemy : Enemy
 
     protected override void Movement()
     {
+
+        if (!_canMove)
+        {
+            rb.linearVelocity = -transform.up * attractionForce;
+            return;
+        }
 
         Vector2 frontOffsetLocal = new Vector2((groundCheckSize.x / 2f + 0.1f) * _moveDirection, groundCheckOffset.y + 0.2f);
         Vector2 rotatedFrontOffset = transform.rotation * frontOffsetLocal;
@@ -102,6 +148,34 @@ public class LightEnemy : Enemy
         FlipFacingDirection(_moveDirection);
     }
 
+    protected override void Attack()
+    {
+   
+    }
+
+    private void ExecuteShot()
+    {
+        if (projectilePrefab == null || firePoint == null) return;
+
+        Vector2 origin = (Vector2)firePoint.position;
+        Vector2 target = (Vector2)playerTr.position;
+        Vector2 dirToPlayer = (target - origin).normalized;
+
+        float angle  = (Mathf.Atan2(dirToPlayer.y, dirToPlayer.x) * Mathf.Rad2Deg) - 90f;
+        Quaternion targetRotation = Quaternion.Euler(0,0, angle);
+
+        Debug.DrawLine(origin, origin +(dirToPlayer* 5f), Color.yellow, 2f);
+
+        Projectile newBullet = Instantiate(projectilePrefab, firePoint.position, targetRotation);
+        newBullet.LaunchProjectile(enemyDamage);
+
+
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.SetTrigger("Attack");
+        }
+    }
+
     private void FlipFacingDirection(float direction)
     {
         if (direction == 0) return;
@@ -112,7 +186,7 @@ public class LightEnemy : Enemy
 
     private void EnemyAnimationParameters()
     {
-        enemyAnimator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+        enemyAnimator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.magnitude));
        
 
     }
