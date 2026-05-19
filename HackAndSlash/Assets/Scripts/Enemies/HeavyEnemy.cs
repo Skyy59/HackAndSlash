@@ -41,6 +41,12 @@ public class HeavyEnemy : Enemy
     [SerializeField] private float slopeCheckDistance = 0.6f;
     [SerializeField] private LayerMask slopeLayer;
 
+    [Header("Animation")]
+    [SerializeField] private string idleAnimation = "Iddle";
+    [SerializeField] private string jumpAnimation = "Jump";
+    [SerializeField] private string chargeAnimation = "Sprint";
+    [SerializeField] private string stompAnimation = "Pisoton";
+
     private float _chargeDirection = 1f;
     private float _nextAttackTime;
     private float _chargeWindupTimer;
@@ -55,6 +61,7 @@ public class HeavyEnemy : Enemy
     private bool _isStomping;
     private bool _hasHitPlayerThisCharge;
     private bool _isGrounded;
+    private string _currentAnimation;
 
     public bool IsCharging => _isCharging;
 
@@ -63,12 +70,34 @@ public class HeavyEnemy : Enemy
         base.Awake();
 
         if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (enemyAnimator == null) enemyAnimator = GetComponent<Animator>();
+        if (enemyAnimator == null) enemyAnimator = GetComponentInChildren<Animator>();
 
         if (playerTr == null)
         {
-            Player_Controller player = FindFirstObjectByType<Player_Controller>();
-            if (player != null) playerTr = player.transform;
+            FindPlayerReference();
         }
+    }
+
+    protected override void Update()
+    {
+        if (isDead) return;
+        if (playerTr == null) FindPlayerReference();
+        if (playerTr == null)
+        {
+            EnemyAnimationParameters();
+            return;
+        }
+
+        Movement();
+        Attack();
+        EnemyAnimationParameters();
+    }
+
+    private void FindPlayerReference()
+    {
+        Player_Controller player = FindFirstObjectByType<Player_Controller>();
+        if (player != null) playerTr = player.transform;
     }
 
     private void OnDrawGizmos()
@@ -143,7 +172,7 @@ public class HeavyEnemy : Enemy
 
         if (playerLayer.value != 0)
         {
-            return Physics2D.OverlapCircle(checkPosition, attackRange, playerLayer);
+            if (Physics2D.OverlapCircle(checkPosition, attackRange, playerLayer)) return true;
         }
 
         if (playerTr == null) return false;
@@ -166,9 +195,12 @@ public class HeavyEnemy : Enemy
     private void StartChargeWindup()
     {
         _isPreparingCharge = true;
+        _isPreparingStomp = false;
+        _isStomping = false;
         _chargeWindupTimer = 0f;
         _hasHitPlayerThisCharge = false;
         UpdateChargeDirection();
+        PlayHeavyAnimation(chargeAnimation, true);
     }
 
     private void PrepareCharge()
@@ -198,8 +230,11 @@ public class HeavyEnemy : Enemy
     {
         _isPreparingCharge = false;
         _isCharging = true;
+        _isPreparingStomp = false;
+        _isStomping = false;
         _hasHitPlayerThisCharge = false;
         _chargeStartPosition = transform.position;
+        PlayHeavyAnimation(chargeAnimation, true);
     }
 
     private void ContinueCharge()
@@ -230,8 +265,11 @@ public class HeavyEnemy : Enemy
     private void StartSeismicStompWindup()
     {
         _isPreparingStomp = true;
+        _isPreparingCharge = false;
+        _isCharging = false;
         _stompWindupTimer = 0f;
         UpdateStompDirection();
+        PlayHeavyAnimation(stompAnimation, true);
     }
 
     private void PrepareSeismicStomp()
@@ -251,8 +289,11 @@ public class HeavyEnemy : Enemy
     {
         _isPreparingStomp = false;
         _isStomping = true;
+        _isPreparingCharge = false;
+        _isCharging = false;
         _stompsRemaining = Mathf.Max(1, stompCount);
         _nextStompTime = Time.time;
+        PlayHeavyAnimation(stompAnimation, true);
     }
 
     private void ContinueSeismicStomp()
@@ -280,6 +321,7 @@ public class HeavyEnemy : Enemy
     private void DoSeismicStomp()
     {
         UpdateStompDirection();
+        PlayHeavyAnimation(stompAnimation, true);
 
         Vector2 spawnPosition = (Vector2)transform.position + stompOriginOffset;
         GameObject waveObject = new GameObject("Seismic Wave");
@@ -398,6 +440,40 @@ public class HeavyEnemy : Enemy
         _hasHitPlayerThisCharge = true;
     }
 
+    private void EnemyAnimationParameters()
+    {
+        if (enemyAnimator == null) return;
+
+        if (_isPreparingCharge || _isCharging)
+        {
+            PlayHeavyAnimation(chargeAnimation, false);
+            return;
+        }
+
+        if (_isPreparingStomp || _isStomping)
+        {
+            PlayHeavyAnimation(stompAnimation, false);
+            return;
+        }
+
+        if (!_isGrounded)
+        {
+            PlayHeavyAnimation(jumpAnimation, false);
+            return;
+        }
+
+        PlayHeavyAnimation(idleAnimation, false);
+    }
+
+    private void PlayHeavyAnimation(string animationName, bool restart)
+    {
+        if (enemyAnimator == null || string.IsNullOrEmpty(animationName)) return;
+        if (!restart && _currentAnimation == animationName) return;
+
+        enemyAnimator.Play(animationName, 0, 0f);
+        _currentAnimation = animationName;
+    }
+
     private void Reset()
     {
         maxHealth = 250f;
@@ -416,5 +492,9 @@ public class HeavyEnemy : Enemy
         stompWaveDamage = 20f;
         stompConfusionDuration = 2.5f;
         stompWaveSize = new Vector2(1f, 0.45f);
+        idleAnimation = "Iddle";
+        jumpAnimation = "Jump";
+        chargeAnimation = "Sprint";
+        stompAnimation = "Pisoton";
     }
 }
