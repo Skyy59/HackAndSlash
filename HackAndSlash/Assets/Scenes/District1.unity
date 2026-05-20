@@ -1487,6 +1487,7 @@ GameObject:
   - component: {fileID: 440835846}
   - component: {fileID: 440835845}
   - component: {fileID: 440835844}
+  - component: {fileID: 440835847}
   m_Layer: 0
   m_Name: Paredes
   m_TagString: Untagged
@@ -1547,6 +1548,22 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &440835847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440835842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a84dfbb4bf84d7d82fdf7b6f149c108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakEffect: {fileID: 0}
+  destroyWholeObject: 0
+  tilemap: {fileID: 440835846}
+  tileBreakRadius: 0
 --- !u!483693784 &440835845
 TilemapRenderer:
   serializedVersion: 2

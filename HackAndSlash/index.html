@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HACK_AND_SLASH // PROJECT</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121c;
+      --card: #1a1a2e;
+      --neon-cyan: #00f0ff;
+      --neon-magenta: #ff00ca;
+      --neon-yellow: #ffe600;
+      --neon-green: #00ff88;
+      --neon-red: #ff0044;
+      --text: #c8c8e0;
+      --dim: #606080;
+      --border: #2a2a40;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Scanlines overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 240, 255, 0.015) 2px,
+        rgba(0, 240, 255, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Grid background */
+    .grid-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── GLITCH TEXT ─── */
+    .glitch {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      color: var(--neon-cyan);
+      text-shadow:
+        0.05em 0 0 var(--neon-magenta),
+        -0.05em -0.025em 0 var(--neon-yellow);
+      animation: glitch-shake 0.3s infinite;
+      position: relative;
+      line-height: 1.1;
+      letter-spacing: 4px;
+    }
+    .glitch span {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .glitch span:first-child {
+      animation: glitch-top 2s infinite linear;
+      clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+      color: var(--neon-magenta);
+      text-shadow: 0.05em 0 0 var(--neon-cyan);
+    }
+    .glitch span:last-child {
+      animation: glitch-bottom 2s infinite linear;
+      clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+      color: var(--neon-yellow);
+      text-shadow: -0.05em 0 0 var(--neon-cyan);
+    }
+
+    @keyframes glitch-shake {
+      0%, 100% { transform: translate(0); }
+      92% { transform: translate(-2px, 1px); }
+      94% { transform: translate(1px, -1px); }
+      96% { transform: translate(-1px, 2px); }
+      98% { transform: translate(0); }
+    }
+    @keyframes glitch-top {
+      0%, 100% { transform: translate(0); }
+      2% { transform: translate(-3px, -1px); }
+      4% { transform: translate(1px, 0); }
+      6% { transform: translate(0); }
+      80% { transform: translate(0); }
+      82% { transform: translate(2px, 1px); }
+      84% { transform: translate(-1px, -1px); }
+      86% { transform: translate(0); }
+    }
+    @keyframes glitch-bottom {
+      0%, 100% { transform: translate(0); }
+      2% { transform: translate(2px, 1px); }
+      4% { transform: translate(-1px, 0); }
+      6% { transform: translate(0); }
+      80% { transform: translate(0); }
+      82% { transform: translate(-2px, -1px); }
+      84% { transform: translate(3px, 1px); }
+      86% { transform: translate(0); }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      background: rgba(10, 10, 15, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      padding: 0 24px;
+    }
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--dim);
+      text-decoration: none;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border: 1px solid transparent;
+      transition: 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .nav-links a:hover {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 80px;
+      position: relative;
+    }
+    .hero-sub {
+      font-size: 0.85rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--neon-magenta);
+      margin-bottom: 20px;
+      animation: flicker 3s infinite;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+      53% { opacity: 1; }
+      80% { opacity: 0.4; }
+      83% { opacity: 1; }
+    }
+    .hero-desc {
+      max-width: 640px;
+      margin: 24px auto 40px;
+      color: var(--dim);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+    .hero-badge {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      margin-bottom: 16px;
+    }
+    .hero-badge span { color: var(--neon-yellow); }
+
+    /* ─── SECTIONS ─── */
+    section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    section:last-child { border-bottom: none; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-tag {
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: var(--neon-magenta);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      color: var(--neon-cyan);
+      letter-spacing: 2px;
+    }
+
+    /* ─── CARDS GRID ─── */
+    .cards-grid {
+      display: grid;
+      gap: 20px;
+    }
+    .cards-grid.cols-1 { grid-template-columns: 1fr; }
+    .cards-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .cards-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      position: relative;
+      transition: 0.3s;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .card:hover {
+      border-color: var(--neon-cyan);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0, 240, 255, 0.08);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--neon-cyan);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .card .sub {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--neon-magenta);
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 0.8rem;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+    .card ul {
+      list-style: none;
+      margin-top: 8px;
+    }
+    .card ul li {
+      font-size: 0.75rem;
+      color: var(--dim);
+      padding: 2px 0;
+    }
+    .card ul li::before {
+      content: '>';
+      color: var(--neon-cyan);
+      margin-right: 8px;
+    }
+
+    /* ─── STAT BAR ─── */
+    .stat-bar {
+      margin: 8px 0;
+    }
+    .stat-bar .stat-label {
+      font-size: 0.65rem;
+      color: var(--dim);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+    .stat-bar .stat-track {
+      height: 4px;
+      background: var(--bg);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .stat-bar .stat-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.6s;
+    }
+    .stat-fill.cyan { background: var(--neon-cyan); }
+    .stat-fill.magenta { background: var(--neon-magenta); }
+    .stat-fill.yellow { background: var(--neon-yellow); }
+    .stat-fill.green { background: var(--neon-green); }
+    .stat-fill.red { background: var(--neon-red); }
+
+    /* ─── TAG PILLS ─── */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .tag {
+      padding: 2px 10px;
+      font-size: 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .tag.cyan { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .tag.magenta { border-color: var(--neon-magenta); color: var(--neon-magenta); }
+    .tag.yellow { border-color: var(--neon-yellow); color: var(--neon-yellow); }
+    .tag.green { border-color: var(--neon-green); color: var(--neon-green); }
+
+    /* ─── UPGRADES TREE ─── */
+    .upgrade-chain {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .upgrade-node {
+      padding: 4px 12px;
+      font-size: 0.65rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      position: relative;
+    }
+    .upgrade-node.active {
+      border-color: var(--neon-yellow);
+      color: var(--neon-yellow);
+    }
+    .upgrade-node.active::after {
+      content: '>';
+      margin-left: 6px;
+      color: var(--neon-green);
+    }
+    .upgrade-arrow {
+      color: var(--border);
+      font-size: 0.6rem;
+    }
+
+    /* ─── TABLE ─── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      margin-top: 20px;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--neon-cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(42, 42, 64, 0.5);
+      color: var(--dim);
+    }
+    .data-table tr:hover td {
+      color: var(--text);
+      background: rgba(0, 240, 255, 0.02);
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .gallery-item:hover {
+      border-color: var(--neon-cyan);
+    }
+    .gallery-item .icon { font-size: 2rem; margin-bottom: 6px; }
+    .gallery-item .label { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    footer p {
+      font-size: 0.7rem;
+      color: var(--dim);
+    }
+    footer .highlight {
+      color: var(--neon-cyan);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .cards-grid.cols-2,
+      .cards-grid.cols-3,
+      .cards-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .cards-grid.cols-2,
+      .cards-grid.cols-3,
+      .cards-grid.cols-4 { grid-template-columns: 1fr; }
+      .nav-links a { font-size: 0.6rem; padding: 4px 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <a href="#" class="nav-logo">// HACK_AND_SLASH</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#weapons">Weapons</a>
+      <a href="#abilities">Abilities</a>
+      <a href="#enemies">Enemies</a>
+      <a href="#arenas">Arenas</a>
+      <a href="#systems">Systems</a>
+      <a href="#tech">Tech</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container" style="text-align:center;">
+    <div class="hero-badge">Unity 6 <span>//</span> C# <span>//</span> 2D Action</div>
+    <div class="hero-sub">/// SIDE-SCROLLING SLASHER ///</div>
+    <h1 class="glitch">
+      HACK_AND_SLASH
+      <span aria-hidden="true">HACK_AND_SLASH</span>
+      <span aria-hidden="true">HACK_AND_SLASH</span>
+    </h1>
+    <p class="hero-desc">
+      A 2D side-scrolling action-platformer with hack-and-slash combat.
+      Navigate arena-style levels, fight waves of enemies using melee and ranged weapons,
+      and chain stylish kills to climb the rank meter.
+    </p>
+    <div class="tags" style="justify-content:center;">
+      <span class="tag cyan">Melee Combat</span>
+      <span class="tag magenta">Ranged Combat</span>
+      <span class="tag yellow">Arena Waves</span>
+      <span class="tag cyan">Style Ranking</span>
+      <span class="tag green">Weapon Upgrades</span>
+      <span class="tag magenta">Double Jump</span>
+      <span class="tag yellow">Slide &amp; Crouch</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// CORE FEATURES</div>
+      <h2 class="section-title">GAME_SYSTEMS</h2>
+    </div>
+    <div class="cards-grid cols-4">
+      <div class="card">
+        <h3>Dual-Weapon Combat</h3>
+        <p>Seamlessly swap between a melee blade and a ranged firearm mid-combat. Each weapon feeds the other's resources.</p>
+      </div>
+      <div class="card">
+        <h3>Style &amp; Rank</h3>
+        <p>Dynamic combo system tracks damage variety. Higher style = better rank. Meter decays over time — keep the pressure on.</p>
+      </div>
+      <div class="card">
+        <h3>Weapon Upgrades</h3>
+        <p>Find Upgrade Drones hidden in levels to enhance your arsenal. Each weapon has 3 tiers of upgrades.</p>
+      </div>
+      <div class="card">
+        <h3>Arena Levels</h3>
+        <p>Enter combat arenas where doors lock behind you. Survive waves of enemies to unlock the exit and advance.</p>
+      </div>
+      <div class="card">
+        <h3>Precision Movement</h3>
+        <p>Acceleration-based movement with double jump, crouch, slide, slope handling, and wall detection.</p>
+      </div>
+      <div class="card">
+        <h3>Crosshair Aiming</h3>
+        <p>Free-aim with mouse or right stick. Camera dynamically centers between player and crosshair for tactical awareness.</p>
+      </div>
+      <div class="card">
+        <h3>Dismemberment</h3>
+        <p>Target specific enemy body parts. Limb damage multipliers and physics-driven limb detachment on kill.</p>
+      </div>
+      <div class="card">
+        <h3>Dynamic Audio</h3>
+        <p>AudioMixer with Master/Music/SFX groups. Volume controls persist via PlayerPrefs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEAPONS -->
+<section id="weapons">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// ARSENAL</div>
+      <h2 class="section-title">WEAPON_SYSTEMS</h2>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <!-- Melee -->
+      <div class="card">
+        <h3>MELEE — Blade</h3>
+        <div class="sub">OverlapBox Melee Attack</div>
+        <p>
+          Standard melee swing with a Boost Meter that passively drains and refills on enemy hits.
+          Boosted attacks deal <strong style="color:var(--neon-yellow);">1.5x damage</strong>.
+        </p>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Base Damage</span><span>20</span></div>
+          <div class="stat-track"><div class="stat-fill cyan" style="width:40%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Base Range</span><span>2.0</span></div>
+          <div class="stat-track"><div class="stat-fill magenta" style="width:40%;"></div></div>
+        </div>
+        <div style="margin-top:16px; font-size:0.7rem; color:var(--neon-yellow); letter-spacing:1px;">UPGRADE PATH</div>
+        <div class="upgrade-chain">
+          <span class="upgrade-node active">Lv.1: Range +0.5, Dmg +5</span>
+          <span class="upgrade-arrow">&rarr;</span>
+          <span class="upgrade-node active">Lv.2: Range +0.5, Dmg +5</span>
+          <span class="upgrade-arrow">&rarr;</span>
+          <span class="upgrade-node active">Lv.3: Double Swing, Range +1, Dmg +10</span>
+        </div>
+      </div>
+
+      <!-- Ranged -->
+      <div class="card">
+        <h3>RANGED — Firearm</h3>
+        <div class="sub">Projectile-based Ranged Attack</div>
+        <p>
+          Fires projectiles from weapon barrels. Limited ammo — refilled by landing melee hits.
+          Cross-weapon synergy drives aggressive play.
+        </p>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Base Damage</span><span>15</span></div>
+          <div class="stat-track"><div class="stat-fill cyan" style="width:30%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Base Ammo</span><span>10</span></div>
+          <div class="stat-track"><div class="stat-fill yellow" style="width:33%;"></div></div>
+        </div>
+        <div style="margin-top:16px; font-size:0.7rem; color:var(--neon-yellow); letter-spacing:1px;">UPGRADE PATH</div>
+        <div class="upgrade-chain">
+          <span class="upgrade-node active">Lv.1: Ammo +5, Dmg +5</span>
+          <span class="upgrade-arrow">&rarr;</span>
+          <span class="upgrade-node active">Lv.2: Full-Auto, Ammo +5, Dmg +5</span>
+          <span class="upgrade-arrow">&rarr;</span>
+          <span class="upgrade-node active">Lv.3: Triple Shot, Dmg +10</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weapon Switching -->
+    <div style="margin-top:24px;">
+      <div class="card">
+        <h3>CROSS-WEAPON SYNERGY</h3>
+        <div class="tags">
+          <span class="tag green">Melee hits refill Ranged ammo</span>
+          <span class="tag magenta">Ranged hits refill Melee boost meter</span>
+        </div>
+        <p style="margin-top:8px;">Weapon switching via scroll wheel. IK hand positioning adapts per weapon. Crosshair dynamically repositions on swap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABILITIES -->
+<section id="abilities">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// MOVEMENT &amp; POWERS</div>
+      <h2 class="section-title">PLAYER_ABILITIES</h2>
+    </div>
+    <div class="cards-grid cols-3">
+      <div class="card">
+        <h3>Double Jump</h3>
+        <p>Two jumps allow for aerial agility and platforming. First jump standard, second grants extra height.</p>
+      </div>
+      <div class="card">
+        <h3>Crouch</h3>
+        <p>Reduce hitbox height and move at reduced speed. Essential for low-clearance passages.</p>
+      </div>
+      <div class="card">
+        <h3>Slide</h3>
+        <p>Initiated by crouching while moving at speed. High-velocity, limited-duration evasive maneuver.</p>
+      </div>
+      <div class="card">
+        <h3>Crosshair Aim</h3>
+        <p>Free-aim with mouse/right stick. Camera follows midpoint between player and crosshair (clamped).</p>
+      </div>
+      <div class="card">
+        <h3>Interact</h3>
+        <p>Press Interact near Upgrade Drones to receive weapon upgrades. Context-sensitive action button.</p>
+      </div>
+      <div class="card">
+        <h3>Boost Meter</h3>
+        <p>Passively drains over time. Refilled on enemy hits. When above zero, all melee attacks deal 1.5x damage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENEMIES -->
+<section id="enemies">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// HOSTILES</div>
+      <h2 class="section-title">ENEMY_ROSTER</h2>
+    </div>
+
+    <div class="cards-grid cols-3">
+      <!-- Light -->
+      <div class="card">
+        <h3>&lt;LIGHT&gt; Toaster</h3>
+        <div class="sub">Flying Ranged Unit</div>
+        <p>Floating enemy with zero gravity. Patrols in a random direction and fires projectiles from a turret point.</p>
+        <ul>
+          <li>Projectile-based attack</li>
+          <li>No gravity (floating)</li>
+          <li>Patrols horizontal direction</li>
+        </ul>
+      </div>
+
+      <!-- Medium -->
+      <div class="card">
+        <h3>&lt;MEDIUM&gt; TV</h3>
+        <div class="sub">Ground Melee Unit</div>
+        <p>Ground-based chaser. Detects player at range, accelerates toward them, and delivers melee attacks on contact.</p>
+        <ul>
+          <li>Chase range detection</li>
+          <li>Melee attack on approach</li>
+          <li>Slope &amp; gravity handling</li>
+          <li>Acceleration-based movement</li>
+        </ul>
+        <div class="stat-bar">
+          <div class="stat-label"><span>HP</span><span>Varies</span></div>
+          <div class="stat-track"><div class="stat-fill red" style="width:50%;"></div></div>
+        </div>
+      </div>
+
+      <!-- Heavy -->
+      <div class="card">
+        <h3>&lt;HEAVY&gt; Charger</h3>
+        <div class="sub">Elite Charge Unit</div>
+        <p>Massive enemy with a wind-up charge attack. Charges at high speed, damages player and destroys brittle walls.</p>
+        <ul>
+          <li>250 HP</li>
+          <li>25 charge damage</li>
+          <li>1.5s wind-up, charge speed 12, distance 8</li>
+          <li>1.5s cooldown between charges</li>
+          <li>Breaks through walls</li>
+        </ul>
+        <div class="stat-bar">
+          <div class="stat-label"><span>HP</span><span>250</span></div>
+          <div class="stat-track"><div class="stat-fill red" style="width:100%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Limb System -->
+    <div style="margin-top:24px;">
+      <div class="card">
+        <h3>BODY PART &amp; LIMB SYSTEM</h3>
+        <p>Enemies are composed of multiple body parts (Limb, Body, Head). Each part is individually damageable via IDamageable. Severing limbs applies damage multipliers to the main enemy. On death, detached limb prefabs are spawned with physics.</p>
+        <div class="tags">
+          <span class="tag cyan">IDamageable interface</span>
+          <span class="tag magenta">Limb severance</span>
+          <span class="tag yellow">Damage multipliers</span>
+          <span class="tag green">Physics-based detachment</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breakable Wall -->
+    <div style="margin-top:24px;">
+      <div class="card">
+        <h3>HEAVY BREAKABLE WALL</h3>
+        <p>Environmental obstacle that shatters when struck by a charging Heavy enemy. Can destroy individual tiles on a Tilemap or the whole object.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARENAS -->
+<section id="arenas">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// LEVEL FLOW</div>
+      <h2 class="section-title">ARENA_SYSTEM</h2>
+    </div>
+    <div class="cards-grid cols-2">
+      <div class="card">
+        <h3>COMBAT ARENAS</h3>
+        <p>Trigger zones that lock the player inside when entered. Doors close, enemies spawn in waves, and the exit unlocks only after all hostiles are eliminated.</p>
+        <ul>
+          <li>Player entry triggers arena start</li>
+          <li>Doors close (toggle door visibility)</li>
+          <li>Configurable enemies per wave</li>
+          <li>Configurable spawn points</li>
+          <li>Exit opens on wave completion</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>POST-GAME SUMMARY</h3>
+        <p>After clearing a level, the post-game screen shows animated counters for total kills and clear time. Score-driven feedback loop.</p>
+        <ul>
+          <li>Kill counter (animated)</li>
+          <li>Time counter (animated)</li>
+          <li>Triggered at level end</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="card">
+        <h3>SCENES / LEVELS</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Scene</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Main Menu</td><td>Title screen with Play / Quit</td></tr>
+            <tr><td>District 1</td><td>Level 1 — urban district arena</td></tr>
+            <tr><td>District 2</td><td>Level 2 — urban district arena</td></tr>
+            <tr><td>District Tommy</td><td>Tommy's district variant</td></tr>
+            <tr><td>Test Scene</td><td>Sandbox for development</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS -->
+<section id="systems">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// META</div>
+      <h2 class="section-title">GAME_SYSTEMS_DEEP</h2>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="card">
+        <h3>STYLE / RANK SYSTEM</h3>
+        <div class="sub">Combo &amp; Score Multiplier</div>
+        <p>Tracks damage events via string keys: Limb, Body, Head, Melee, Range, Dead, Player. Points awarded based on variety of damage types used. Style meter displayed in HUD with a gradient from dark blue to yellow.</p>
+        <ul>
+          <li>Damage keys tracked for variety</li>
+          <li>Passive style decay over time</li>
+          <li>Thresholds unlock higher ranks</li>
+          <li>Dark-blue-to-yellow meter gradient</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>HUD &amp; UI</h3>
+        <div class="sub">Real-time Player Feedback</div>
+        <p>Heads-up display showing four key meters: Style meter, Health meter, Ammo counter, and Power/Boost meter. TextMeshPro-based with reusable panel system.</p>
+        <ul>
+          <li>Style meter (combo rank)</li>
+          <li>Health meter (100 HP max)</li>
+          <li>Ammo counter (ranged weapon)</li>
+          <li>Boost/Power meter (melee)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>PAUSE &amp; SETTINGS</h3>
+        <div class="sub">Menus &amp; Configuration</div>
+        <p>Full pause menu with resume, settings sliders (Master/Music/SFX volume), and return-to-menu. PlayerPrefs persistence for audio settings.</p>
+        <ul>
+          <li>Time scale 0 on pause</li>
+          <li>Volume sliders with real-time preview</li>
+          <li>PlayerPrefs persistence</li>
+          <li>Settings / Upgrades panels</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>AUDIO ARCHITECTURE</h3>
+        <div class="sub">Mixer &amp; ScriptableObjects</div>
+        <p>Singleton AudioController manages SFX (PlayOneShot) and music (loop) via Unity AudioMixer. Volume routed through exposed parameters.</p>
+        <ul>
+          <li>Master / Music / SFX groups</li>
+          <li>AudioData ScriptableObject (clip + name + volume)</li>
+          <li>AudioDataBase SO (music + SFX arrays)</li>
+          <li>Volume control via mixer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL -->
+<section id="tech">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// STACK</div>
+      <h2 class="section-title">TECHNICAL_SPECS</h2>
+    </div>
+    <div class="cards-grid cols-2">
+      <div class="card">
+        <h3>ENGINE &amp; PLATFORM</h3>
+        <table class="data-table">
+          <tbody>
+            <tr><td>Engine</td><td>Unity 6000.3.8f1 (Unity 6)</td></tr>
+            <tr><td>Language</td><td>C# — 32 scripts</td></tr>
+            <tr><td>Rendering</td><td>URP 2D (Universal Render Pipeline)</td></tr>
+            <tr><td>Input</td><td>Unity Input System v1.18.0</td></tr>
+            <tr><td>UI</td><td>Unity uGUI / TextMeshPro</td></tr>
+            <tr><td>Physics</td><td>Unity 2D Physics</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>ASSET PACKS</h3>
+        <ul>
+          <li>Hero Knight — Pixel Art (player sprites)</li>
+          <li>Monsters Creatures Fantasy (skeleton, mushroom, goblin, flying eye)</li>
+          <li>Guns V1.01 (AK-47, Bazooka, Glock, Revolver, MP5)</li>
+          <li>Dark Forest (environment &amp; backgrounds)</li>
+          <li>Kenney Crosshair Pack</li>
+          <li>Kenney UI Pack — Space Expansion</li>
+          <li>Simple Tile Sets by Nearmint Studios</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>KEY PACKAGES</h3>
+        <ul>
+          <li>2D Animation / 2D Aseprite / 2D PSD Importer</li>
+          <li>2D SpriteShape / 2D Tilemap / Tilemap Extras</li>
+          <li>Unity VisualScripting v1.9.9</li>
+          <li>U2D IK</li>
+          <li>TextMeshPro</li>
+          <li>Unity Input System</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>ARCHITECTURE HIGHLIGHTS</h3>
+        <ul>
+          <li>IDamageable interface pattern</li>
+          <li>Singleton GameController</li>
+          <li>ScriptableObject data (WeaponData, AudioData)</li>
+          <li>IK hand positioning for weapons</li>
+          <li>Canvas animation curves for UI</li>
+          <li>Animator extensions (frame detection)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>
+      <span class="highlight">HACK_AND_SLASH</span> // Built with Unity 6 &amp; C# // 2026
+    </p>
+    <p style="margin-top:8px; font-size:0.6rem; color:var(--border);">
+      <span style="color:var(--neon-magenta);">[</span> 32 C# Scripts &middot; 5 Scenes &middot; 7 Asset Packs <span style="color:var(--neon-magenta);">]</span>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

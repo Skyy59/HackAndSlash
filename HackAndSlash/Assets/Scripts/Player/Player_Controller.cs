@@ -85,6 +85,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     private Vector2 _lastInputs;
     private Vector2 _playerSize;
     private Vector2 _playerCenter;
+    private float _confusionTimer;
 
     public Action<Vector2> SendLookInput;
     public static Action OnRequestPause;
@@ -131,6 +132,7 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     private void Update()
     {
+        UpdateConfusion();
         Acceleration();
         Movement();
         Gravity();
@@ -173,11 +175,13 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     private void Acceleration()
     {
         _accelerationTimer = Mathf.Clamp(_accelerationTimer, 0, 1);
+        Vector2 movementInputs = GetMovementInputs();
 
-        if (_inputs.x != 0)
+        if (movementInputs.x != 0)
         {
+            _lastInputs = movementInputs;
             _accelerationTimer += Time.deltaTime * acceleration;
-            _acceleratedInputs.x = Mathf.Lerp(0, _inputs.x, _accelerationTimer); 
+            _acceleratedInputs.x = Mathf.Lerp(0, movementInputs.x, _accelerationTimer); 
         }
         else
         {
@@ -263,6 +267,8 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     private void Crouch(bool _state)
     {
+        Vector2 movementInputs = GetMovementInputs();
+
         if (CantStandUp())
         {
             _requestCrouch = true;
@@ -271,20 +277,20 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
         _requestCrouch = false;
 
-        if (IsGrounded() && Mathf.Abs(_inputs.x) == 0 && !_isCrouched && _state)
+        if (IsGrounded() && Mathf.Abs(movementInputs.x) == 0 && !_isCrouched && _state)
         {
             _transitionToCrouch = true;
             if (_crouchTimer > 0) _crouchTimer = 1f - _crouchTimer;
             else _crouchTimer = 0;
             _isCrouched = true;
         }
-        else if (IsGrounded() && Mathf.Abs(_inputs.x) > 0 && !_isSliding  && !_transitionToSlide && _state)
+        else if (IsGrounded() && Mathf.Abs(movementInputs.x) > 0 && !_isSliding  && !_transitionToSlide && _state)
         {
             _transitionToSlide = true;
             if (_slideTimer > 0) _slideTimer = 1f - _slideTimer;
             else _slideTimer = 0;
             _isSliding = true;
-            slideInput = _inputs;
+            slideInput = movementInputs;
             playerAnimator.SetBool("Sliding", true);
         }
         else if ((IsGrounded() && _isCrouched) || !IsGrounded())
@@ -418,6 +424,25 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
 
     public float ReturnDirection() => _lastInputs.x;
 
+    public void ApplyConfusion(float duration)
+    {
+        _confusionTimer = Mathf.Max(_confusionTimer, duration);
+    }
+
+    private void UpdateConfusion()
+    {
+        if (_confusionTimer <= 0f) return;
+
+        _confusionTimer -= Time.deltaTime;
+    }
+
+    private Vector2 GetMovementInputs()
+    {
+        if (_confusionTimer <= 0f) return _inputs;
+
+        return new Vector2(-_inputs.x, _inputs.y);
+    }
+
     #region INPUTS
     public void OnAttack(bool _state)
     {
@@ -447,7 +472,6 @@ public class Player_Controller : MonoBehaviour, IControllablePlayer
     public void OnMovement(Vector2 _movement)
     {
         _inputs = _movement;
-        if (_inputs.x != 0) _lastInputs = _inputs;
     }
 
     public void OnPause()
