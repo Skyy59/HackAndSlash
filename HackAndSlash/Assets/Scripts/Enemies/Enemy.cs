@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected float moveSpeed = 3f;
 
     [Header("Effects")]
-    [SerializeField] protected GameObject bloodPrefab;
+    [SerializeField] protected GameObject[] bloodPrefab;
     [SerializeField] protected Transform bloodSpawnPoint;
 
     private Arena _assignedArena;
@@ -82,10 +82,19 @@ public class Enemy : MonoBehaviour, IDamageable
             _assignedArena.KillEnemy();
         }
 
-        if (bloodPrefab != null)
+        if (bloodPrefab != null && bloodPrefab.Length > 0)
         {
-            Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+            int randomIndex = UnityEngine.Random.Range(0, bloodPrefab.Length);
+            GameObject bloodSpawn = bloodPrefab[randomIndex];
+
+            Vector3 spawnPos = bloodSpawnPoint != null ? bloodSpawnPoint.position : transform.position;
+
+            if(bloodSpawn != null)
+            {
+                Instantiate(bloodSpawn, spawnPos, Quaternion.identity);
+            }
         }
+        
 
         if (bodyParts != null)
         {

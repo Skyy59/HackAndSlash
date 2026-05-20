@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9052812699444144399}
   - component: {fileID: 482850224708089307}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2011892410078990211}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Interact Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 6346661278605183724}
   - component: {fileID: 7222095344400132703}
   - component: {fileID: 6258793058022029693}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Upgrade Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
