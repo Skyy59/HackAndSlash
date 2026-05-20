@@ -13,7 +13,7 @@ public class HUD_Controller : MonoBehaviour
     private void OnEnable() 
     {
         styleController.OnStyleValue += SetStyleMeter;
-        // Player_Health.OnHealthChange += SetHealthMeter;
+        Player_Health.OnHealthChange += SetHealthMeter;
         // Player_Weapons.OnAmmoChange += SetAmmoMeter;
         // Player_Weapons.OnPowerChange += SetPowerMeter;    
         Weapon_Ranged.OnRequestHUD += SetAmmoMeter;
@@ -23,7 +23,7 @@ public class HUD_Controller : MonoBehaviour
     private void OnDisable() 
     {
         styleController.OnStyleValue -= SetStyleMeter;
-        // Player_Health.OnHealthChange -= SetHealthMeter;
+        Player_Health.OnHealthChange -= SetHealthMeter;
         // Player_Weapons.OnAmmoChange -= SetAmmoMeter;
         // Player_Weapons.OnPowerChange -= SetPowerMeter;    
         Weapon_Ranged.OnRequestHUD -= SetAmmoMeter;
