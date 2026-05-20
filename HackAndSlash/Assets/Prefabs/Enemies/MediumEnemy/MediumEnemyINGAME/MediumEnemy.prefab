@@ -166,6 +166,17 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1.5
   moveSpeed: 3
+  bloodPrefab:
+  - {fileID: 8580660558723044121, guid: 829caeef48fda4840a35c8e2208d1b3f, type: 3}
+  - {fileID: 8580660558723044121, guid: d6edd8f965de9ca47a8dcd4f08a7c594, type: 3}
+  - {fileID: 8580660558723044121, guid: aeaa051d2374b854f9291003c101ccdb, type: 3}
+  - {fileID: 8580660558723044121, guid: 17d542718b239274db5ba3b8bbe3c54c, type: 3}
+  - {fileID: 8580660558723044121, guid: 6c523819e28c9ad47bfcc885c435a09b, type: 3}
+  - {fileID: 8580660558723044121, guid: 7c768a922375aaa49acbfe462e15b8eb, type: 3}
+  - {fileID: 8580660558723044121, guid: 9af1600ebe271c242b8144d24738ec7e, type: 3}
+  - {fileID: 8580660558723044121, guid: 2779435b81a5b9b4097e51c8e17f9af9, type: 3}
+  - {fileID: 8580660558723044121, guid: 457daae2c46f9f946ac664947dcfa935, type: 3}
+  bloodSpawnPoint: {fileID: 5853447223326488316}
   gravity: -9.81
   verticalSpeedClamp: 20
   chaseCheckSize: {x: 12, y: 4}
@@ -487,6 +498,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24ce74ecb9da6b4c880e4283789f5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyLimb
+--- !u!4 &5853447223326488316 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1478968864851831747, guid: a1efcca12fbdba541a30d1e003478b94, type: 3}
+  m_PrefabInstance: {fileID: 5025389793148935487}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &6276245949257269016 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1343322920632623655, guid: a1efcca12fbdba541a30d1e003478b94, type: 3}

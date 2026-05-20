@@ -11,6 +11,8 @@ public class Player_Health : MonoBehaviour, IDamageable
     [SerializeField] private float regenHealth = 5f;
 
     public static Action<string[]> OnDamage;
+
+    public static Action<float, float> OnHealthChange;
     
 
 
@@ -29,6 +31,11 @@ public class Player_Health : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
     }
 
+    private void Start()
+    {
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
+    }
+
     public void TakeDamage(float damage, string key)
     {
         List<string> keys = new List<string>();
@@ -37,6 +44,8 @@ public class Player_Health : MonoBehaviour, IDamageable
 
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0);
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
+
         OnDamage?.Invoke(keys.ToArray());
 
         if (currentHealth <= 0)
@@ -58,8 +67,8 @@ public class Player_Health : MonoBehaviour, IDamageable
 
         currentHealth += healAmount;
         currentHealth = Mathf.Min(currentHealth, maxHealth);
-        
-        
+
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
 
     }
 

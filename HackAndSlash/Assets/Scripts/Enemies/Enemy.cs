@@ -31,7 +31,11 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("Movement")]
     [SerializeField] protected float moveSpeed = 3f;
 
-    
+    [Header("Effects")]
+    [SerializeField] protected GameObject[] bloodPrefab;
+    [SerializeField] protected Transform bloodSpawnPoint;
+
+    private Arena _assignedArena;
 
     public static Action<string[]> OnDamage;
     public static Action<Enemy> OnEnemySpawned;
@@ -63,12 +67,36 @@ public class Enemy : MonoBehaviour, IDamageable
         OnDamage?.Invoke(keys.ToArray());
     }
 
+    public void AssignToArena(Arena arena)
+    {
+        _assignedArena = arena;
+    }
+
     protected virtual void Die()
     {
         if(isDead) return;
         isDead = true;
 
-        if(bodyParts != null)
+        if (_assignedArena != null)
+        {
+            _assignedArena.KillEnemy();
+        }
+
+        if (bloodPrefab != null && bloodPrefab.Length > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, bloodPrefab.Length);
+            GameObject bloodSpawn = bloodPrefab[randomIndex];
+
+            Vector3 spawnPos = bloodSpawnPoint != null ? bloodSpawnPoint.position : transform.position;
+
+            if(bloodSpawn != null)
+            {
+                Instantiate(bloodSpawn, spawnPos, Quaternion.identity);
+            }
+        }
+        
+
+        if (bodyParts != null)
         {
             for(int i = 0; i < bodyParts.Length; i++)
             {
@@ -91,6 +119,8 @@ public class Enemy : MonoBehaviour, IDamageable
         SpriteRenderer[] allSprites = GetComponentsInChildren<SpriteRenderer>();
 
         StartCoroutine(FadeDestroyBodyParts(allSprites));
+
+  
     }
 
     private IEnumerator FadeDestroyBodyParts(SpriteRenderer[] sprites)

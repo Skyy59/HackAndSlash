@@ -76,6 +76,16 @@ public class MediumEnemy : Enemy
         
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        if (rb != null)
+        {
+            rb.gravityScale = 0f;
+        }
+
+        _verticalVelocity = 0f;
+    }
     protected override void Update()
     {
         base.Update();
@@ -94,12 +104,13 @@ public class MediumEnemy : Enemy
 
         if (_isGrounded)
         {
-            if(_verticalVelocity < 0) _verticalVelocity = -0.1f;
+            
+            _verticalVelocity = 0f;
         }
         else
         {
             _verticalVelocity += gravity * Time.deltaTime;
-            _verticalVelocity = Mathf.Clamp(_verticalVelocity, -verticalSpeedClamp, 0);
+            _verticalVelocity = Mathf.Clamp(_verticalVelocity, -verticalSpeedClamp, verticalSpeedClamp);
         }
 
         if (_isAttacking)
@@ -132,6 +143,24 @@ public class MediumEnemy : Enemy
         rb.linearVelocity = finalVelocity; 
 
     }
+
+    protected override void Jump()
+    {
+ 
+    }
+
+    private void JumpToHeight(float forceNeeded)
+    {
+        _verticalVelocity = forceNeeded;
+        _isGrounded = false;
+
+        if(enemyAnimator != null)
+        {
+            //enemyAnimator.SetTrigger("Jump");
+        }
+    }
+
+
 
     private Vector2 GetSlopeVelocity(Vector2 horizontalVelocity)
     {
@@ -213,6 +242,35 @@ public class MediumEnemy : Enemy
         enemyAnimator.SetBool("Grounded", _isGrounded);
         enemyAnimator.SetFloat("HP", currentHealth);
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (isDead) return;
+
+        if(other.CompareTag("JumpPlatform") && _isGrounded)
+        {
+            if(UnityEngine.Random.value > 0.5f)
+            {
+                float targetY = other.transform.position.y;
+                float currentY = transform.position.y;
+                float heightToReach = targetY - currentY;
+
+
+                heightToReach += 0.5f;
+
+                if(heightToReach > 0)
+                {
+                    float requiredJumpForce = Mathf.Sqrt(2f * Mathf.Abs(gravity) * heightToReach);
+
+                    JumpToHeight(requiredJumpForce);
+                }
+            }
+            else
+            {
+                //Ignore Jump
+            }
+        }
     }
 
 }
