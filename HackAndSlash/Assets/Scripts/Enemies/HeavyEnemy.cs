@@ -389,13 +389,8 @@ public class HeavyEnemy : Enemy
     {
         if (!_isCharging) return;
 
-        HeavyBreakableWall breakableWall = collision.collider.GetComponentInParent<HeavyBreakableWall>();
-        if (breakableWall != null)
-        {
-            Vector2 impactPoint = collision.contactCount > 0 ? collision.GetContact(0).point : collision.transform.position;
-            breakableWall.Break(this, impactPoint);
-            return;
-        }
+        Vector2 impactPoint = collision.contactCount > 0 ? collision.GetContact(0).point : collision.transform.position;
+        if (TryBreakWall(collision.collider, impactPoint)) return;
 
         if (IsPlayerCollision(collision.collider) && collision.collider.TryGetComponent(out IDamageable damageable))
         {
@@ -408,17 +403,31 @@ public class HeavyEnemy : Enemy
     {
         if (!_isCharging) return;
 
-        HeavyBreakableWall breakableWall = collision.GetComponentInParent<HeavyBreakableWall>();
-        if (breakableWall != null)
-        {
-            breakableWall.Break(this, transform.position);
-            return;
-        }
+        if (TryBreakWall(collision, transform.position)) return;
 
         if (IsPlayerCollision(collision) && collision.TryGetComponent(out IDamageable damageable))
         {
             HitDamageable(damageable);
         }
+    }
+
+    private bool TryBreakWall(Collider2D collision, Vector2 impactPoint)
+    {
+        HeavyBreakableWall heavyBreakableWall = collision.GetComponentInParent<HeavyBreakableWall>();
+        if (heavyBreakableWall != null)
+        {
+            heavyBreakableWall.Break(this, impactPoint);
+            return true;
+        }
+
+        Breakeable_Wall breakeableWall = collision.GetComponentInParent<Breakeable_Wall>();
+        if (breakeableWall != null)
+        {
+            breakeableWall.BreakFromHeavyCharge(this, impactPoint);
+            return true;
+        }
+
+        return false;
     }
 
     private bool IsPlayerCollision(Collider2D collision)

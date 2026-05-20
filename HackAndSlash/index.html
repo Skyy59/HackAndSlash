@@ -33,7 +33,6 @@
       overflow-x: hidden;
     }
 
-    /* Scanlines overlay */
     body::before {
       content: '';
       position: fixed;
@@ -49,7 +48,6 @@
       z-index: 9999;
     }
 
-    /* Grid background */
     .grid-bg {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -69,7 +67,6 @@
       z-index: 1;
     }
 
-    /* ─── GLITCH TEXT ─── */
     .glitch {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
@@ -129,7 +126,6 @@
       86% { transform: translate(0); }
     }
 
-    /* ─── NAV ─── */
     nav {
       position: fixed;
       top: 0; left: 0; width: 100%;
@@ -172,7 +168,6 @@
       border-color: var(--neon-cyan);
     }
 
-    /* ─── HERO ─── */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -182,6 +177,21 @@
       text-align: center;
       padding-top: 80px;
       position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      z-index: 0;
+      image-rendering: pixelated;
+    }
+    .hero-bg-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(10,10,15,0.6) 0%, rgba(10,10,15,0.3) 50%, rgba(10,10,15,0.8) 100%);
+      z-index: 0;
     }
     .hero-sub {
       font-size: 0.85rem;
@@ -219,7 +229,24 @@
     }
     .hero-badge span { color: var(--neon-yellow); }
 
-    /* ─── SECTIONS ─── */
+    .hero-character {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+    .hero-character img {
+      height: 200px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
     section {
       padding: 100px 0;
       border-bottom: 1px solid var(--border);
@@ -246,7 +273,6 @@
       letter-spacing: 2px;
     }
 
-    /* ─── CARDS GRID ─── */
     .cards-grid {
       display: grid;
       gap: 20px;
@@ -318,7 +344,43 @@
       margin-right: 8px;
     }
 
-    /* ─── STAT BAR ─── */
+    .card .sprite-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .card .sprite-row img {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      height: 64px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 4px;
+      transition: 0.3s;
+    }
+    .card .sprite-row img:hover {
+      border-color: var(--neon-cyan);
+      transform: scale(1.5);
+      z-index: 10;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+    }
+    .card .sprite-row .sprite-label {
+      font-size: 0.55rem;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .card .sprite-row .sprite-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .stat-bar {
       margin: 8px 0;
     }
@@ -346,7 +408,6 @@
     .stat-fill.green { background: var(--neon-green); }
     .stat-fill.red { background: var(--neon-red); }
 
-    /* ─── TAG PILLS ─── */
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -366,7 +427,6 @@
     .tag.yellow { border-color: var(--neon-yellow); color: var(--neon-yellow); }
     .tag.green { border-color: var(--neon-green); color: var(--neon-green); }
 
-    /* ─── UPGRADES TREE ─── */
     .upgrade-chain {
       display: flex;
       align-items: center;
@@ -385,17 +445,11 @@
       border-color: var(--neon-yellow);
       color: var(--neon-yellow);
     }
-    .upgrade-node.active::after {
-      content: '>';
-      margin-left: 6px;
-      color: var(--neon-green);
-    }
     .upgrade-arrow {
       color: var(--border);
       font-size: 0.6rem;
     }
 
-    /* ─── TABLE ─── */
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -423,7 +477,6 @@
       background: rgba(0, 240, 255, 0.02);
     }
 
-    /* ─── GALLERY ─── */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -441,14 +494,144 @@
       padding: 16px;
       text-align: center;
       transition: 0.3s;
+      overflow: hidden;
     }
     .gallery-item:hover {
       border-color: var(--neon-cyan);
     }
-    .gallery-item .icon { font-size: 2rem; margin-bottom: 6px; }
-    .gallery-item .label { font-size: 0.6rem; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; }
+    .gallery-item img {
+      max-width: 100%;
+      max-height: 80%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .gallery-item .label {
+      font-size: 0.55rem;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      line-height: 1.3;
+    }
 
-    /* ─── FOOTER ─── */
+    .art-section {
+      margin-top: 48px;
+    }
+    .art-section:first-of-type { margin-top: 0; }
+    .art-cat-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--neon-magenta);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .art-cat-title .count {
+      font-size: 0.6rem;
+      color: var(--dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .art-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .art-grid .art-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 12px;
+      text-align: center;
+      transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .art-grid .art-item:hover {
+      border-color: var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+    .art-grid .art-item img {
+      max-width: 100%;
+      max-height: 100px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      object-fit: contain;
+      margin-bottom: 6px;
+    }
+    .art-grid .art-item .art-name {
+      font-size: 0.55rem;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.3;
+      word-break: break-all;
+    }
+
+    .bg-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .bg-showcase .bg-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+    .bg-showcase .bg-item:hover {
+      border-color: var(--neon-cyan);
+    }
+    .bg-showcase .bg-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      image-rendering: pixelated;
+      display: block;
+    }
+    .bg-showcase .bg-item .bg-label {
+      padding: 8px 12px;
+      font-size: 0.6rem;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .weapon-gallery {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      justify-content: center;
+    }
+    .weapon-gallery .wp-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .weapon-gallery .wp-item:hover {
+      border-color: var(--neon-cyan);
+    }
+    .weapon-gallery .wp-item img {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      max-width: 120px;
+      height: auto;
+    }
+    .weapon-gallery .wp-item .wp-name {
+      font-size: 0.55rem;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
     footer {
       padding: 40px 0;
       text-align: center;
@@ -462,7 +645,6 @@
       color: var(--neon-cyan);
     }
 
-    /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       .cards-grid.cols-2,
       .cards-grid.cols-3,
@@ -473,6 +655,7 @@
       .cards-grid.cols-3,
       .cards-grid.cols-4 { grid-template-columns: 1fr; }
       .nav-links a { font-size: 0.6rem; padding: 4px 6px; }
+      .hero-character img { height: 140px; }
     }
   </style>
 </head>
@@ -490,6 +673,7 @@
       <a href="#abilities">Abilities</a>
       <a href="#enemies">Enemies</a>
       <a href="#arenas">Arenas</a>
+      <a href="#gallery">Gallery</a>
       <a href="#systems">Systems</a>
       <a href="#tech">Tech</a>
     </div>
@@ -498,8 +682,21 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="container" style="text-align:center;">
+  <img
+    class="hero-bg"
+    src="Assets/External%20Assets/Dark_Forest/Sprites/main_background.png"
+    alt="Background"
+    loading="lazy"
+  />
+  <div class="hero-bg-overlay"></div>
+  <div class="container" style="text-align:center; position:relative; z-index:1;">
     <div class="hero-badge">Unity 6 <span>//</span> C# <span>//</span> 2D Action</div>
+    <div class="hero-character">
+      <img
+        src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight.png"
+        alt="Hero Knight"
+      />
+    </div>
     <div class="hero-sub">/// SIDE-SCROLLING SLASHER ///</div>
     <h1 class="glitch">
       HACK_AND_SLASH
@@ -578,6 +775,12 @@
     <div class="cards-grid cols-2">
       <!-- Melee -->
       <div class="card">
+        <div class="sprite-row">
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight_BlockNoEffect.png" alt="Blade stance" />
+            <span class="sprite-label">Blade Stance</span>
+          </div>
+        </div>
         <h3>MELEE — Blade</h3>
         <div class="sub">OverlapBox Melee Attack</div>
         <p>
@@ -604,6 +807,16 @@
 
       <!-- Ranged -->
       <div class="card">
+        <div class="sprite-row">
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Glock%20-%20P80%20%5B64x48%5D.png" alt="Glock" />
+            <span class="sprite-label">Sidearm</span>
+          </div>
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/AK%2047%20%5B96x48%5D.png" alt="AK-47" />
+            <span class="sprite-label">Rifle</span>
+          </div>
+        </div>
         <h3>RANGED — Firearm</h3>
         <div class="sub">Projectile-based Ranged Attack</div>
         <p>
@@ -629,15 +842,42 @@
       </div>
     </div>
 
-    <!-- Weapon Switching -->
-    <div style="margin-top:24px;">
+    <!-- Full Arsenal -->
+    <div style="margin-top:32px;">
       <div class="card">
-        <h3>CROSS-WEAPON SYNERGY</h3>
-        <div class="tags">
+        <h3>COMPLETE ARSENAL</h3>
+        <div class="sub">6 Firearm Types</div>
+        <div class="weapon-gallery">
+          <div class="wp-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Glock%20-%20P80%20%5B64x48%5D.png" alt="Glock" />
+            <div class="wp-name">Glock P80</div>
+          </div>
+          <div class="wp-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Revolver%20-%20Colt%2045%20%5B64x32%5D.png" alt="Revolver" />
+            <div class="wp-name">Colt .45</div>
+          </div>
+          <div class="wp-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/AK%2047%20%5B96x48%5D.png" alt="AK-47" />
+            <div class="wp-name">AK-47</div>
+          </div>
+          <div class="wp-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Submachine%20-%20MP5A3%20%5B80x48%5D.png" alt="MP5" />
+            <div class="wp-name">MP5A3</div>
+          </div>
+          <div class="wp-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Bazooka" />
+            <div class="wp-name">M20 Bazooka</div>
+          </div>
+          <div class="wp-item">
+            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Thick%20Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Thick Bazooka" />
+            <div class="wp-name">M20 Thick</div>
+          </div>
+        </div>
+        <div class="tags" style="margin-top:12px;">
           <span class="tag green">Melee hits refill Ranged ammo</span>
           <span class="tag magenta">Ranged hits refill Melee boost meter</span>
         </div>
-        <p style="margin-top:8px;">Weapon switching via scroll wheel. IK hand positioning adapts per weapon. Crosshair dynamically repositions on swap.</p>
+        <p style="margin-top:8px; font-size:0.75rem; color:var(--dim);">Weapon switching via scroll wheel. IK hand positioning adapts per weapon. Crosshair dynamically repositions on swap.</p>
       </div>
     </div>
   </div>
@@ -688,8 +928,18 @@
     </div>
 
     <div class="cards-grid cols-3">
-      <!-- Light -->
+      <!-- Light - Toaster -->
       <div class="card">
+        <div class="sprite-row">
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Flight.png" alt="Flying Eye" />
+            <span class="sprite-label">Flight</span>
+          </div>
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Attack1.png" alt="Flying Eye Attack" />
+            <span class="sprite-label">Attack</span>
+          </div>
+        </div>
         <h3>&lt;LIGHT&gt; Toaster</h3>
         <div class="sub">Flying Ranged Unit</div>
         <p>Floating enemy with zero gravity. Patrols in a random direction and fires projectiles from a turret point.</p>
@@ -700,8 +950,22 @@
         </ul>
       </div>
 
-      <!-- Medium -->
+      <!-- Medium - TV -->
       <div class="card">
+        <div class="sprite-row">
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Idle.png" alt="Skeleton" />
+            <span class="sprite-label">Skeleton</span>
+          </div>
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Idle.png" alt="Goblin" />
+            <span class="sprite-label">Goblin</span>
+          </div>
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Idle.png" alt="Mushroom" />
+            <span class="sprite-label">Mushroom</span>
+          </div>
+        </div>
         <h3>&lt;MEDIUM&gt; TV</h3>
         <div class="sub">Ground Melee Unit</div>
         <p>Ground-based chaser. Detects player at range, accelerates toward them, and delivers melee attacks on contact.</p>
@@ -717,9 +981,19 @@
         </div>
       </div>
 
-      <!-- Heavy -->
+      <!-- Heavy - Nevera -->
       <div class="card">
-        <h3>&lt;HEAVY&gt; Charger</h3>
+        <div class="sprite-row">
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Walk.png" alt="Skeleton Walk" />
+            <span class="sprite-label">Walk</span>
+          </div>
+          <div class="sprite-item">
+            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Attack1.png" alt="Skeleton Attack" />
+            <span class="sprite-label">Attack</span>
+          </div>
+        </div>
+        <h3>&lt;HEAVY&gt; Nevera / Charger</h3>
         <div class="sub">Elite Charge Unit</div>
         <p>Massive enemy with a wind-up charge attack. Charges at high speed, damages player and destroys brittle walls.</p>
         <ul>
@@ -792,6 +1066,27 @@
 
     <div style="margin-top:24px;">
       <div class="card">
+        <h3>ENVIRONMENTS &amp; BACKGROUNDS</h3>
+        <p>The game features rich pixel-art environments from the Dark Forest asset pack, bringing urban districts and atmospheric locales to life.</p>
+        <div class="bg-showcase">
+          <div class="bg-item">
+            <img src="Assets/External%20Assets/Dark_Forest/Sprites/main_background.png" alt="Main Background" loading="lazy" />
+            <div class="bg-label">Main Background</div>
+          </div>
+          <div class="bg-item">
+            <img src="Assets/External%20Assets/Dark_Forest/Sprites/top_far_bgrnd.png" alt="Top Far Background" loading="lazy" />
+            <div class="bg-label">Far Background</div>
+          </div>
+          <div class="bg-item">
+            <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/Background.png" alt="Hero Knight Background" loading="lazy" />
+            <div class="bg-label">Hero Knight Bg</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="card">
         <h3>SCENES / LEVELS</h3>
         <table class="data-table">
           <thead>
@@ -805,6 +1100,526 @@
             <tr><td>Test Scene</td><td>Sandbox for development</td></tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ART GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// VISUAL DATABASE</div>
+      <h2 class="section-title">ART_ASSETS</h2>
+    </div>
+    <p style="text-align:center; color:var(--dim); font-size:0.85rem; max-width:600px; margin: -40px auto 48px;">
+      Complete catalogue of all pixel art integrated into the project — characters, enemies,
+      weapons, environments, props, UI, and visual effects.
+    </p>
+
+    <!-- PLAYER CHARACTERS -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        PLAYER CHARACTER <span class="count">(6 sprites)</span>
+      </div>
+      <div class="art-grid">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight.png" alt="Hero Knight" loading="lazy" />
+          <div class="art-name">HeroKnight</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight_DeathNoBlood.png" alt="Death" loading="lazy" />
+          <div class="art-name">DeathNoBlood</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight_BlockNoEffect.png" alt="Block" loading="lazy" />
+          <div class="art-name">BlockNoEffect</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/SlideDust.png" alt="Slide Dust" loading="lazy" />
+          <div class="art-name">SlideDust</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/BlockFlash.png" alt="Block Flash" loading="lazy" />
+          <div class="art-name">BlockFlash</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/EnvironmentTiles.png" alt="Env Tiles" loading="lazy" />
+          <div class="art-name">EnvironmentTiles</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENEMIES -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        ENEMIES — MONSTERS PACK <span class="count">(24 sprites)</span>
+      </div>
+      <div class="art-grid">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Idle.png" alt="Skeleton Idle" loading="lazy" />
+          <div class="art-name">Skeleton / Idle</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Walk.png" alt="Skeleton Walk" loading="lazy" />
+          <div class="art-name">Skeleton / Walk</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Attack1.png" alt="Skeleton Attack1" loading="lazy" />
+          <div class="art-name">Skeleton / Attack1</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Attack2.png" alt="Skeleton Attack2" loading="lazy" />
+          <div class="art-name">Skeleton / Attack2</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Shield.png" alt="Skeleton Shield" loading="lazy" />
+          <div class="art-name">Skeleton / Shield</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Take%20Hit.png" alt="Skeleton Hit" loading="lazy" />
+          <div class="art-name">Skeleton / Take Hit</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Death.png" alt="Skeleton Death" loading="lazy" />
+          <div class="art-name">Skeleton / Death</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Idle.png" alt="Goblin Idle" loading="lazy" />
+          <div class="art-name">Goblin / Idle</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Run.png" alt="Goblin Run" loading="lazy" />
+          <div class="art-name">Goblin / Run</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Attack1.png" alt="Goblin Attack1" loading="lazy" />
+          <div class="art-name">Goblin / Attack1</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Attack2.png" alt="Goblin Attack2" loading="lazy" />
+          <div class="art-name">Goblin / Attack2</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Take%20Hit.png" alt="Goblin Hit" loading="lazy" />
+          <div class="art-name">Goblin / Take Hit</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Death.png" alt="Goblin Death" loading="lazy" />
+          <div class="art-name">Goblin / Death</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Idle.png" alt="Mushroom Idle" loading="lazy" />
+          <div class="art-name">Mushroom / Idle</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Run.png" alt="Mushroom Run" loading="lazy" />
+          <div class="art-name">Mushroom / Run</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Attack1.png" alt="Mushroom Attack1" loading="lazy" />
+          <div class="art-name">Mushroom / Attack1</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Attack2.png" alt="Mushroom Attack2" loading="lazy" />
+          <div class="art-name">Mushroom / Attack2</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Take%20Hit.png" alt="Mushroom Hit" loading="lazy" />
+          <div class="art-name">Mushroom / Take Hit</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Death.png" alt="Mushroom Death" loading="lazy" />
+          <div class="art-name">Mushroom / Death</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Flight.png" alt="Flying Eye Flight" loading="lazy" />
+          <div class="art-name">Flying Eye / Flight</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Attack1.png" alt="Flying Eye Attack1" loading="lazy" />
+          <div class="art-name">Flying Eye / Attack1</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Attack2.png" alt="Flying Eye Attack2" loading="lazy" />
+          <div class="art-name">Flying Eye / Attack2</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Take%20Hit.png" alt="Flying Eye Hit" loading="lazy" />
+          <div class="art-name">Flying Eye / Take Hit</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Death.png" alt="Flying Eye Death" loading="lazy" />
+          <div class="art-name">Flying Eye / Death</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOM ENEMY ART (PSB) -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        ENEMIES — CUSTOM <span class="count">(PSB multilayer)</span>
+      </div>
+      <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));">
+        <div class="art-item" style="padding:24px;">
+          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">LightEnemyToaster.psb</div>
+          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Flying ranged unit — custom sprite composition</div>
+        </div>
+        <div class="art-item" style="padding:24px;">
+          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">MediumEnemyTV.psb</div>
+          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Ground melee unit — custom sprite composition</div>
+        </div>
+        <div class="art-item" style="padding:24px;">
+          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">Nevera.psb</div>
+          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Heavy charger unit — custom sprite composition</div>
+        </div>
+        <div class="art-item" style="padding:24px;">
+          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">Avatar PSB (Player)</div>
+          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Player character — custom multilayer</div>
+        </div>
+        <div class="art-item" style="padding:24px;">
+          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">PlantillaPJ.psb</div>
+          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Player template — custom multilayer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEAPONS / GUNS -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        WEAPONS — FIREARMS <span class="count">(6 types + ammo)</span>
+      </div>
+      <div class="art-grid">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Glock%20-%20P80%20%5B64x48%5D.png" alt="Glock" loading="lazy" />
+          <div class="art-name">Glock P80</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Revolver%20-%20Colt%2045%20%5B64x32%5D.png" alt="Revolver" loading="lazy" />
+          <div class="art-name">Colt .45 Revolver</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/AK%2047%20%5B96x48%5D.png" alt="AK47" loading="lazy" />
+          <div class="art-name">AK-47</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Submachine%20-%20MP5A3%20%5B80x48%5D.png" alt="MP5" loading="lazy" />
+          <div class="art-name">MP5A3</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Bazooka" loading="lazy" />
+          <div class="art-name">M20 Bazooka</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Thick%20Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Thick Bazooka" loading="lazy" />
+          <div class="art-name">M20 Thick Bazooka</div>
+        </div>
+      </div>
+      <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+        <div class="tag cyan">AK-47 Spritesheet (18 frames)</div>
+        <div class="tag magenta">Bazooka M20 Spritesheet (10 frames)</div>
+        <div class="tag yellow">Glock P80 Spritesheet (14 frames)</div>
+        <div class="tag green">Revolver Spritesheet (15 frames)</div>
+        <div class="tag cyan">MP5A3 Spritesheet (18 frames)</div>
+        <div class="tag magenta">Thick Bazooka Spritesheet (10 frames)</div>
+      </div>
+    </div>
+
+    <!-- BULLETS & AMMO -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        AMMUNITION <span class="count">(6 types)</span>
+      </div>
+      <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/AK%2047/Bullet.png" alt="AK Bullet" loading="lazy" />
+          <div class="art-name">AK-47 Bullet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Glock%20-%20P80/Bullet.png" alt="Glock Bullet" loading="lazy" />
+          <div class="art-name">Glock Bullet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Revolver%20-%20Colt%2045/Bullet.png" alt="Revolver Bullet" loading="lazy" />
+          <div class="art-name">.45 Bullet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Submachine%20-%20MP5A3/Bullet.png" alt="MP5 Bullet" loading="lazy" />
+          <div class="art-name">MP5 Bullet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Bazooka%20-%20M20%20-%20Copy/M20%20Rocket.png" alt="Bazooka Rocket" loading="lazy" />
+          <div class="art-name">M20 Rocket</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Thick%20Bazooka%20-%20M20/M20%20Thick%20Rocket.png" alt="Thick Rocket" loading="lazy" />
+          <div class="art-name">M20 Thick Rocket</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENVIRONMENTS -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        ENVIRONMENTS — DARK FOREST <span class="count">(14 backgrounds + tiles)</span>
+      </div>
+      <div class="art-grid">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/main_background.png" alt="Main BG" loading="lazy" style="max-height:80px;" />
+          <div class="art-name">main_background</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/top_far_bgrnd.png" alt="Far BG" loading="lazy" style="max-height:80px;" />
+          <div class="art-name">top_far_bgrnd</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/env_ground.png" alt="Ground" loading="lazy" />
+          <div class="art-name">env_ground</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/env_rock.png" alt="Rock" loading="lazy" />
+          <div class="art-name">env_rock</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/env_trees.png" alt="Trees" loading="lazy" />
+          <div class="art-name">env_trees</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/env_mon.png" alt="Mon" loading="lazy" />
+          <div class="art-name">env_mon</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/wood_env.png" alt="Wood" loading="lazy" />
+          <div class="art-name">wood_env</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/castle_env.png" alt="Castle" loading="lazy" />
+          <div class="art-name">castle_env</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/decorative_obj.png" alt="Decorative" loading="lazy" />
+          <div class="art-name">decorative_obj</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/bgrd_tree1.png" alt="Tree1" loading="lazy" />
+          <div class="art-name">bgrd_tree1</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/bgrd_tree2.png" alt="Tree2" loading="lazy" />
+          <div class="art-name">bgrd_tree2</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/bgrd_tree3.png" alt="Tree3" loading="lazy" />
+          <div class="art-name">bgrd_tree3</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/bgrd_tree4.png" alt="Tree4" loading="lazy" />
+          <div class="art-name">bgrd_tree4</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Dark_Forest/Sprites/bgrd_tree5.png" alt="Tree5" loading="lazy" />
+          <div class="art-name">bgrd_tree5</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TILES & PALETTES -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        TILEMAPS &amp; PALETTES <span class="count">(11 sheets, 228 tiles)</span>
+      </div>
+      <div class="art-grid">
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Building1/PaletaEdificios.png" alt="Building Palette" loading="lazy" />
+          <div class="art-name">Paleta Edificios</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Tilepalette%201/TilesEdificios.png" alt="Tiles Edificios" loading="lazy" />
+          <div class="art-name">Tiles Edificios</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Tilepalette%201/PaletaFinal.png" alt="Paleta Final" loading="lazy" />
+          <div class="art-name">Paleta Final</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/TilePalete.png" alt="Tile Palette" loading="lazy" />
+          <div class="art-name">TilePalete</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Grua/Grua.png" alt="Grua" loading="lazy" />
+          <div class="art-name">Grua (Crane)</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Cartel/Cartel.png" alt="Cartel" loading="lazy" />
+          <div class="art-name">Cartel (Sign)</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Distrito2/Bloques/Bloques%20distrito2.png" alt="Distrito2" loading="lazy" />
+          <div class="art-name">Distrito 2 Bloques</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Tilepalette/Building1/1.png" alt="Building1" loading="lazy" />
+          <div class="art-name">Building 1</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Nearmint%20Studios/Simple_Tile_Sets/Sprites/Red_TileSet.png" alt="Red Tiles" loading="lazy" />
+          <div class="art-name">Red TileSet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Nearmint%20Studios/Simple_Tile_Sets/Sprites/Blue_TileSet.png" alt="Blue Tiles" loading="lazy" />
+          <div class="art-name">Blue TileSet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Nearmint%20Studios/Simple_Tile_Sets/Sprites/Green_TileSet.png" alt="Green Tiles" loading="lazy" />
+          <div class="art-name">Green TileSet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Nearmint%20Studios/Simple_Tile_Sets/Sprites/Orange_TileSet.png" alt="Orange Tiles" loading="lazy" />
+          <div class="art-name">Orange TileSet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Nearmint%20Studios/Simple_Tile_Sets/Sprites/Purple_TileSet.png" alt="Purple Tiles" loading="lazy" />
+          <div class="art-name">Purple TileSet</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/Nearmint%20Studios/Simple_Tile_Sets/Sprites/NULL.png" alt="Null Tile" loading="lazy" />
+          <div class="art-name">NULL Tile</div>
+        </div>
+      </div>
+      <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="tag cyan">65 Building1 tiles</span>
+        <span class="tag magenta">100 TilesEdificios tiles</span>
+        <span class="tag yellow">20 Grua tiles</span>
+        <span class="tag green">43 Distrito2 tiles</span>
+        <span class="tag cyan">6 Simple RuleTile sets</span>
+      </div>
+    </div>
+
+    <!-- PROPS -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        PROPS &amp; OBJECTS <span class="count">(5 sprites)</span>
+      </div>
+      <div class="art-grid">
+        <div class="art-item">
+          <img src="Assets/Art/Props/Coche_follador.png" alt="Coche" loading="lazy" />
+          <div class="art-name">Coche</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Props/coche_verde.png" alt="Coche Verde" loading="lazy" />
+          <div class="art-name">Coche Verde</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Props/Container.png" alt="Container" loading="lazy" />
+          <div class="art-name">Container</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Props/dron.png" alt="Dron" loading="lazy" />
+          <div class="art-name">Dron (Upgrade)</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/Art/Props/puentedinosaurio.png" alt="Puente Dinosaurio" loading="lazy" />
+          <div class="art-name">Puente Dinosaurio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UI ELEMENTS -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        UI — KENNEY SPACE EXPANSION <span class="count">(300+ elements, 6 color themes)</span>
+      </div>
+      <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_round_large.png" alt="Bar Round" loading="lazy" />
+          <div class="art-name">Bar Round</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_square_large.png" alt="Bar Square" loading="lazy" />
+          <div class="art-name">Bar Square</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_round_gloss_large.png" alt="Bar Gloss" loading="lazy" />
+          <div class="art-name">Bar Gloss</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/button_square_header_large_square.png" alt="Button Header" loading="lazy" />
+          <div class="art-name">Button Header</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/button_square_header_blade_square.png" alt="Button Blade" loading="lazy" />
+          <div class="art-name">Button Blade</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/button_square_header_notch_square.png" alt="Button Notch" loading="lazy" />
+          <div class="art-name">Button Notch</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/crosshair_color_a.png" alt="Crosshair A" loading="lazy" />
+          <div class="art-name">Crosshair A</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/crosshair_color_b.png" alt="Crosshair B" loading="lazy" />
+          <div class="art-name">Crosshair B</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/kenney_crosshair-pack/PNG/Outline/crosshair066.png" alt="Crosshair" loading="lazy" />
+          <div class="art-name">Crosshair 066</div>
+        </div>
+      </div>
+      <p style="margin-top:12px; font-size:0.65rem; color:var(--dim);">
+        UI available in 6 color themes: Blue, Green, Grey, Red, Yellow, Extra — each with Default and @2x resolution variants.
+        Includes bars, buttons, panels, crosshairs, cursors, shadows, and gloss variants.
+      </p>
+    </div>
+
+    <!-- VFX -->
+    <div class="art-section">
+      <div class="art-cat-title">
+        VISUAL EFFECTS <span class="count">(3 blood spritesheets)</span>
+      </div>
+      <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));">
+        <div class="art-item">
+          <img src="Assets/External%20Assets/PArticles/VFX%20Blood%20Batch%201_SpriteSheetRows.png" alt="Blood Rows" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Blood Batch 1 — Rows</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/PArticles/VFX%20Blood%20Batch%201_SpriteSheetPacked.png" alt="Blood Packed" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Blood Batch 1 — Packed</div>
+        </div>
+        <div class="art-item">
+          <img src="Assets/External%20Assets/PArticles/VFX%20Blood%20Batch%201_SpriteSheetColumns.png" alt="Blood Columns" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Blood Batch 1 — Columns</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ART SUMMARY -->
+    <div style="margin-top:48px;">
+      <div class="card" style="text-align:center;">
+        <h3>ART ASSET SUMMARY</h3>
+        <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
+          <div>
+            <div style="font-size:1.4rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">80+</div>
+            <div style="font-size:0.6rem; color:var(--dim); letter-spacing:1px; text-transform:uppercase;">PNG Sprites</div>
+          </div>
+          <div>
+            <div style="font-size:1.4rem; color:var(--neon-magenta); font-family:'Orbitron',sans-serif;">5</div>
+            <div style="font-size:0.6rem; color:var(--dim); letter-spacing:1px; text-transform:uppercase;">PSB Multilayer</div>
+          </div>
+          <div>
+            <div style="font-size:1.4rem; color:var(--neon-yellow); font-family:'Orbitron',sans-serif;">228</div>
+            <div style="font-size:0.6rem; color:var(--dim); letter-spacing:1px; text-transform:uppercase;">Individual Tiles</div>
+          </div>
+          <div>
+            <div style="font-size:1.4rem; color:var(--neon-green); font-family:'Orbitron',sans-serif;">300+</div>
+            <div style="font-size:0.6rem; color:var(--dim); letter-spacing:1px; text-transform:uppercase;">UI Elements</div>
+          </div>
+          <div>
+            <div style="font-size:1.4rem; color:var(--neon-red); font-family:'Orbitron',sans-serif;">7</div>
+            <div style="font-size:0.6rem; color:var(--dim); letter-spacing:1px; text-transform:uppercase;">Asset Packs</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -841,6 +1656,11 @@
           <li>Ammo counter (ranged weapon)</li>
           <li>Boost/Power meter (melee)</li>
         </ul>
+        <div style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_round_large_l.png" alt="Bar L" style="height:24px; image-rendering:pixelated;" loading="lazy" />
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_round_large_m.png" alt="Bar M" style="height:24px; image-rendering:pixelated;" loading="lazy" />
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_round_large_r.png" alt="Bar R" style="height:24px; image-rendering:pixelated;" loading="lazy" />
+        </div>
       </div>
 
       <div class="card">
@@ -853,6 +1673,9 @@
           <li>PlayerPrefs persistence</li>
           <li>Settings / Upgrades panels</li>
         </ul>
+        <div style="margin-top:12px;">
+          <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/button_square_header_large_square_screws.png" alt="Panel" style="height:32px; image-rendering:pixelated;" loading="lazy" />
+        </div>
       </div>
 
       <div class="card">
@@ -936,7 +1759,7 @@
       <span class="highlight">HACK_AND_SLASH</span> // Built with Unity 6 &amp; C# // 2026
     </p>
     <p style="margin-top:8px; font-size:0.6rem; color:var(--border);">
-      <span style="color:var(--neon-magenta);">[</span> 32 C# Scripts &middot; 5 Scenes &middot; 7 Asset Packs <span style="color:var(--neon-magenta);">]</span>
+      <span style="color:var(--neon-magenta);">[</span> 32 C# Scripts &middot; 5 Scenes &middot; 7 Asset Packs &middot; 80+ Sprites <span style="color:var(--neon-magenta);">]</span>
     </p>
   </div>
 </footer>
