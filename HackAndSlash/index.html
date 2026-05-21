@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HACK_AND_SLASH // PROJECT</title>
+  <title>BioCorruption // PROJECT</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;700&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0a0a0f;
-      --surface: #12121c;
-      --card: #1a1a2e;
-      --neon-cyan: #00f0ff;
-      --neon-magenta: #ff00ca;
-      --neon-yellow: #ffe600;
-      --neon-green: #00ff88;
-      --neon-red: #ff0044;
-      --text: #c8c8e0;
-      --dim: #606080;
-      --border: #2a2a40;
+      --bg: #080404;
+      --surface: #120808;
+      --card: #1a0c0c;
+      --neon-cyan: #c0392b;
+      --neon-magenta: #7d3c98;
+      --neon-yellow: #b7950b;
+      --neon-green: #8b4513;
+      --neon-red: #c0392b;
+      --text: #d4c4a8;
+      --dim: #8a7a6a;
+      --border: #3a1a1a;
+      --glow: #c0392b;
     }
 
     html { scroll-behavior: smooth; }
@@ -41,8 +42,8 @@
         0deg,
         transparent,
         transparent 2px,
-        rgba(0, 240, 255, 0.015) 2px,
-        rgba(0, 240, 255, 0.015) 4px
+        rgba(80, 20, 20, 0.06) 2px,
+        rgba(80, 20, 20, 0.06) 4px
       );
       pointer-events: none;
       z-index: 9999;
@@ -52,9 +53,9 @@
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background-image:
-        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+        linear-gradient(rgba(60, 20, 20, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60, 20, 20, 0.06) 1px, transparent 1px);
+      background-size: 80px 80px;
       pointer-events: none;
       z-index: 0;
     }
@@ -89,13 +90,13 @@
       animation: glitch-top 2s infinite linear;
       clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
       color: var(--neon-magenta);
-      text-shadow: 0.05em 0 0 var(--neon-cyan);
+      text-shadow: 0.05em 0 0 var(--neon-yellow);
     }
     .glitch span:last-child {
       animation: glitch-bottom 2s infinite linear;
       clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
       color: var(--neon-yellow);
-      text-shadow: -0.05em 0 0 var(--neon-cyan);
+      text-shadow: -0.05em 0 0 var(--neon-magenta);
     }
 
     @keyframes glitch-shake {
@@ -129,7 +130,7 @@
     nav {
       position: fixed;
       top: 0; left: 0; width: 100%;
-      background: rgba(10, 10, 15, 0.92);
+      background: rgba(5, 2, 2, 0.97);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       z-index: 1000;
@@ -166,6 +167,7 @@
     .nav-links a:hover {
       color: var(--neon-cyan);
       border-color: var(--neon-cyan);
+      text-shadow: 0 0 8px rgba(192, 57, 43, 0.3);
     }
 
     .hero {
@@ -190,7 +192,7 @@
     .hero-bg-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(180deg, rgba(10,10,15,0.6) 0%, rgba(10,10,15,0.3) 50%, rgba(10,10,15,0.8) 100%);
+      background: linear-gradient(180deg, rgba(8,4,4,0.7) 0%, rgba(8,4,4,0.3) 50%, rgba(8,4,4,0.85) 100%);
       z-index: 0;
     }
     .hero-sub {
@@ -239,7 +241,7 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       opacity: 0.9;
-      filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
+      filter: drop-shadow(0 0 30px rgba(192, 57, 43, 0.4));
       animation: float 4s ease-in-out infinite;
     }
     @keyframes float {
@@ -301,7 +303,7 @@
     .card:hover {
       border-color: var(--neon-cyan);
       transform: translateY(-4px);
-      box-shadow: 0 8px 32px rgba(0, 240, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(192, 57, 43, 0.1);
     }
     .card:hover::before { opacity: 1; }
 
@@ -365,7 +367,7 @@
       transform: scale(1.5);
       z-index: 10;
       position: relative;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+      box-shadow: 0 0 20px rgba(192, 57, 43, 0.3);
     }
     .card .sprite-row .sprite-label {
       font-size: 0.55rem;
@@ -402,10 +404,10 @@
       border-radius: 2px;
       transition: width 0.6s;
     }
-    .stat-fill.cyan { background: var(--neon-cyan); }
-    .stat-fill.magenta { background: var(--neon-magenta); }
-    .stat-fill.yellow { background: var(--neon-yellow); }
-    .stat-fill.green { background: var(--neon-green); }
+    .stat-fill.blood { background: var(--neon-cyan); }
+    .stat-fill.purple { background: var(--neon-magenta); }
+    .stat-fill.gold { background: var(--neon-yellow); }
+    .stat-fill.brown { background: var(--neon-green); }
     .stat-fill.red { background: var(--neon-red); }
 
     .tags {
@@ -422,10 +424,10 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .tag.cyan { border-color: var(--neon-cyan); color: var(--neon-cyan); }
-    .tag.magenta { border-color: var(--neon-magenta); color: var(--neon-magenta); }
-    .tag.yellow { border-color: var(--neon-yellow); color: var(--neon-yellow); }
-    .tag.green { border-color: var(--neon-green); color: var(--neon-green); }
+    .tag.blood { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .tag.purple { border-color: var(--neon-magenta); color: var(--neon-magenta); }
+    .tag.gold { border-color: var(--neon-yellow); color: var(--neon-yellow); }
+    .tag.brown { border-color: var(--neon-green); color: var(--neon-green); }
 
     .upgrade-chain {
       display: flex;
@@ -444,6 +446,11 @@
     .upgrade-node.active {
       border-color: var(--neon-yellow);
       color: var(--neon-yellow);
+    }
+    .upgrade-node.boss {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: rgba(192, 57, 43, 0.1);
     }
     .upgrade-arrow {
       color: var(--border);
@@ -469,12 +476,12 @@
     }
     .data-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid rgba(42, 42, 64, 0.5);
+      border-bottom: 1px solid rgba(58, 26, 26, 0.5);
       color: var(--dim);
     }
     .data-table tr:hover td {
       color: var(--text);
-      background: rgba(0, 240, 255, 0.02);
+      background: rgba(192, 57, 43, 0.04);
     }
 
     .gallery {
@@ -498,6 +505,7 @@
     }
     .gallery-item:hover {
       border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(192, 57, 43, 0.15);
     }
     .gallery-item img {
       max-width: 100%;
@@ -657,6 +665,187 @@
       .nav-links a { font-size: 0.6rem; padding: 4px 6px; }
       .hero-character img { height: 140px; }
     }
+
+    #register {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--bg) 0%, #120808 50%, var(--bg) 100%);
+    }
+    #particle-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .register-card {
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      position: relative;
+      z-index: 1;
+      transition: 0.3s;
+    }
+    .register-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      right: -1px; bottom: -1px;
+      background: linear-gradient(45deg, var(--neon-cyan), var(--neon-yellow), var(--neon-magenta));
+      background-size: 400% 400%;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s;
+      animation: border-glow 3s ease infinite;
+    }
+    .register-card:hover::before { opacity: 1; }
+    @keyframes border-glow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .register-intro {
+      font-size: 0.85rem;
+      color: var(--dim);
+      line-height: 1.8;
+      margin-bottom: 32px;
+      text-align: center;
+      min-height: 1.8em;
+    }
+    .cursor-blink {
+      color: var(--neon-cyan);
+      animation: blink 0.7s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .register-form { display: flex; flex-direction: column; gap: 24px; }
+    .input-group { position: relative; }
+    .input-group label {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: var(--neon-cyan);
+      margin-bottom: 6px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .input-group input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      outline: none;
+      transition: 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+    .input-group input::placeholder { color: rgba(138, 122, 106, 0.4); }
+    .input-group input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(192, 57, 43, 0.1), inset 0 0 20px rgba(192, 57, 43, 0.03);
+    }
+    .input-group input.error {
+      border-color: var(--neon-red);
+      box-shadow: 0 0 20px rgba(255, 0, 68, 0.15);
+    }
+    .input-group .error-msg {
+      font-size: 0.6rem;
+      color: var(--neon-red);
+      margin-top: 4px;
+      display: none;
+      letter-spacing: 1px;
+    }
+    .input-group .error-msg.show { display: block; }
+    .input-border {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-yellow));
+      transition: width 0.4s ease;
+      z-index: 2;
+    }
+    .input-group input:focus ~ .input-border { width: 100%; }
+    .register-btn {
+      position: relative;
+      background: transparent;
+      border: 1px solid var(--neon-cyan);
+      padding: 16px 32px;
+      color: var(--neon-cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: 0.3s;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .register-btn .btn-text { position: relative; z-index: 1; }
+    .register-btn .btn-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: radial-gradient(circle, rgba(192, 57, 43, 0.3), transparent);
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+      border-radius: 50%;
+    }
+    .register-btn:hover {
+      background: rgba(192, 57, 43, 0.05);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 30px rgba(192, 57, 43, 0.2), inset 0 0 30px rgba(192, 57, 43, 0.05);
+    }
+    .register-btn:hover .btn-glow { width: 300px; height: 300px; }
+    .register-btn:active { transform: scale(0.97); }
+    .register-btn.sending { pointer-events: none; opacity: 0.6; }
+    .register-success { text-align: center; padding: 24px; animation: success-in 0.5s ease; }
+    .register-success.hidden { display: none; }
+    @keyframes success-in {
+      0% { opacity: 0; transform: scale(0.8); }
+      50% { transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .success-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px; height: 56px;
+      border: 2px solid var(--neon-green);
+      border-radius: 50%;
+      font-size: 1.5rem;
+      color: var(--neon-green);
+      margin-bottom: 16px;
+      animation: success-pulse 2s ease-in-out infinite;
+    }
+    @keyframes success-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+      50% { box-shadow: 0 0 0 15px rgba(0, 255, 136, 0); }
+    }
+    .register-success p { font-size: 0.85rem; color: var(--neon-green); letter-spacing: 1px; }
+    .register-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--neon-yellow);
+      border-radius: 50%;
+      animation: dot-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes dot-pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--neon-yellow); }
+      50% { opacity: 0.4; box-shadow: 0 0 8px var(--neon-yellow); }
+    }
+    .status-text { font-size: 0.6rem; color: var(--dim); letter-spacing: 2px; }
+    @media (max-width: 600px) { .register-card { padding: 32px 20px; } }
   </style>
 </head>
 <body>
@@ -666,16 +855,17 @@
 <!-- NAV -->
 <nav>
   <div class="container">
-    <a href="#" class="nav-logo">// HACK_AND_SLASH</a>
+    <a href="#" class="nav-logo">// BioCorruption</a>
     <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#weapons">Weapons</a>
-      <a href="#abilities">Abilities</a>
-      <a href="#enemies">Enemies</a>
+      <a href="#features">Sistemas</a>
+      <a href="#weapons">Armas</a>
+      <a href="#boss">Jefe Final</a>
+      <a href="#abilities">Habilidades</a>
+      <a href="#enemies">Enemigos</a>
       <a href="#arenas">Arenas</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#systems">Systems</a>
-      <a href="#tech">Tech</a>
+      <a href="#gallery">Galería</a>
+      <a href="#systems">Meta</a>
+      <a href="#tech">Stack</a>
     </div>
   </div>
 </nav>
@@ -690,32 +880,33 @@
   />
   <div class="hero-bg-overlay"></div>
   <div class="container" style="text-align:center; position:relative; z-index:1;">
-    <div class="hero-badge">Unity 6 <span>//</span> C# <span>//</span> 2D Action</div>
+    <div class="hero-badge">Unity 6 <span>//</span> C# <span>//</span> BioHorror</div>
     <div class="hero-character">
       <img
-        src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight.png"
-        alt="Hero Knight"
+        src="Assets/Art/Enemies/FotoFinal.png"
+        alt="Foto Final"
+        style="height:320px; image-rendering:pixelated; filter:drop-shadow(0 0 40px rgba(192,57,43,0.6)); animation:float 4s ease-in-out infinite;"
       />
     </div>
-    <div class="hero-sub">/// SIDE-SCROLLING SLASHER ///</div>
+    <div class="hero-sub">/// CORRUPCIÓN ACTIVA ///</div>
     <h1 class="glitch">
-      HACK_AND_SLASH
-      <span aria-hidden="true">HACK_AND_SLASH</span>
-      <span aria-hidden="true">HACK_AND_SLASH</span>
+      BioCorruption
+      <span aria-hidden="true">BioCorruption</span>
+      <span aria-hidden="true">BioCorruption</span>
     </h1>
     <p class="hero-desc">
-      A 2D side-scrolling action-platformer with hack-and-slash combat.
-      Navigate arena-style levels, fight waves of enemies using melee and ranged weapons,
-      and chain stylish kills to climb the rank meter.
+      Un mundo consumido por la corrupción biológica. Lucha por tu vida
+      en escenarios biomecánicos infectados, usando cuchillo y pistola para
+      rebanar y disparar a las aberraciones que acechan en las sombras.
     </p>
     <div class="tags" style="justify-content:center;">
-      <span class="tag cyan">Melee Combat</span>
-      <span class="tag magenta">Ranged Combat</span>
-      <span class="tag yellow">Arena Waves</span>
-      <span class="tag cyan">Style Ranking</span>
-      <span class="tag green">Weapon Upgrades</span>
-      <span class="tag magenta">Double Jump</span>
-      <span class="tag yellow">Slide &amp; Crouch</span>
+      <span class="tag blood">Cuchillo</span>
+      <span class="tag purple">Pistola</span>
+      <span class="tag gold">Arena Waves</span>
+      <span class="tag blood">Mutaciones</span>
+      <span class="tag brown">Bio-Upgrades</span>
+      <span class="tag purple">Double Jump</span>
+      <span class="tag gold">Corrupción</span>
     </div>
   </div>
 </section>
@@ -724,160 +915,115 @@
 <section id="features">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">// CORE FEATURES</div>
-      <h2 class="section-title">GAME_SYSTEMS</h2>
+      <div class="section-tag">// NÚCLEO DEL JUEGO</div>
+      <h2 class="section-title">SISTEMAS_BIOCORRUPTOS</h2>
     </div>
     <div class="cards-grid cols-4">
       <div class="card">
-        <h3>Dual-Weapon Combat</h3>
-        <p>Seamlessly swap between a melee blade and a ranged firearm mid-combat. Each weapon feeds the other's resources.</p>
+        <h3>Combate Dual</h3>
+        <p>Alterna entre cuchillo y pistola en pleno combate. Cada arma alimenta los recursos de la otra en una danza mortal.</p>
       </div>
       <div class="card">
-        <h3>Style &amp; Rank</h3>
-        <p>Dynamic combo system tracks damage variety. Higher style = better rank. Meter decays over time — keep the pressure on.</p>
+        <h3>Corrupción &amp; Rango</h3>
+        <p>Sistema de combo que rastrea la variedad de daño. Mayor corrupción = mejor rango. El medidor decae — mantén la presión.</p>
       </div>
       <div class="card">
-        <h3>Weapon Upgrades</h3>
-        <p>Find Upgrade Drones hidden in levels to enhance your arsenal. Each weapon has 3 tiers of upgrades.</p>
+        <h3>Mejoras Orgánicas</h3>
+        <p>Encuentra Bio-Mejoas escondidas en los niveles para potenciar tu arsenal. Cada arma tiene 3 niveles de mejora.</p>
       </div>
       <div class="card">
-        <h3>Arena Levels</h3>
-        <p>Enter combat arenas where doors lock behind you. Survive waves of enemies to unlock the exit and advance.</p>
+        <h3>Arenas de Muerte</h3>
+        <p>Entra en arenas de combate donde las puertas se cierran tras de ti. Sobrevive oleadas de enemigos para escapar.</p>
       </div>
       <div class="card">
-        <h3>Precision Movement</h3>
-        <p>Acceleration-based movement with double jump, crouch, slide, slope handling, and wall detection.</p>
+        <h3>Movimiento Preciso</h3>
+        <p>Movimiento por aceleración con doble salto, agacharse, deslizarse, manejo de pendientes y detección de paredes.</p>
       </div>
       <div class="card">
-        <h3>Crosshair Aiming</h3>
-        <p>Free-aim with mouse or right stick. Camera dynamically centers between player and crosshair for tactical awareness.</p>
+        <h3>Apuntado Libre</h3>
+        <p>Mira libremente con el ratón. La cámara se centra entre el jugador y la mira para una conciencia táctica total.</p>
       </div>
       <div class="card">
-        <h3>Dismemberment</h3>
-        <p>Target specific enemy body parts. Limb damage multipliers and physics-driven limb detachment on kill.</p>
+        <h3>Desmembramiento</h3>
+        <p>Apunta a partes específicas del cuerpo. Multiplicadores de daño por extremidad y desprendimiento físico al matar.</p>
       </div>
       <div class="card">
-        <h3>Dynamic Audio</h3>
-        <p>AudioMixer with Master/Music/SFX groups. Volume controls persist via PlayerPrefs.</p>
+        <h3>Audio Dinámico</h3>
+        <p>AudioMixer con grupos Master/Música/SFX. Controles de volumen persistentes vía PlayerPrefs.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WEAPONS -->
+<!-- ARMAS -->
 <section id="weapons">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">// ARSENAL</div>
-      <h2 class="section-title">WEAPON_SYSTEMS</h2>
+      <div class="section-tag">// ARSENAL BIOMECÁNICO</div>
+      <h2 class="section-title">ARMAS</h2>
     </div>
 
     <div class="cards-grid cols-2">
-      <!-- Melee -->
       <div class="card">
         <div class="sprite-row">
           <div class="sprite-item">
-            <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight_BlockNoEffect.png" alt="Blade stance" />
-            <span class="sprite-label">Blade Stance</span>
+            <img src="Assets/Art/Armas/Cuchillo.png" alt="Cuchillo" />
+            <span class="sprite-label">Cuchillo</span>
           </div>
         </div>
-        <h3>MELEE — Blade</h3>
-        <div class="sub">OverlapBox Melee Attack</div>
+        <h3>CUCHILLO — Melee</h3>
+        <div class="sub">Cuerpo a cuerpo infectado</div>
         <p>
-          Standard melee swing with a Boost Meter that passively drains and refills on enemy hits.
-          Boosted attacks deal <strong style="color:var(--neon-yellow);">1.5x damage</strong>.
+          Hoja afilada contaminada con biomasa corrosiva. Los ataques cuerpo a cuerpo
+          infligen <strong style="color:var(--neon-yellow);">daño progresivo</strong> cuanto más conectas.
         </p>
         <div class="stat-bar">
-          <div class="stat-label"><span>Base Damage</span><span>20</span></div>
-          <div class="stat-track"><div class="stat-fill cyan" style="width:40%;"></div></div>
+          <div class="stat-label"><span>Daño Base</span><span>25</span></div>
+          <div class="stat-track"><div class="stat-fill blood" style="width:50%;"></div></div>
         </div>
         <div class="stat-bar">
-          <div class="stat-label"><span>Base Range</span><span>2.0</span></div>
-          <div class="stat-track"><div class="stat-fill magenta" style="width:40%;"></div></div>
+          <div class="stat-label"><span>Alcance</span><span>1.5</span></div>
+          <div class="stat-track"><div class="stat-fill purple" style="width:30%;"></div></div>
         </div>
-        <div style="margin-top:16px; font-size:0.7rem; color:var(--neon-yellow); letter-spacing:1px;">UPGRADE PATH</div>
+        <div style="margin-top:16px; font-size:0.7rem; color:var(--neon-yellow); letter-spacing:1px;">MEJORAS</div>
         <div class="upgrade-chain">
-          <span class="upgrade-node active">Lv.1: Range +0.5, Dmg +5</span>
+          <span class="upgrade-node active">Nv.1: Daño +5, Sangrado</span>
           <span class="upgrade-arrow">&rarr;</span>
-          <span class="upgrade-node active">Lv.2: Range +0.5, Dmg +5</span>
+          <span class="upgrade-node active">Nv.2: Alcance +0.5, Daño +5</span>
           <span class="upgrade-arrow">&rarr;</span>
-          <span class="upgrade-node active">Lv.3: Double Swing, Range +1, Dmg +10</span>
+          <span class="upgrade-node active">Nv.3: Golpe doble, Daño +10</span>
         </div>
       </div>
 
-      <!-- Ranged -->
       <div class="card">
         <div class="sprite-row">
           <div class="sprite-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Glock%20-%20P80%20%5B64x48%5D.png" alt="Glock" />
-            <span class="sprite-label">Sidearm</span>
-          </div>
-          <div class="sprite-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/AK%2047%20%5B96x48%5D.png" alt="AK-47" />
-            <span class="sprite-label">Rifle</span>
+            <img src="Assets/Art/Armas/Pistola.png" alt="Pistola" />
+            <span class="sprite-label">Pistola</span>
           </div>
         </div>
-        <h3>RANGED — Firearm</h3>
-        <div class="sub">Projectile-based Ranged Attack</div>
+        <h3>PISTOLA — Ranged</h3>
+        <div class="sub">Proyectiles de biomasa</div>
         <p>
-          Fires projectiles from weapon barrels. Limited ammo — refilled by landing melee hits.
-          Cross-weapon synergy drives aggressive play.
+          Pistola de proyectiles orgánicos. Disparos a distancia que corrompen al enemigo.
+          La munición se regenera al acertar golpes cuerpo a cuerpo.
         </p>
         <div class="stat-bar">
-          <div class="stat-label"><span>Base Damage</span><span>15</span></div>
-          <div class="stat-track"><div class="stat-fill cyan" style="width:30%;"></div></div>
+          <div class="stat-label"><span>Daño Base</span><span>18</span></div>
+          <div class="stat-track"><div class="stat-fill blood" style="width:36%;"></div></div>
         </div>
         <div class="stat-bar">
-          <div class="stat-label"><span>Base Ammo</span><span>10</span></div>
-          <div class="stat-track"><div class="stat-fill yellow" style="width:33%;"></div></div>
+          <div class="stat-label"><span>Municion</span><span>12</span></div>
+          <div class="stat-track"><div class="stat-fill gold" style="width:40%;"></div></div>
         </div>
-        <div style="margin-top:16px; font-size:0.7rem; color:var(--neon-yellow); letter-spacing:1px;">UPGRADE PATH</div>
+        <div style="margin-top:16px; font-size:0.7rem; color:var(--neon-yellow); letter-spacing:1px;">MEJORAS</div>
         <div class="upgrade-chain">
-          <span class="upgrade-node active">Lv.1: Ammo +5, Dmg +5</span>
+          <span class="upgrade-node active">Nv.1: Munición +5, Daño +3</span>
           <span class="upgrade-arrow">&rarr;</span>
-          <span class="upgrade-node active">Lv.2: Full-Auto, Ammo +5, Dmg +5</span>
+          <span class="upgrade-node active">Nv.2: Automática, Daño +5</span>
           <span class="upgrade-arrow">&rarr;</span>
-          <span class="upgrade-node active">Lv.3: Triple Shot, Dmg +10</span>
+          <span class="upgrade-node active">Nv.3: Triple disparo, Daño +8</span>
         </div>
-      </div>
-    </div>
-
-    <!-- Full Arsenal -->
-    <div style="margin-top:32px;">
-      <div class="card">
-        <h3>COMPLETE ARSENAL</h3>
-        <div class="sub">6 Firearm Types</div>
-        <div class="weapon-gallery">
-          <div class="wp-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Glock%20-%20P80%20%5B64x48%5D.png" alt="Glock" />
-            <div class="wp-name">Glock P80</div>
-          </div>
-          <div class="wp-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Revolver%20-%20Colt%2045%20%5B64x32%5D.png" alt="Revolver" />
-            <div class="wp-name">Colt .45</div>
-          </div>
-          <div class="wp-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/AK%2047%20%5B96x48%5D.png" alt="AK-47" />
-            <div class="wp-name">AK-47</div>
-          </div>
-          <div class="wp-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Submachine%20-%20MP5A3%20%5B80x48%5D.png" alt="MP5" />
-            <div class="wp-name">MP5A3</div>
-          </div>
-          <div class="wp-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Bazooka" />
-            <div class="wp-name">M20 Bazooka</div>
-          </div>
-          <div class="wp-item">
-            <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Thick%20Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Thick Bazooka" />
-            <div class="wp-name">M20 Thick</div>
-          </div>
-        </div>
-        <div class="tags" style="margin-top:12px;">
-          <span class="tag green">Melee hits refill Ranged ammo</span>
-          <span class="tag magenta">Ranged hits refill Melee boost meter</span>
-        </div>
-        <p style="margin-top:8px; font-size:0.75rem; color:var(--dim);">Weapon switching via scroll wheel. IK hand positioning adapts per weapon. Crosshair dynamically repositions on swap.</p>
       </div>
     </div>
   </div>
@@ -887,33 +1033,33 @@
 <section id="abilities">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">// MOVEMENT &amp; POWERS</div>
-      <h2 class="section-title">PLAYER_ABILITIES</h2>
+      <div class="section-tag">// MOVIMIENTO Y PODERES</div>
+      <h2 class="section-title">HABILIDADES</h2>
     </div>
     <div class="cards-grid cols-3">
       <div class="card">
-        <h3>Double Jump</h3>
-        <p>Two jumps allow for aerial agility and platforming. First jump standard, second grants extra height.</p>
+        <h3>Doble Salto</h3>
+        <p>Dos saltos para agilidad aérea y plataformeo. El primero estándar, el segundo concede altura extra.</p>
       </div>
       <div class="card">
-        <h3>Crouch</h3>
-        <p>Reduce hitbox height and move at reduced speed. Essential for low-clearance passages.</p>
+        <h3>Agacharse</h3>
+        <p>Reduce la hitbox y mueve a velocidad reducida. Esencial para pasajes de poca altura.</p>
       </div>
       <div class="card">
-        <h3>Slide</h3>
-        <p>Initiated by crouching while moving at speed. High-velocity, limited-duration evasive maneuver.</p>
+        <h3>Deslizarse</h3>
+        <p>Se inicia agachándose mientras te mueves. Maniobra evasiva de alta velocidad y duración limitada.</p>
       </div>
       <div class="card">
-        <h3>Crosshair Aim</h3>
-        <p>Free-aim with mouse/right stick. Camera follows midpoint between player and crosshair (clamped).</p>
+        <h3>Apuntado Libre</h3>
+        <p>Mira libremente con el ratón. La cámara sigue el punto medio entre el jugador y la mira.</p>
       </div>
       <div class="card">
-        <h3>Interact</h3>
-        <p>Press Interact near Upgrade Drones to receive weapon upgrades. Context-sensitive action button.</p>
+        <h3>Interactuar</h3>
+        <p>Presiona Interactuar cerca de Bio-Mejoas para recibir mejoras de armas. Botón de acción contextual.</p>
       </div>
       <div class="card">
-        <h3>Boost Meter</h3>
-        <p>Passively drains over time. Refilled on enemy hits. When above zero, all melee attacks deal 1.5x damage.</p>
+        <h3>Medidor de Poder</h3>
+        <p>Se drena pasivamente. Se recarga al golpear enemigos. Cuando está sobre cero, los ataques cuerpo a cuerpo hacen 1.5x de daño.</p>
       </div>
     </div>
   </div>
@@ -924,88 +1070,82 @@
   <div class="container">
     <div class="section-header">
       <div class="section-tag">// HOSTILES</div>
-      <h2 class="section-title">ENEMY_ROSTER</h2>
+      <h2 class="section-title">BESTIARIO</h2>
     </div>
 
     <div class="cards-grid cols-3">
-      <!-- Light - Toaster -->
+      <!-- TOSTADORAACOSADORA -->
       <div class="card">
-        <div class="sprite-row">
+        <div class="sprite-row" style="justify-content:center;">
           <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Flight.png" alt="Flying Eye" />
-            <span class="sprite-label">Flight</span>
-          </div>
-          <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Attack1.png" alt="Flying Eye Attack" />
-            <span class="sprite-label">Attack</span>
+            <img src="Assets/Art/Enemies/TOSTADORAACOSADORA.png" alt="Tostadora Acosadora" style="height:100px;" />
+            <span class="sprite-label">Tostadora Acosadora</span>
           </div>
         </div>
-        <h3>&lt;LIGHT&gt; Toaster</h3>
-        <div class="sub">Flying Ranged Unit</div>
-        <p>Floating enemy with zero gravity. Patrols in a random direction and fires projectiles from a turret point.</p>
-        <ul>
-          <li>Projectile-based attack</li>
-          <li>No gravity (floating)</li>
-          <li>Patrols horizontal direction</li>
-        </ul>
-      </div>
-
-      <!-- Medium - TV -->
-      <div class="card">
-        <div class="sprite-row">
-          <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Idle.png" alt="Skeleton" />
-            <span class="sprite-label">Skeleton</span>
-          </div>
-          <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Idle.png" alt="Goblin" />
-            <span class="sprite-label">Goblin</span>
-          </div>
-          <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Idle.png" alt="Mushroom" />
-            <span class="sprite-label">Mushroom</span>
-          </div>
-        </div>
-        <h3>&lt;MEDIUM&gt; TV</h3>
-        <div class="sub">Ground Melee Unit</div>
-        <p>Ground-based chaser. Detects player at range, accelerates toward them, and delivers melee attacks on contact.</p>
-        <ul>
-          <li>Chase range detection</li>
-          <li>Melee attack on approach</li>
-          <li>Slope &amp; gravity handling</li>
-          <li>Acceleration-based movement</li>
-        </ul>
+        <h3>&lt;LIGERO&gt; Tostadora</h3>
+        <div class="sub">Unidad voladora a distancia</div>
+        <p>Enemigo flotante que patrulla horizontalmente y dispara proyectiles desde su torreta. Sin gravedad, acecha desde las alturas.</p>
         <div class="stat-bar">
-          <div class="stat-label"><span>HP</span><span>Varies</span></div>
-          <div class="stat-track"><div class="stat-fill red" style="width:50%;"></div></div>
+          <div class="stat-label"><span>HP</span><span>60</span></div>
+          <div class="stat-track"><div class="stat-fill red" style="width:24%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Daño</span><span>15</span></div>
+          <div class="stat-track"><div class="stat-fill blood" style="width:30%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Velocidad</span><span>3.5</span></div>
+          <div class="stat-track"><div class="stat-fill purple" style="width:35%;"></div></div>
         </div>
       </div>
 
-      <!-- Heavy - Nevera -->
+      <!-- TELEANDANTE -->
       <div class="card">
-        <div class="sprite-row">
+        <div class="sprite-row" style="justify-content:center;">
           <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Walk.png" alt="Skeleton Walk" />
-            <span class="sprite-label">Walk</span>
-          </div>
-          <div class="sprite-item">
-            <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Attack1.png" alt="Skeleton Attack" />
-            <span class="sprite-label">Attack</span>
+            <img src="Assets/Art/Enemies/TELEANDANTE.png" alt="Teleandante" style="height:100px;" />
+            <span class="sprite-label">Teleandante</span>
           </div>
         </div>
-        <h3>&lt;HEAVY&gt; Nevera / Charger</h3>
-        <div class="sub">Elite Charge Unit</div>
-        <p>Massive enemy with a wind-up charge attack. Charges at high speed, damages player and destroys brittle walls.</p>
-        <ul>
-          <li>250 HP</li>
-          <li>25 charge damage</li>
-          <li>1.5s wind-up, charge speed 12, distance 8</li>
-          <li>1.5s cooldown between charges</li>
-          <li>Breaks through walls</li>
-        </ul>
+        <h3>&lt;MEDIO&gt; Teleandante</h3>
+        <div class="sub">Unidad terrestre de persecución</div>
+        <p>Perseguidor implacable. Detecta al jugador a distancia, acelera hacia él y ataca cuerpo a cuerpo al contacto.</p>
+        <div class="stat-bar">
+          <div class="stat-label"><span>HP</span><span>120</span></div>
+          <div class="stat-track"><div class="stat-fill red" style="width:48%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Daño</span><span>20</span></div>
+          <div class="stat-track"><div class="stat-fill blood" style="width:40%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Velocidad</span><span>5.0</span></div>
+          <div class="stat-track"><div class="stat-fill purple" style="width:50%;"></div></div>
+        </div>
+      </div>
+
+      <!-- NeveraCharger -->
+      <div class="card">
+        <div class="sprite-row" style="justify-content:center;">
+          <div class="sprite-item">
+            <img src="Assets/Art/Enemies/NeveraCharger.png" alt="Nevera Charger" style="height:100px;" />
+            <span class="sprite-label">Nevera Charger</span>
+          </div>
+        </div>
+        <h3>&lt;PESADO&gt; Nevera / Charger</h3>
+        <div class="sub">Unidad de carga de élite</div>
+        <p>Enemigo masivo con ataque de carga devastador. Corre a alta velocidad, daña al jugador y destruye muros frágiles.</p>
         <div class="stat-bar">
           <div class="stat-label"><span>HP</span><span>250</span></div>
           <div class="stat-track"><div class="stat-fill red" style="width:100%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Daño</span><span>25</span></div>
+          <div class="stat-track"><div class="stat-fill blood" style="width:50%;"></div></div>
+        </div>
+        <div class="stat-bar">
+          <div class="stat-label"><span>Velocidad</span><span>7.0</span></div>
+          <div class="stat-track"><div class="stat-fill purple" style="width:70%;"></div></div>
         </div>
       </div>
     </div>
@@ -1013,13 +1153,13 @@
     <!-- Limb System -->
     <div style="margin-top:24px;">
       <div class="card">
-        <h3>BODY PART &amp; LIMB SYSTEM</h3>
-        <p>Enemies are composed of multiple body parts (Limb, Body, Head). Each part is individually damageable via IDamageable. Severing limbs applies damage multipliers to the main enemy. On death, detached limb prefabs are spawned with physics.</p>
+        <h3>SISTEMA DE MIEMBROS Y CORRUPCIÓN</h3>
+        <p>Los enemigos están compuestos de múltiples partes del cuerpo (Miembro, Cuerpo, Cabeza). Cada parte es dañable individualmente. Cortar miembros aplica multiplicadores de daño. Al morir, los miembros se desprenden con física.</p>
         <div class="tags">
-          <span class="tag cyan">IDamageable interface</span>
-          <span class="tag magenta">Limb severance</span>
-          <span class="tag yellow">Damage multipliers</span>
-          <span class="tag green">Physics-based detachment</span>
+          <span class="tag blood">IDamageable interface</span>
+          <span class="tag purple">Corte de miembros</span>
+          <span class="tag gold">Multiplicadores de daño</span>
+          <span class="tag brown">Desprendimiento físico</span>
         </div>
       </div>
     </div>
@@ -1027,8 +1167,58 @@
     <!-- Breakable Wall -->
     <div style="margin-top:24px;">
       <div class="card">
-        <h3>HEAVY BREAKABLE WALL</h3>
-        <p>Environmental obstacle that shatters when struck by a charging Heavy enemy. Can destroy individual tiles on a Tilemap or the whole object.</p>
+        <h3>MURO CORROMPIDO</h3>
+        <p>Obstáculo ambiental que se destruye al ser golpeado por un enemigo pesado. Puede destruir tiles individuales o el objeto completo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOSS FINAL -->
+<section id="boss">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// ABOMINACIÓN FINAL</div>
+      <h2 class="section-title">JEFE_FINAL</h2>
+    </div>
+
+    <div class="cards-grid cols-2">
+      <div class="card" style="grid-column:1/-1;">
+        <div class="sprite-row" style="justify-content:center;">
+          <div class="sprite-item">
+            <img src="Assets/Art/Props/JefeFinal.png" alt="Jefe Final" style="height:200px;" />
+            <span class="sprite-label">Jefe Final — Forma Corrompida</span>
+          </div>
+        </div>
+        <h3>LA ABOMINACIÓN</h3>
+        <div class="sub">Jefe final del juego</div>
+        <p>
+          Una masa corrupta de carne y biomecanismo. El Jefe Final es la culminación de la infección
+          BioCorruption. Patrones de ataque devastadores, fases múltiples y disparos que rebotan.
+        </p>
+        <div class="tags" style="justify-content:center; margin-top:12px;">
+          <span class="tag blood">Disparo múltiple</span>
+          <span class="tag purple">Balas rebotantes</span>
+          <span class="tag gold">Fases de batalla</span>
+          <span class="tag brown">Corrupción masiva</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="card">
+        <h3>ANIMACIÓN DEL JEFE</h3>
+        <div class="sub">Animación en bucle — GIF</div>
+        <div style="display:flex; justify-content:center; margin:16px 0;">
+          <img src="Assets/Animations/FinalBoss/bossanimacion.gif" alt="Boss Animación" style="max-width:300px; height:auto; image-rendering:pixelated; border:1px solid var(--border);" />
+        </div>
+        <div class="upgrade-chain" style="justify-content:center; margin-top:12px;">
+          <span class="upgrade-node boss">Fase 1: Disparo directo</span>
+          <span class="upgrade-arrow">&rarr;</span>
+          <span class="upgrade-node boss">Fase 2: Balas rebotantes</span>
+          <span class="upgrade-arrow">&rarr;</span>
+          <span class="upgrade-node boss">Fase 3: Corrupción total</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1038,36 +1228,36 @@
 <section id="arenas">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">// LEVEL FLOW</div>
-      <h2 class="section-title">ARENA_SYSTEM</h2>
+      <div class="section-tag">// FLUJO DE NIVEL</div>
+      <h2 class="section-title">ARENAS</h2>
     </div>
     <div class="cards-grid cols-2">
       <div class="card">
-        <h3>COMBAT ARENAS</h3>
-        <p>Trigger zones that lock the player inside when entered. Doors close, enemies spawn in waves, and the exit unlocks only after all hostiles are eliminated.</p>
+        <h3>ARENAS DE COMBATE</h3>
+        <p>Zonas de activación que encierran al jugador al entrar. Las puertas se cierran, los enemigos aparecen en oleadas, y la salida se desbloquea solo al eliminar a todos.</p>
         <ul>
-          <li>Player entry triggers arena start</li>
-          <li>Doors close (toggle door visibility)</li>
-          <li>Configurable enemies per wave</li>
-          <li>Configurable spawn points</li>
-          <li>Exit opens on wave completion</li>
+          <li>Entrada del jugador inicia la arena</li>
+          <li>Puertas se cierran</li>
+          <li>Enemigos configurables por oleada</li>
+          <li>Puntos de aparición configurables</li>
+          <li>Salida se abre al completar oleadas</li>
         </ul>
       </div>
       <div class="card">
-        <h3>POST-GAME SUMMARY</h3>
-        <p>After clearing a level, the post-game screen shows animated counters for total kills and clear time. Score-driven feedback loop.</p>
+        <h3>RESUMEN POST-JUEGO</h3>
+        <p>Después de limpiar un nivel, la pantalla de resumen muestra contadores animados de muertes totales y tiempo. Ciclo de retroalimentación por puntuación.</p>
         <ul>
-          <li>Kill counter (animated)</li>
-          <li>Time counter (animated)</li>
-          <li>Triggered at level end</li>
+          <li>Contador de muertes (animado)</li>
+          <li>Contador de tiempo (animado)</li>
+          <li>Activado al final del nivel</li>
         </ul>
       </div>
     </div>
 
     <div style="margin-top:24px;">
       <div class="card">
-        <h3>ENVIRONMENTS &amp; BACKGROUNDS</h3>
-        <p>The game features rich pixel-art environments from the Dark Forest asset pack, bringing urban districts and atmospheric locales to life.</p>
+        <h3>ENTORNOS Y ESCENARIOS</h3>
+        <p>El juego cuenta con entornos de pixel art del pack Dark Forest, dando vida a distritos urbanos infectados y localizaciones atmosféricas corruptas.</p>
         <div class="bg-showcase">
           <div class="bg-item">
             <img src="Assets/External%20Assets/Dark_Forest/Sprites/main_background.png" alt="Main Background" loading="lazy" />
@@ -1085,23 +1275,6 @@
       </div>
     </div>
 
-    <div style="margin-top:24px;">
-      <div class="card">
-        <h3>SCENES / LEVELS</h3>
-        <table class="data-table">
-          <thead>
-            <tr><th>Scene</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Main Menu</td><td>Title screen with Play / Quit</td></tr>
-            <tr><td>District 1</td><td>Level 1 — urban district arena</td></tr>
-            <tr><td>District 2</td><td>Level 2 — urban district arena</td></tr>
-            <tr><td>District Tommy</td><td>Tommy's district variant</td></tr>
-            <tr><td>Test Scene</td><td>Sandbox for development</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1109,251 +1282,48 @@
 <section id="gallery">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">// VISUAL DATABASE</div>
-      <h2 class="section-title">ART_ASSETS</h2>
+      <div class="section-tag">// BASE DE DATOS VISUAL</div>
+      <h2 class="section-title">GALERÍA_DE_ARTE</h2>
     </div>
     <p style="text-align:center; color:var(--dim); font-size:0.85rem; max-width:600px; margin: -40px auto 48px;">
-      Complete catalogue of all pixel art integrated into the project — characters, enemies,
-      weapons, environments, props, UI, and visual effects.
+      Catálogo completo de todo el arte pixelado del proyecto — personajes, enemigos,
+      armas, entornos, props, UI y efectos visuales.
     </p>
 
-    <!-- PLAYER CHARACTERS -->
+    <!-- ENEMIGOS -->
     <div class="art-section">
       <div class="art-cat-title">
-        PLAYER CHARACTER <span class="count">(6 sprites)</span>
-      </div>
-      <div class="art-grid">
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight.png" alt="Hero Knight" loading="lazy" />
-          <div class="art-name">HeroKnight</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight_DeathNoBlood.png" alt="Death" loading="lazy" />
-          <div class="art-name">DeathNoBlood</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/HeroKnight_BlockNoEffect.png" alt="Block" loading="lazy" />
-          <div class="art-name">BlockNoEffect</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/SlideDust.png" alt="Slide Dust" loading="lazy" />
-          <div class="art-name">SlideDust</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/BlockFlash.png" alt="Block Flash" loading="lazy" />
-          <div class="art-name">BlockFlash</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Hero%20Knight%20-%20Pixel%20Art/Sprites/EnvironmentTiles.png" alt="Env Tiles" loading="lazy" />
-          <div class="art-name">EnvironmentTiles</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ENEMIES -->
-    <div class="art-section">
-      <div class="art-cat-title">
-        ENEMIES — MONSTERS PACK <span class="count">(24 sprites)</span>
-      </div>
-      <div class="art-grid">
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Idle.png" alt="Skeleton Idle" loading="lazy" />
-          <div class="art-name">Skeleton / Idle</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Walk.png" alt="Skeleton Walk" loading="lazy" />
-          <div class="art-name">Skeleton / Walk</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Attack1.png" alt="Skeleton Attack1" loading="lazy" />
-          <div class="art-name">Skeleton / Attack1</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Attack2.png" alt="Skeleton Attack2" loading="lazy" />
-          <div class="art-name">Skeleton / Attack2</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Shield.png" alt="Skeleton Shield" loading="lazy" />
-          <div class="art-name">Skeleton / Shield</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Take%20Hit.png" alt="Skeleton Hit" loading="lazy" />
-          <div class="art-name">Skeleton / Take Hit</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Skeleton/Death.png" alt="Skeleton Death" loading="lazy" />
-          <div class="art-name">Skeleton / Death</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Idle.png" alt="Goblin Idle" loading="lazy" />
-          <div class="art-name">Goblin / Idle</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Run.png" alt="Goblin Run" loading="lazy" />
-          <div class="art-name">Goblin / Run</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Attack1.png" alt="Goblin Attack1" loading="lazy" />
-          <div class="art-name">Goblin / Attack1</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Attack2.png" alt="Goblin Attack2" loading="lazy" />
-          <div class="art-name">Goblin / Attack2</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Take%20Hit.png" alt="Goblin Hit" loading="lazy" />
-          <div class="art-name">Goblin / Take Hit</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Goblin/Death.png" alt="Goblin Death" loading="lazy" />
-          <div class="art-name">Goblin / Death</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Idle.png" alt="Mushroom Idle" loading="lazy" />
-          <div class="art-name">Mushroom / Idle</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Run.png" alt="Mushroom Run" loading="lazy" />
-          <div class="art-name">Mushroom / Run</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Attack1.png" alt="Mushroom Attack1" loading="lazy" />
-          <div class="art-name">Mushroom / Attack1</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Attack2.png" alt="Mushroom Attack2" loading="lazy" />
-          <div class="art-name">Mushroom / Attack2</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Take%20Hit.png" alt="Mushroom Hit" loading="lazy" />
-          <div class="art-name">Mushroom / Take Hit</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Mushroom/Death.png" alt="Mushroom Death" loading="lazy" />
-          <div class="art-name">Mushroom / Death</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Flight.png" alt="Flying Eye Flight" loading="lazy" />
-          <div class="art-name">Flying Eye / Flight</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Attack1.png" alt="Flying Eye Attack1" loading="lazy" />
-          <div class="art-name">Flying Eye / Attack1</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Attack2.png" alt="Flying Eye Attack2" loading="lazy" />
-          <div class="art-name">Flying Eye / Attack2</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Take%20Hit.png" alt="Flying Eye Hit" loading="lazy" />
-          <div class="art-name">Flying Eye / Take Hit</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Monsters%20Creatures%20Fantasy/Sprites/Flying%20eye/Death.png" alt="Flying Eye Death" loading="lazy" />
-          <div class="art-name">Flying Eye / Death</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CUSTOM ENEMY ART (PSB) -->
-    <div class="art-section">
-      <div class="art-cat-title">
-        ENEMIES — CUSTOM <span class="count">(PSB multilayer)</span>
+        ENEMIGOS <span class="count">(3 sprites)</span>
       </div>
       <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));">
-        <div class="art-item" style="padding:24px;">
-          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">LightEnemyToaster.psb</div>
-          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Flying ranged unit — custom sprite composition</div>
+        <div class="art-item">
+          <img src="Assets/Art/Enemies/TOSTADORAACOSADORA.png" alt="Tostadora Acosadora" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Tostadora Acosadora</div>
         </div>
-        <div class="art-item" style="padding:24px;">
-          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">MediumEnemyTV.psb</div>
-          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Ground melee unit — custom sprite composition</div>
+        <div class="art-item">
+          <img src="Assets/Art/Enemies/TELEANDANTE.png" alt="Teleandante" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Teleandante</div>
         </div>
-        <div class="art-item" style="padding:24px;">
-          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">Nevera.psb</div>
-          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Heavy charger unit — custom sprite composition</div>
-        </div>
-        <div class="art-item" style="padding:24px;">
-          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">Avatar PSB (Player)</div>
-          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Player character — custom multilayer</div>
-        </div>
-        <div class="art-item" style="padding:24px;">
-          <div style="font-size:0.8rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">PlantillaPJ.psb</div>
-          <div style="font-size:0.55rem; color:var(--dim); margin-top:4px;">Player template — custom multilayer</div>
+        <div class="art-item">
+          <img src="Assets/Art/Enemies/NeveraCharger.png" alt="Nevera Charger" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Nevera Charger</div>
         </div>
       </div>
     </div>
 
-    <!-- WEAPONS / GUNS -->
+    <!-- ARMAS -->
     <div class="art-section">
       <div class="art-cat-title">
-        WEAPONS — FIREARMS <span class="count">(6 types + ammo)</span>
+        ARMAS <span class="count">(2 tipos)</span>
       </div>
-      <div class="art-grid">
+      <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));">
         <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Glock%20-%20P80%20%5B64x48%5D.png" alt="Glock" loading="lazy" />
-          <div class="art-name">Glock P80</div>
+          <img src="Assets/Art/Armas/Cuchillo.png" alt="Cuchillo" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Cuchillo</div>
         </div>
         <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Revolver%20-%20Colt%2045%20%5B64x32%5D.png" alt="Revolver" loading="lazy" />
-          <div class="art-name">Colt .45 Revolver</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/AK%2047%20%5B96x48%5D.png" alt="AK47" loading="lazy" />
-          <div class="art-name">AK-47</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Submachine%20-%20MP5A3%20%5B80x48%5D.png" alt="MP5" loading="lazy" />
-          <div class="art-name">MP5A3</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Bazooka" loading="lazy" />
-          <div class="art-name">M20 Bazooka</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Guns/Thick%20Bazooka%20-%20M20%20%5B192x32%5D.png" alt="Thick Bazooka" loading="lazy" />
-          <div class="art-name">M20 Thick Bazooka</div>
-        </div>
-      </div>
-      <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-        <div class="tag cyan">AK-47 Spritesheet (18 frames)</div>
-        <div class="tag magenta">Bazooka M20 Spritesheet (10 frames)</div>
-        <div class="tag yellow">Glock P80 Spritesheet (14 frames)</div>
-        <div class="tag green">Revolver Spritesheet (15 frames)</div>
-        <div class="tag cyan">MP5A3 Spritesheet (18 frames)</div>
-        <div class="tag magenta">Thick Bazooka Spritesheet (10 frames)</div>
-      </div>
-    </div>
-
-    <!-- BULLETS & AMMO -->
-    <div class="art-section">
-      <div class="art-cat-title">
-        AMMUNITION <span class="count">(6 types)</span>
-      </div>
-      <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));">
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/AK%2047/Bullet.png" alt="AK Bullet" loading="lazy" />
-          <div class="art-name">AK-47 Bullet</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Glock%20-%20P80/Bullet.png" alt="Glock Bullet" loading="lazy" />
-          <div class="art-name">Glock Bullet</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Revolver%20-%20Colt%2045/Bullet.png" alt="Revolver Bullet" loading="lazy" />
-          <div class="art-name">.45 Bullet</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Submachine%20-%20MP5A3/Bullet.png" alt="MP5 Bullet" loading="lazy" />
-          <div class="art-name">MP5 Bullet</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Bazooka%20-%20M20%20-%20Copy/M20%20Rocket.png" alt="Bazooka Rocket" loading="lazy" />
-          <div class="art-name">M20 Rocket</div>
-        </div>
-        <div class="art-item">
-          <img src="Assets/External%20Assets/Guns_V1.01%20-%20Commission%20-%20Copy/01%20-%20Individual%20sprites/Bullets%20%26%20Ammo/Thick%20Bazooka%20-%20M20/M20%20Thick%20Rocket.png" alt="Thick Rocket" loading="lazy" />
-          <div class="art-name">M20 Thick Rocket</div>
+          <img src="Assets/Art/Armas/Pistola.png" alt="Pistola" loading="lazy" style="max-height:120px;" />
+          <div class="art-name">Pistola</div>
         </div>
       </div>
     </div>
@@ -1361,7 +1331,7 @@
     <!-- ENVIRONMENTS -->
     <div class="art-section">
       <div class="art-cat-title">
-        ENVIRONMENTS — DARK FOREST <span class="count">(14 backgrounds + tiles)</span>
+        ENTORNOS — DARK FOREST <span class="count">(14 fondos + tiles)</span>
       </div>
       <div class="art-grid">
         <div class="art-item">
@@ -1426,7 +1396,7 @@
     <!-- TILES & PALETTES -->
     <div class="art-section">
       <div class="art-cat-title">
-        TILEMAPS &amp; PALETTES <span class="count">(11 sheets, 228 tiles)</span>
+        TILEMAPS Y PALETAS <span class="count">(11 hojas, 228 tiles)</span>
       </div>
       <div class="art-grid">
         <div class="art-item">
@@ -1487,18 +1457,18 @@
         </div>
       </div>
       <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-        <span class="tag cyan">65 Building1 tiles</span>
-        <span class="tag magenta">100 TilesEdificios tiles</span>
-        <span class="tag yellow">20 Grua tiles</span>
-        <span class="tag green">43 Distrito2 tiles</span>
-        <span class="tag cyan">6 Simple RuleTile sets</span>
+        <span class="tag blood">65 Building1 tiles</span>
+        <span class="tag purple">100 TilesEdificios tiles</span>
+        <span class="tag gold">20 Grua tiles</span>
+        <span class="tag brown">43 Distrito2 tiles</span>
+        <span class="tag blood">6 Simple RuleTile sets</span>
       </div>
     </div>
 
     <!-- PROPS -->
     <div class="art-section">
       <div class="art-cat-title">
-        PROPS &amp; OBJECTS <span class="count">(5 sprites)</span>
+        PROPS Y OBJETOS <span class="count">(5 sprites)</span>
       </div>
       <div class="art-grid">
         <div class="art-item">
@@ -1527,7 +1497,7 @@
     <!-- UI ELEMENTS -->
     <div class="art-section">
       <div class="art-cat-title">
-        UI — KENNEY SPACE EXPANSION <span class="count">(300+ elements, 6 color themes)</span>
+        UI — KENNEY SPACE EXPANSION <span class="count">(300+ elementos, 6 temas)</span>
       </div>
       <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));">
         <div class="art-item">
@@ -1576,7 +1546,7 @@
     <!-- VFX -->
     <div class="art-section">
       <div class="art-cat-title">
-        VISUAL EFFECTS <span class="count">(3 blood spritesheets)</span>
+        EFECTOS VISUALES <span class="count">(3 hojas de sangre)</span>
       </div>
       <div class="art-grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));">
         <div class="art-item">
@@ -1597,7 +1567,7 @@
     <!-- ART SUMMARY -->
     <div style="margin-top:48px;">
       <div class="card" style="text-align:center;">
-        <h3>ART ASSET SUMMARY</h3>
+        <h3>RESUMEN DE ASSETS</h3>
         <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
           <div>
             <div style="font-size:1.4rem; color:var(--neon-cyan); font-family:'Orbitron',sans-serif;">80+</div>
@@ -1629,32 +1599,32 @@
 <section id="systems">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag">// META</div>
-      <h2 class="section-title">GAME_SYSTEMS_DEEP</h2>
+      <div class="section-tag">// SISTEMAS</div>
+      <h2 class="section-title">SISTEMAS_DEL_JUEGO</h2>
     </div>
 
     <div class="cards-grid cols-2">
       <div class="card">
-        <h3>STYLE / RANK SYSTEM</h3>
-        <div class="sub">Combo &amp; Score Multiplier</div>
-        <p>Tracks damage events via string keys: Limb, Body, Head, Melee, Range, Dead, Player. Points awarded based on variety of damage types used. Style meter displayed in HUD with a gradient from dark blue to yellow.</p>
+        <h3>SISTEMA DE CORRUPCIÓN / RANGO</h3>
+        <div class="sub">Combo &amp; Multiplicador de Puntuación</div>
+        <p>Rastrea eventos de daño por claves: Miembro, Cuerpo, Cabeza, Melee, Distancia, Muerte, Jugador. Puntos otorgados por variedad de tipos de daño. Medidor de corrupción mostrado en HUD con gradiente de rojo oscuro a dorado.</p>
         <ul>
-          <li>Damage keys tracked for variety</li>
-          <li>Passive style decay over time</li>
-          <li>Thresholds unlock higher ranks</li>
-          <li>Dark-blue-to-yellow meter gradient</li>
+          <li>Claves de daño rastreadas por variedad</li>
+          <li>Decaimiento pasivo de corrupción</li>
+          <li>Umbrales desbloquean rangos mayores</li>
+          <li>Gradiente rojo-oscuro a dorado</li>
         </ul>
       </div>
 
       <div class="card">
         <h3>HUD &amp; UI</h3>
-        <div class="sub">Real-time Player Feedback</div>
-        <p>Heads-up display showing four key meters: Style meter, Health meter, Ammo counter, and Power/Boost meter. TextMeshPro-based with reusable panel system.</p>
+        <div class="sub">Retroalimentación en Tiempo Real</div>
+        <p>Pantalla de información con cuatro medidores clave: Corrupción, Salud, Munición y Poder. Basado en TextMeshPro con sistema de paneles reutilizables.</p>
         <ul>
-          <li>Style meter (combo rank)</li>
-          <li>Health meter (100 HP max)</li>
-          <li>Ammo counter (ranged weapon)</li>
-          <li>Boost/Power meter (melee)</li>
+          <li>Medidor de corrupción (rango de combo)</li>
+          <li>Medidor de salud (100 HP máx)</li>
+          <li>Contador de munición</li>
+          <li>Medidor de poder/boost</li>
         </ul>
         <div style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;">
           <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/bar_round_large_l.png" alt="Bar L" style="height:24px; image-rendering:pixelated;" loading="lazy" />
@@ -1664,14 +1634,14 @@
       </div>
 
       <div class="card">
-        <h3>PAUSE &amp; SETTINGS</h3>
-        <div class="sub">Menus &amp; Configuration</div>
-        <p>Full pause menu with resume, settings sliders (Master/Music/SFX volume), and return-to-menu. PlayerPrefs persistence for audio settings.</p>
+        <h3>PAUSA Y AJUSTES</h3>
+        <div class="sub">Menús y Configuración</div>
+        <p>Menú de pausa completo con reanudar, controles deslizantes (Master/Música/SFX) y volver al menú principal. Persistencia de ajustes de audio vía PlayerPrefs.</p>
         <ul>
-          <li>Time scale 0 on pause</li>
-          <li>Volume sliders with real-time preview</li>
-          <li>PlayerPrefs persistence</li>
-          <li>Settings / Upgrades panels</li>
+          <li>Escala de tiempo 0 al pausar</li>
+          <li>Controles deslizantes con vista previa</li>
+          <li>Persistencia PlayerPrefs</li>
+          <li>Paneles de ajustes y mejoras</li>
         </ul>
         <div style="margin-top:12px;">
           <img src="Assets/External%20Assets/kenney_ui-pack-space-expansion/PNG/Blue/Default/button_square_header_large_square_screws.png" alt="Panel" style="height:32px; image-rendering:pixelated;" loading="lazy" />
@@ -1679,14 +1649,14 @@
       </div>
 
       <div class="card">
-        <h3>AUDIO ARCHITECTURE</h3>
-        <div class="sub">Mixer &amp; ScriptableObjects</div>
-        <p>Singleton AudioController manages SFX (PlayOneShot) and music (loop) via Unity AudioMixer. Volume routed through exposed parameters.</p>
+        <h3>ARQUITECTURA DE AUDIO</h3>
+        <div class="sub">Mixer y ScriptableObjects</div>
+        <p>AudioController singleton gestiona SFX (PlayOneShot) y música (loop) mediante Unity AudioMixer. Volumen enrutado a través de parámetros expuestos.</p>
         <ul>
-          <li>Master / Music / SFX groups</li>
-          <li>AudioData ScriptableObject (clip + name + volume)</li>
-          <li>AudioDataBase SO (music + SFX arrays)</li>
-          <li>Volume control via mixer</li>
+          <li>Grupos Master / Music / SFX</li>
+          <li>AudioData ScriptableObject (clip + nombre + volumen)</li>
+          <li>AudioDataBase SO (arrays de música y SFX)</li>
+          <li>Control de volumen vía mixer</li>
         </ul>
       </div>
     </div>
@@ -1698,11 +1668,11 @@
   <div class="container">
     <div class="section-header">
       <div class="section-tag">// STACK</div>
-      <h2 class="section-title">TECHNICAL_SPECS</h2>
+      <h2 class="section-title">ESPECIFICACIONES</h2>
     </div>
     <div class="cards-grid cols-2">
       <div class="card">
-        <h3>ENGINE &amp; PLATFORM</h3>
+        <h3>MOTOR Y PLATAFORMA</h3>
         <table class="data-table">
           <tbody>
             <tr><td>Engine</td><td>Unity 6000.3.8f1 (Unity 6)</td></tr>
@@ -1752,17 +1722,61 @@
   </div>
 </section>
 
+<!-- REGISTRATION / NEWSLETTER -->
+<section id="register">
+  <canvas id="particle-canvas"></canvas>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// PROXIMAMENTE</div>
+      <h2 class="section-title">STAY_TUNED</h2>
+    </div>
+    <div class="register-card">
+      <p class="register-intro">
+        <span class="typewriter" data-text="Regístrate para recibir noticias, fechas de lanzamiento y contenido exclusivo del juego."></span>
+        <span class="cursor-blink">|</span>
+      </p>
+      <form id="register-form" class="register-form">
+        <div class="input-group">
+          <label for="reg-name">// NOMBRE</label>
+          <input type="text" id="reg-name" name="name" placeholder="Tu nombre" required autocomplete="name" />
+          <span class="input-border"></span>
+        </div>
+        <div class="input-group">
+          <label for="reg-email">// EMAIL</label>
+          <input type="email" id="reg-email" name="email" placeholder="tu@email.com" required autocomplete="email" />
+          <span class="input-border"></span>
+        </div>
+        <button type="submit" class="register-btn">
+          <span class="btn-text">REGISTRARSE</span>
+          <span class="btn-glow"></span>
+        </button>
+      </form>
+      <div id="register-success" class="register-success hidden">
+        <span class="success-icon">&#10003;</span>
+        <p>¡Registro exitoso! Te mantendremos informado.</p>
+      </div>
+      <div class="register-status">
+        <span class="status-dot"></span>
+        <span class="status-text">SISTEMA LISTO PARA RECIBIR DATOS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
     <p>
-      <span class="highlight">HACK_AND_SLASH</span> // Built with Unity 6 &amp; C# // 2026
+      <span class="highlight">BioCorruption</span> // Built with Unity 6 &amp; C# // Corrupción Activa
     </p>
     <p style="margin-top:8px; font-size:0.6rem; color:var(--border);">
-      <span style="color:var(--neon-magenta);">[</span> 32 C# Scripts &middot; 5 Scenes &middot; 7 Asset Packs &middot; 80+ Sprites <span style="color:var(--neon-magenta);">]</span>
+      <span style="color:var(--neon-cyan);">[</span> 32 C# Scripts &middot; 5 Scenes &middot; 7 Asset Packs &middot; 80+ Sprites <span style="color:var(--neon-cyan);">]</span>
     </p>
   </div>
 </footer>
 
+<script>
+(function(){const e=document.getElementById('register');if(!e)return;const t=document.getElementById('particle-canvas'),n=t.getContext('2d');let i=[],o;function r(){const n=e.getBoundingClientRect();t.width=n.width,t.height=n.height}r(),window.addEventListener('resize',r);class s{constructor(){this.reset()}reset(){this.x=Math.random()*t.width,this.y=Math.random()*t.height,this.size=Math.random()*2+.5,this.speedX=(Math.random()-.5)*.5,this.speedY=(Math.random()-.5)*.5,this.opacity=Math.random()*.4+.1,this.hue=Math.random()>.5?0:280}update(){this.x+=this.speedX,this.y+=this.speedY,(this.x<0||this.x>t.width||this.y<0||this.y>t.height)&&this.reset()}draw(){n.beginPath(),n.arc(this.x,this.y,this.size,0,2*Math.PI),n.fillStyle=`hsla(${this.hue},70%,40%,${this.opacity})`,n.fill()}}for(let e=0;e<80;e++)i.push(new s);!function e(){n.clearRect(0,0,t.width,t.height),i.forEach(e=>{e.update(),e.draw()});for(let e=0;e<i.length;e++)for(let o=e+1;o<i.length;o++){const r=i[e].x-i[o].x,s=i[e].y-i[o].y,l=Math.sqrt(r*r+s*s);l<120&&(n.beginPath(),n.moveTo(i[e].x,i[e].y),n.lineTo(i[o].x,i[o].y),n.strokeStyle=`rgba(192,57,43,${.06*(1-l/120)})`,n.stroke())}o=requestAnimationFrame(e)}(),function(){const e=document.querySelector('.typewriter');if(!e)return;const t=e.getAttribute('data-text')||'';e.textContent='';let n=0,i=function o(){if(n<t.length){e.textContent+=t[n],n++;const i='.,'.includes(t[n-1])?120:30;setTimeout(o,i)}};new IntersectionObserver((o,r)=>{o.forEach(o=>{o.isIntersecting&&0===n&&(setTimeout(i,400),r.unobserve(o.target))})},{threshold:.3}).observe(e)}();const l=document.getElementById('register-form'),a=document.getElementById('register-success'),d=document.getElementById('reg-name'),c=document.getElementById('reg-email');function u(e,t){const n=e.closest('.input-group'),i=n.querySelector('.error-msg');e.classList.add('error'),i&&(i.textContent=t,i.classList.add('show'))}function g(e){const t=e.closest('.input-group'),n=t.querySelector('.error-msg');e.classList.remove('error'),n&&n.classList.remove('show')}d.addEventListener('input',()=>g(d)),c.addEventListener('input',()=>g(c)),l.addEventListener('submit',function(e){e.preventDefault();let t=!0;d.value.trim()||(u(d,'// CAMPO OBLIGATORIO'),t=!1),c.value.trim()?/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.value.trim())||(u(c,'// EMAIL INVALIDO'),t=!1):(u(c,'// CAMPO OBLIGATORIO'),t=!1);if(!t)return;const n=l.querySelector('.register-btn');n.classList.add('sending'),n.querySelector('.btn-text').textContent='ENVIANDO...',setTimeout(()=>{l.style.display='none',a.classList.remove('hidden'),n.classList.remove('sending')},1200)});const h=document.querySelector('.register-card');h&&h.addEventListener('mousemove',function(e){const t=this.getBoundingClientRect(),n=((e.clientX-t.left)/t.width)*100,i=((e.clientY-t.top)/t.height)*100;this.style.setProperty('--mouse-x',n+'%'),this.style.setProperty('--mouse-y',i+'%')})})();
+</script>
 </body>
 </html>
