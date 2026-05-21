@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d62735ff5e335ce4a837d96fe6efd443
+guid: 54c211865ccc16c41a545f3fba75ccc6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -567157798857059459
-    second: Muro_rompible_0
+      213: -3387409438754595319
+    second: bossanimacion_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Muro_rompible_0
+      name: bossanimacion_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 136
-        height: 389
+        width: 658
+        height: 984
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d735883acfc0128f0800000000000000
-      internalID: -567157798857059459
+      spriteID: 90e1a3e00118df0d0800000000000000
+      internalID: -3387409438754595319
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Muro_rompible_0: -567157798857059459
+      bossanimacion_0: -3387409438754595319
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
