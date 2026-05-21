@@ -18,9 +18,13 @@ public class BossShootingController : MonoBehaviour
     [SerializeField] private GameObject normalBulletPrefab;
     [SerializeField] private GameObject specialBulletPrefab;
 
+    [Header("Animation")]
+    [SerializeField] private Animator bossAnimator;
+    [SerializeField] private string idleAnimation = "Idle";
+
     [Header("Detection")]
-    [SerializeField] private Vector2 detectionAreaSize = new Vector2(12f, 7f);
-    [SerializeField] private Vector2 detectionAreaOffset = new Vector2(-6f, 0f);
+    [SerializeField] private Vector2 detectionAreaSize = new Vector2(18f, 12f);
+    [SerializeField] private Vector2 detectionAreaOffset = new Vector2(-9f, 0.5f);
     [SerializeField] private LayerMask playerLayer;
 
     [Header("General Shooting")]
@@ -59,9 +63,13 @@ public class BossShootingController : MonoBehaviour
 
     private int _patternIndex;
     private Coroutine _shootRoutine;
+    private string _currentAnimation;
 
     private void Awake()
     {
+        if (bossAnimator == null) bossAnimator = GetComponent<Animator>();
+        if (bossAnimator == null) bossAnimator = GetComponentInChildren<Animator>();
+
         if (playerTr == null)
         {
             Player_Controller player = FindFirstObjectByType<Player_Controller>();
@@ -75,6 +83,8 @@ public class BossShootingController : MonoBehaviour
             rb2D.linearVelocity = Vector2.zero;
             rb2D.angularVelocity = 0f;
         }
+
+        PlayIdleAnimation();
     }
 
     private void OnDrawGizmosSelected()
@@ -85,6 +95,8 @@ public class BossShootingController : MonoBehaviour
 
     private void Update()
     {
+        PlayIdleAnimation();
+
         if (PlayerDetected())
         {
             StartShooting();
@@ -293,8 +305,8 @@ public class BossShootingController : MonoBehaviour
     {
         patternDuration = 4f;
         delayBetweenPatterns = 0.4f;
-        detectionAreaSize = new Vector2(12f, 7f);
-        detectionAreaOffset = new Vector2(-6f, 0f);
+        detectionAreaSize = new Vector2(18f, 12f);
+        detectionAreaOffset = new Vector2(-9f, 0.5f);
         bulletSpeed = 7f;
         bulletDamage = 10f;
         bulletLifeTime = 5f;
@@ -313,5 +325,15 @@ public class BossShootingController : MonoBehaviour
         burstBulletCount = 5;
         burstShotDelay = 0.06f;
         burstDelay = 0.55f;
+        idleAnimation = "Idle";
+    }
+
+    private void PlayIdleAnimation()
+    {
+        if (bossAnimator == null || string.IsNullOrEmpty(idleAnimation)) return;
+        if (_currentAnimation == idleAnimation && bossAnimator.GetCurrentAnimatorStateInfo(0).IsName(idleAnimation)) return;
+
+        bossAnimator.Play(idleAnimation, 0, 0f);
+        _currentAnimation = idleAnimation;
     }
 }
