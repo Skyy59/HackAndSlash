@@ -990,6 +990,7 @@ MonoBehaviour:
   healthMeterImage: {fileID: 5372050041837276818}
   ammoMeterImage: {fileID: 998561466893757301}
   powerMeterImage: {fileID: 3992026801443424309}
+  styleController: {fileID: 0}
 --- !u!1 &3849992770011962076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1332,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7840288372623392778, guid: 6ad400bc652b02745aae582f77cc1962, type: 3}
+  m_Sprite: {fileID: -4736520511195027500, guid: 4c48bc34e57f4594db5e1490b0c3b046, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1637,7 +1638,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7840288372623392778, guid: 6ad400bc652b02745aae582f77cc1962, type: 3}
+  m_Sprite: {fileID: 3921441551649640537, guid: 29ede368812683e41b76a0f9ff3212e6, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1900,7 +1901,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7840288372623392778, guid: 3d058f8853fd2344fb9b42c2b9b503bc, type: 3}
+  m_Sprite: {fileID: -8630923909508717717, guid: d0a715a569b19c14cb37f6752556eddd, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1990,7 +1991,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7840288372623392778, guid: 8ef3f92275dfe664c83d2d5d33d8adf5, type: 3}
+  m_Sprite: {fileID: 6772274113340921202, guid: ee6ef41f8311b3543ba463e1b470afb7, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2217,7 +2218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3130754377310600529, guid: 29aeb52d16d861c4e803722e984dcb1a, type: 3}
+  m_Sprite: {fileID: -8630923909508717717, guid: d0a715a569b19c14cb37f6752556eddd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

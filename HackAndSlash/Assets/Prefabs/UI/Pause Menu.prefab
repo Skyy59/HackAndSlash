@@ -3546,7 +3546,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5804958584577254519, guid: bb5417dfcded23f4d93acddf319fe107, type: 3}
       propertyPath: m_text
-      value: Settings
+      value: Upgrades
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
