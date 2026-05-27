@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2501308578107032373, guid: e9ded65b6c1a15842a59a750bc83b66d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -169,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730802506366973636}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.613724, w: 0.7895206}
+  m_LocalRotation: {x: 0, y: 0, z: -0.6137276, w: 0.7895179}
   m_LocalPosition: {x: 0.2934549, y: 1.3380015, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -389,7 +389,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6162445106812791237, guid: e9ded65b6c1a15842a59a750bc83b66d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -576,7 +576,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3305312918523817900}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.0000033304095, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0000012293458, w: 1}
   m_LocalPosition: {x: 0.54, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -607,7 +607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3556957205469828452}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.000024616715, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0000016391275, w: 1}
   m_LocalPosition: {x: 0.591, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -638,7 +638,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3617040191169350554}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.000005081296, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0000004023313, w: 1}
   m_LocalPosition: {x: 0.543, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -765,7 +765,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4175351640966491887}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.99943197, w: 0.033701602}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9994311, w: 0.033727843}
   m_LocalPosition: {x: -0.5116582, y: 2.1981652, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -797,7 +797,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4447778293782740140}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.036465816, w: 0.99933493}
+  m_LocalRotation: {x: 0, y: 0, z: -0.036422957, w: 0.9993365}
   m_LocalPosition: {x: 0.4069965, y: 2.187843, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -829,7 +829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4722880665341467110}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.733566, w: 0.67961824}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7335692, w: 0.67961484}
   m_LocalPosition: {x: -0.36715055, y: 1.3552048, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1223,7 +1223,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7310187078537922846, guid: e9ded65b6c1a15842a59a750bc83b66d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1393,7 +1393,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095076288356207800}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.000042222437, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0000006631016, w: 1}
   m_LocalPosition: {x: 0.745, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1705,8 +1705,8 @@ MonoBehaviour:
   bodyParts: []
   timeBeforeFade: 3
   fadeDuration: 1.5
-  maxHealth: 250
-  currentHealth: 250
+  maxHealth: 100
+  currentHealth: 100
   attackRange: 12
   attackCooldown: 1.5
   moveSpeed: 2
@@ -1724,7 +1724,7 @@ MonoBehaviour:
   chargeSpeed: 12
   chargeDistance: 8
   chargeCooldown: 1.5
-  chargeDamage: 25
+  chargeDamage: 20
   stompWindupDuration: 1.5
   stompCount: 3
   stompDelay: 1.5

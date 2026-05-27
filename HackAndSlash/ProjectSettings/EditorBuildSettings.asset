@@ -9,11 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 9cc79d23e1aa1384f89ea08f573785fa
   - enabled: 1
-    path: Assets/Scenes/DistrictTommy.unity
-    guid: 12c2c762c16d0ea4698eb73ab5a4b7bb
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/District1.unity
+    guid: 72084843099e069419137c2cd4231a45
+  - enabled: 1
+    path: Assets/Scenes/District2.unity
+    guid: bb47b8e7004ea714da1a4f673d148b40
+  - enabled: 1
+    path: Assets/Scenes/District3.unity
+    guid: cced249b36e09c842bfd231d692b55b3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

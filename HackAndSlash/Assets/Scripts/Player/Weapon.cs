@@ -35,10 +35,14 @@ public class Weapon : MonoBehaviour
 
     public virtual void SetHandles(Transform _leftHand, Transform _rightHand)
     {
-        _leftHand.parent = leftHandle;
-        _leftHand.transform.localPosition = Vector2.zero;
+        _leftHand.SetParent(leftHandle, false);
+        _leftHand.SetLocalPositionAndRotation(Vector2.zero, Quaternion.identity);
+        //_leftHand.parent = leftHandle;
+        //_leftHand.transform.localPosition = Vector2.zero;
 
-        _rightHand.parent = rightHandle;
-        _rightHand.transform.localPosition = Vector2.zero;
+        _rightHand.SetParent(rightHandle, false);
+        _rightHand.SetLocalPositionAndRotation(Vector2.zero, Quaternion.identity);
+        //_rightHand.parent = rightHandle;
+        //_rightHand.transform.localPosition = Vector2.zero;
     }
 }

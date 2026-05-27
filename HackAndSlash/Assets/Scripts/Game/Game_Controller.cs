@@ -46,11 +46,11 @@ public class Game_Controller : MonoBehaviour
         if (_levelEnded) return;
         _levelEnded = true;
         
-        //int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        //Save_Manager.CheckAndSaveRecord(currentSceneIndex, _time);
+        Save_Manager.CheckAndSaveRecord(currentSceneIndex, _time);
 
-        //Save_Manager.SaveProgress();
+        Save_Manager.SaveProgress();
 
         if(postGame != null)
         {
